@@ -1,4 +1,4 @@
-package pl.coderstrust.database.fileBasedDatabase;
+package pl.coderstrust.database.filebaseddb;
 
 import java.math.BigDecimal;
 

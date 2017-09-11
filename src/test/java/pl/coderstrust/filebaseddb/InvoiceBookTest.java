@@ -1,4 +1,4 @@
-package pl.coderstrust.fileBasedDatabase;
+package pl.coderstrust.filebaseddb;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,10 +9,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.coderstrust.database.Database;
-import pl.coderstrust.database.fileBasedDatabase.Currency;
-import pl.coderstrust.database.fileBasedDatabase.Invoice;
-import pl.coderstrust.database.fileBasedDatabase.InvoiceBook;
-import pl.coderstrust.database.fileBasedDatabase.Money;
+import pl.coderstrust.database.filebaseddb.Currency;
+import pl.coderstrust.database.filebaseddb.Invoice;
+import pl.coderstrust.database.filebaseddb.InvoiceBook;
+import pl.coderstrust.database.filebaseddb.Money;
 
 import java.math.BigDecimal;
 import java.util.Collections;

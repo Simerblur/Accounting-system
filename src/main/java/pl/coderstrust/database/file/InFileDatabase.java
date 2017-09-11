@@ -1,7 +1,7 @@
 package pl.coderstrust.database.file;
 
 import pl.coderstrust.database.Database;
-import pl.coderstrust.database.fileBasedDatabase.Invoice;
+import pl.coderstrust.database.filebaseddb.Invoice;
 
 import java.util.List;
 
