@@ -1,4 +1,4 @@
-package pl.coderstrust.database.filebaseddb;
+package pl.coderstrust.database.model;
 
 
 import java.math.BigDecimal;
@@ -18,5 +18,11 @@ public class Money {
 
   public void setAmount(BigDecimal amount) {
     this.amount = amount;
+  }
+
+  @Override
+  public String toString() {
+       return  amount +
+        ", Currency=" + currency;
   }
 }

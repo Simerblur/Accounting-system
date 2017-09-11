@@ -1,7 +1,7 @@
 package pl.coderstrust.database.memory;
 
 import pl.coderstrust.database.Database;
-import pl.coderstrust.database.filebaseddb.Invoice;
+import pl.coderstrust.database.model.Invoice;
 
 import java.util.ArrayList;
 import java.util.Collections;
