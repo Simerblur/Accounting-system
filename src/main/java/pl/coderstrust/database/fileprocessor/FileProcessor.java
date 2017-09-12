@@ -11,11 +11,10 @@ public class FileProcessor {
 
   private String pathNameInput;
   private String pathNameOutput;
-  private List<String> inputList;
+  private String inputString;
   private List<String> readLinesFromFile;
 
-
-  private List<String> readLinesFromFile(String pathNameInput) throws IOException{
+  private List<String> readLinesFromFile(String pathNameInput) throws IOException {
     List<String> readLinesFromFile = new ArrayList<>();
     try {
       readLinesFromFile = new ArrayList<>();
@@ -24,30 +23,28 @@ public class FileProcessor {
         readLinesFromFile.add(inLineScan.nextLine());
       }
     } catch (IOException e) {
-      e.toString();
- //     e.printStackTrace();
+      e.printStackTrace();
     }
     return readLinesFromFile;
   }
 
-  public List<String> readLinesUnformatted(String pathNameInput) throws IOException{
+  public List<String> readLinesUnformatted(String pathNameInput) throws IOException {
     this.pathNameInput = pathNameInput;
     readLinesFromFile = readLinesFromFile(pathNameInput);
     return readLinesFromFile;
   }
 
-  public void writeLinesToFile(List<String> inputList, String pathNameOutput)throws IOException {
+  public void writeLineToFile(String inputString, String pathNameOutput) throws IOException {
     this.pathNameOutput = pathNameOutput;
-    this.inputList = inputList;
-    writeProvidedLinesToFile(inputList, pathNameOutput);
+    this.inputString = inputString;
+    writeProvidedLinesToFile(inputString, pathNameOutput);
   }
 
-  private void writeProvidedLinesToFile(List<String> inputList, String pathNameOutput) throws IOException{
-    try (FileWriter myFileWriter = new FileWriter(pathNameOutput)) {
-      for (String inputString : inputList) {
-        myFileWriter.write(inputString);
-        myFileWriter.write(System.lineSeparator());
-      }
+  private void writeProvidedLinesToFile(String inputString, String pathNameOutput)
+      throws IOException {
+    try (FileWriter myFileWriter = new FileWriter(pathNameOutput, true)) {
+      myFileWriter.write(inputString);
+      myFileWriter.write(System.lineSeparator());
     } catch (IOException e) {
       e.printStackTrace();
     }

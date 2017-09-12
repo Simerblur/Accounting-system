@@ -6,6 +6,15 @@ import pl.coderstrust.database.model.Invoice;
 import java.util.List;
 
 public class InFileDatabase implements Database {
+  private String filePath;
+
+  public InFileDatabase(String filePath) {
+    this.filePath = filePath;
+  }
+
+  public String getFilePath() {
+    return filePath;
+  }
 
   @Override
   public void saveInvoice(Invoice invoice) {
