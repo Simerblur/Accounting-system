@@ -10,4 +10,6 @@ public interface Database {
 
   List<Invoice> getInvoices();
 
+  Invoice getInvoice (int invoiceId);
+
 }

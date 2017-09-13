@@ -14,8 +14,8 @@ public class FileProcessor {
   private String inputString;
   private List<String> readLinesFromFile;
 
-  private List<String> readLinesFromFile(String pathNameInput) throws IOException {
-    List<String> readLinesFromFile = new ArrayList<>();
+  private List<String> readLinesFromFile(String pathNameInput) {
+//    List<String> readLinesFromFile = new ArrayList<>();
     try {
       readLinesFromFile = new ArrayList<>();
       Scanner inLineScan = new Scanner(new File(pathNameInput));
@@ -28,20 +28,19 @@ public class FileProcessor {
     return readLinesFromFile;
   }
 
-  public List<String> readLinesUnformatted(String pathNameInput) throws IOException {
+  public List<String> readInvoicesFromFile(String pathNameInput) throws IOException {
     this.pathNameInput = pathNameInput;
     readLinesFromFile = readLinesFromFile(pathNameInput);
     return readLinesFromFile;
   }
 
-  public void writeLineToFile(String inputString, String pathNameOutput) throws IOException {
+  public void appendInvoiceToFile(String inputString, String pathNameOutput) throws IOException {
     this.pathNameOutput = pathNameOutput;
     this.inputString = inputString;
     writeProvidedLinesToFile(inputString, pathNameOutput);
   }
 
-  private void writeProvidedLinesToFile(String inputString, String pathNameOutput)
-      throws IOException {
+  private void writeProvidedLinesToFile(String inputString, String pathNameOutput){
     try (FileWriter myFileWriter = new FileWriter(pathNameOutput, true)) {
       myFileWriter.write(inputString);
       myFileWriter.write(System.lineSeparator());

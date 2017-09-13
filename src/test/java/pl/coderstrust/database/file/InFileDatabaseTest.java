@@ -8,6 +8,6 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
 
   @Override
   protected Database getDatabase() {
-    return new InFileDatabase();
+    return new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
   }
 }

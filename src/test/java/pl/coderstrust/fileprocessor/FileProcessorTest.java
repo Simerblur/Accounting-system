@@ -1,14 +1,9 @@
 package pl.coderstrust.fileprocessor;
 
-import static org.junit.Assert.fail;
-
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import pl.coderstrust.database.fileprocessor.FileProcessor;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +22,7 @@ public class FileProcessorTest {
     expectedList.add("283 + 293 + 307 + 311 + 313 + 317 + 331 + 337 + 347 + 349 = 3188");
     expectedList.add("This is the test message to be readed by FileProcessor");
     listFromFile = fileProcessor
-        .readLinesUnformatted("src/test/resources/pl.coderstrust/testFileInput.txt");
+        .readInvoicesFromFile("src/test/resources/pl.coderstrust/testFileInput.txt");
     //then
     Assert.assertNotNull(listFromFile);
     Assert.assertEquals(expectedList.size(), listFromFile.size());

@@ -27,6 +27,5 @@ public class InvoiceBook {
           + ", Description = " + this.getInvoices().get(i).getDescription()
           + ", Amount = " + this.getInvoices().get(i).getAmount().toString());
     }
-
   }
 }
