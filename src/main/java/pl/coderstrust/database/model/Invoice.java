@@ -8,7 +8,8 @@ public class Invoice {
   private String description;
   private Money amount = new Money(BigDecimal.ZERO, Currency.PLN);
 
-  public Invoice() {  } //used by JASON
+  public Invoice() {
+  } //used by JASON
 
   /**
    * Test sample Javadoc.

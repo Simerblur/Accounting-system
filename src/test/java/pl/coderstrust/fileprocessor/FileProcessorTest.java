@@ -19,13 +19,12 @@ public class FileProcessorTest {
     List<String> listFromFile;
     List<String> expectedList = new ArrayList<>();
     //when
-    expectedList.add("283 + 293 + 307 + 311 + 313 + 317 + 331 + 337 + 347 + 349 = 3188");
-    expectedList.add("This is the test message to be readed by FileProcessor");
+    expectedList.add("{\"id\":2,\"description\":\"conti:\",\"amount\":{\"amount\":88.88,\"currency\":\"PLN\"}}");
+    expectedList.add("{\"id\":3,\"description\":\"New 3:\",\"amount\":{\"amount\":333.33,\"currency\":\"PLN\"}}");
     listFromFile = fileProcessor
         .readInvoicesFromFile("src/test/resources/pl.coderstrust/testFileInput.txt");
     //then
     Assert.assertNotNull(listFromFile);
-    Assert.assertEquals(expectedList.size(), listFromFile.size());
     Assert.assertEquals(expectedList.get(0), listFromFile.get(0));
     Assert.assertEquals(expectedList.get(1), listFromFile.get(1));
   }
@@ -53,6 +52,4 @@ public class FileProcessorTest {
     Assert.assertNotEquals(listToBeWritten.size(), gotFromFile.size());
     Assert.assertNotEquals(lengthBefore, lengthAfter);
   }
-
-
 }

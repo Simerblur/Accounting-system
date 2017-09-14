@@ -16,11 +16,11 @@ public class MainForFiles {
     FileProcessor fp = new FileProcessor();
  //   File invBook = new File("src/main/resources/pl.coderstrust/InvoiceBook.txt");
     InvoiceBook invoiceBook = new InvoiceBook(db);
-    System.out.println(invoiceBook.toString());
+ //   System.out.println(invoiceBook.toString());
     Invoice first = invoiceBook.getInvoices().get(1);
     System.out.println(invConverter.convertToJsonString(first));
-    invoiceBook.addInvoice(first);
-
+    Invoice second = invoiceBook.getInvoices().get(1);
+    System.out.println(first.equals(second));
 
 
 //    invoiceBook.printInvoiceBook();
