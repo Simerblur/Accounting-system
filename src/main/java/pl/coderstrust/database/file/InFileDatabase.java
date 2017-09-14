@@ -20,10 +20,6 @@ public class InFileDatabase implements Database {
     this.filePath = filePath;
   }
 
-  public String getFilePath() {
-    return filePath;
-  }
-
   @Override
   public void saveInvoice(Invoice invoice) {
     try {
