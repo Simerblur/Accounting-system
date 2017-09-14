@@ -4,19 +4,19 @@ import org.junit.Assert;
 import org.junit.Test;
 import pl.coderstrust.database.fileprocessor.FileProcessor;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileProcessorTest {
 
-
   private FileProcessor fileProcessor = new FileProcessor();
 
   @Test
   public void shouldReadUnformattedLinesFromTestInputFileToList() throws IOException {
     //given
-    List<String> listFromFile = new ArrayList<>();
+    List<String> listFromFile;
     List<String> expectedList = new ArrayList<>();
     //when
     expectedList.add("283 + 293 + 307 + 311 + 313 + 317 + 331 + 337 + 347 + 349 = 3188");
@@ -30,26 +30,29 @@ public class FileProcessorTest {
     Assert.assertEquals(expectedList.get(1), listFromFile.get(1));
   }
 
-/*  @Test
+  @Test
   public void shouldWriteTheProvidedListToTestFileOutput() throws IOException {
     //given
-    List<String> gotFromFile = new ArrayList<>();
+    List<String> gotFromFile;
     List<String> listToBeWritten = new ArrayList<>();
+    File outFileBefore = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    Long lengthBefore = outFileBefore.length();
     //when
     listToBeWritten.add("283 + 293 + 307 + 311 + 313 + 317 + 331 + 337 + 347 + 349 = 3188");
     listToBeWritten.add("This is the test message to be written by FileProcessor");
-    fileProcessor
-        .writeLineToFile(listToBeWritten, "src/test/resources/pl.coderstrust/testFileOutput.txt");
+    fileProcessor.appendInvoiceToFile(listToBeWritten.get(0),
+        "src/test/resources/pl.coderstrust/testFileOutput.txt");
+    fileProcessor.appendInvoiceToFile(listToBeWritten.get(0),
+        "src/test/resources/pl.coderstrust/testFileOutput.txt");
     gotFromFile = fileProcessor
-        .readLinesUnformatted("src/test/resources/pl.coderstrust/testFileOutput.txt");
-    File outFile = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
+        .readInvoicesFromFile("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    Long lengthAfter = outFileBefore.length();
     //then
-    Assert.assertNotNull(outFile);
+    Assert.assertNotNull(outFileBefore);
     Assert.assertNotNull(gotFromFile);
-    Assert.assertEquals(listToBeWritten.size(), gotFromFile.size());
-    Assert.assertEquals(listToBeWritten.get(0), gotFromFile.get(0));
-    Assert.assertEquals(listToBeWritten.get(1), gotFromFile.get(1));
-  }*/
+    Assert.assertNotEquals(listToBeWritten.size(), gotFromFile.size());
+    Assert.assertNotEquals(lengthBefore, lengthAfter);
+  }
 
 
 }

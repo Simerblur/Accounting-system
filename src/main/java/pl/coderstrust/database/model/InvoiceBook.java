@@ -20,12 +20,11 @@ public class InvoiceBook {
     database.saveInvoice(invoice);
   }
 
-
-  public void printInvoiceBook() {
+ /* public void printInvoiceBook() {
     for (int i = 0; i < this.getInvoices().size(); i++) {
       System.out.println("Id = " + this.getInvoices().get(i).getId()
           + ", Description = " + this.getInvoices().get(i).getDescription()
           + ", Amount = " + this.getInvoices().get(i).getAmount().toString());
     }
-  }
+  }*/
 }

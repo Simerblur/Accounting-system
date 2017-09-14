@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class InMemoryDatabase implements Database {
+public class InMemoryDatabase implements Database{
 
   private List<Invoice> invoices = new ArrayList<>();
 
@@ -19,5 +19,10 @@ public class InMemoryDatabase implements Database {
   @Override
   public List<Invoice> getInvoices() {
     return Collections.unmodifiableList(invoices);
+  }
+
+  @Override
+  public Integer getInvoiceIndex(int invoiceId) {
+    return null;
   }
 }

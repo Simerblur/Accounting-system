@@ -26,7 +26,11 @@ public class InFileDatabase implements Database {
 
   @Override
   public void saveInvoice(Invoice invoice) {
-
+    try {
+      fp.appendInvoiceToFile(invConverter.convertToJsonString(invoice), filePath);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @Override
@@ -37,7 +41,6 @@ public class InFileDatabase implements Database {
       for (String iterator : jsonStrings){
         invoices.add(invConverter.convertJsonToInvoice(iterator));
       }
-
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -45,7 +48,14 @@ public class InFileDatabase implements Database {
   }
 
   @Override
-  public Invoice getInvoice(int invoiceId) {
-    return null;
+  public Integer getInvoiceIndex(int invoiceId) {
+    invoices = getInvoices();
+    int index =-1;
+    for (int i = 0; i < invoices.size(); i++){
+      if (invoiceId == invoices.get(i).getId()){
+        index = i;
+      }
+    }
+    return index;
   }
 }

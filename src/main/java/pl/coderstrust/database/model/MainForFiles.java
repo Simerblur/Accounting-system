@@ -2,20 +2,27 @@ package pl.coderstrust.database.model;
 
 import pl.coderstrust.database.Database;
 import pl.coderstrust.database.file.InFileDatabase;
+import pl.coderstrust.database.fileprocessor.FileProcessor;
+import pl.coderstrust.database.fileprocessor.InvoiceConverter;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 public class MainForFiles {
 
   public static void main(String[] args) throws IOException {
     Database db = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
+    InvoiceConverter invConverter = new InvoiceConverter();
 //    InvoiceConverter invCo = new InvoiceConverter();
- //   FileProcessor fp = new FileProcessor();
+    FileProcessor fp = new FileProcessor();
  //   File invBook = new File("src/main/resources/pl.coderstrust/InvoiceBook.txt");
     InvoiceBook invoiceBook = new InvoiceBook(db);
     System.out.println(invoiceBook.toString());
-    Invoice first = invoiceBook.
+    Invoice first = invoiceBook.getInvoices().get(1);
+    System.out.println(invConverter.convertToJsonString(first));
+    invoiceBook.addInvoice(first);
+
+
+
 //    invoiceBook.printInvoiceBook();
  /*   Invoice first = new Invoice(1, "Starter:", new Money(new BigDecimal("234.45"), Currency.PLN));
     Invoice second = new Invoice(2, "conti:", new Money(new BigDecimal("88.88"), Currency.PLN));

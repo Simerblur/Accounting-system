@@ -30,18 +30,4 @@ public class InvoiceConverter {
     }
     return null;
   }
-
-/*  private String invoiceToJson(Invoice inputInvoice) throws Exception {
-    String outputString;
-    ObjectMapper mapper = new ObjectMapper();
-    outputString = mapper.writeValueAsString(inputInvoice);
-    return outputString;
-  }
-
-  private Invoice jsonToInvoice(String jsonString) throws Exception {
-    Invoice outputInvoice;
-    ObjectMapper mapper = new ObjectMapper();
-    outputInvoice = mapper.readValue(jsonString, Invoice.class);
-    return outputInvoice;
-  }*/
 }
