@@ -1,4 +1,4 @@
-package pl.coderstrust.database.filebaseddb;
+package pl.coderstrust.database.model;
 
 import pl.coderstrust.database.Database;
 
@@ -8,7 +8,7 @@ public class InvoiceBook {
 
   private final Database database;
 
-  public InvoiceBook(Database database){
+  public InvoiceBook(Database database) {
     this.database = database;
   }
 

@@ -1,4 +1,4 @@
-package pl.coderstrust.database.filebaseddb;
+package pl.coderstrust.database.model;
 
 import java.math.BigDecimal;
 
@@ -7,6 +7,9 @@ public class Invoice {
   private int id;
   private String description;
   private Money amount = new Money(BigDecimal.ZERO, Currency.PLN);
+
+  public Invoice() {
+  } //used by JASON
 
   /**
    * Test sample Javadoc.

@@ -5,6 +5,7 @@ import org.junit.Test;
 public abstract class AbstractDatabaseTest {
 
   protected abstract Database getDatabase();
+
   /**
    * Test sample Javadoc.
    */
