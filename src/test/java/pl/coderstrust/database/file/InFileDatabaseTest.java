@@ -38,5 +38,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     Invoice second = invoiceBook.getInvoices().get(1);
     first.setAmount(new Money(new BigDecimal("555.55"), Currency.PLN));
     second.setAmount(new Money(new BigDecimal("777.55"), Currency.PLN));
+    int index = fileDb.getInvoiceIndex(2);
+    System.out.println(index);
   }
 }

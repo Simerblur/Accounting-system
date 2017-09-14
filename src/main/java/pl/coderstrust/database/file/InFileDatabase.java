@@ -34,7 +34,7 @@ public class InFileDatabase implements Database {
     try {
       List<String> jsonStrings;
       jsonStrings = fp.readInvoicesFromFile(filePath);
-      for (String iterator : jsonStrings){
+      for (String iterator : jsonStrings) {
         invoices.add(invConverter.convertJsonToInvoice(iterator));
       }
     } catch (IOException e) {
@@ -46,9 +46,9 @@ public class InFileDatabase implements Database {
   @Override
   public Integer getInvoiceIndex(int invoiceId) {
     invoices = getInvoices();
-    int index =-1;
-    for (int i = 0; i < invoices.size(); i++){
-      if (invoiceId == invoices.get(i).getId()){
+    int index = -1;
+    for (int i = 0; i < invoices.size(); i++) {
+      if (invoiceId == invoices.get(i).getId()) {
         index = i;
       }
     }

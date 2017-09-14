@@ -33,7 +33,7 @@ public class FileProcessor {
     writeProvidedLinesToFile(inputString, pathNameOutput);
   }
 
-  private void writeProvidedLinesToFile(String inputString, String pathNameOutput){
+  private void writeProvidedLinesToFile(String inputString, String pathNameOutput) {
     try (FileWriter myFileWriter = new FileWriter(pathNameOutput, true)) {
       myFileWriter.write(inputString);
       myFileWriter.write(System.lineSeparator());

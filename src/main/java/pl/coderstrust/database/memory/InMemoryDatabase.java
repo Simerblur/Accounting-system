@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class InMemoryDatabase implements Database{
+public class InMemoryDatabase implements Database {
 
   private List<Invoice> invoices = new ArrayList<>();
 

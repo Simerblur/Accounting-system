@@ -13,6 +13,9 @@ public class InvoiceConverter {
    */
   private ObjectMapper mapper = new ObjectMapper();
 
+  /**
+   * Test sample Javadoc.
+   */
   public String convertToJsonString(Invoice inputInvoice) {
     try {
       return mapper.writeValueAsString(inputInvoice);
@@ -21,6 +24,10 @@ public class InvoiceConverter {
     }
     return null;
   }
+
+  /**
+   * Test sample Javadoc.
+   */
 
   public Invoice convertJsonToInvoice(String jsonString) {
     try {
