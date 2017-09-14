@@ -1,8 +1,0 @@
-{"id":1,"description":"Starter:","amount":{"amount":234.45,"currency":"PLN"}}
-{"id":2,"description":"conti:","amount":{"amount":88.88,"currency":"PLN"}}
-{"id":3,"description":"New 3:","amount":{"amount":333.33,"currency":"PLN"}}
-{"id":2,"description":"conti:","amount":{"amount":88.88,"currency":"PLN"}}
-{"id":2,"description":"conti:","amount":{"amount":88.88,"currency":"PLN"}}
-{"id":2,"description":"conti:","amount":{"amount":88.88,"currency":"PLN"}}
-{"id":2,"description":"conti:","amount":{"amount":777.55,"currency":"PLN"}}
-{"id":2,"description":"conti:","amount":{"amount":777.55,"currency":"PLN"}}
