@@ -20,9 +20,4 @@ public class InMemoryDatabase implements Database {
   public List<Invoice> getInvoices() {
     return Collections.unmodifiableList(invoices);
   }
-
-  @Override
-  public Integer getInvoiceIndex(int invoiceId) {
-    return null;
-  }
 }

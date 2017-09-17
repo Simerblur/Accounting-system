@@ -7,18 +7,17 @@ public abstract class AbstractDatabaseTest {
   protected abstract Database getDatabase();
 
   /**
-   * Test sample Javadoc.
+   * Abstract test for all types of database.
    */
 
   @Test
-  public void saveInvoice() throws Exception {
+  public void shouldSaveInvoice() {
     // given
     Database db = getDatabase();
     System.out.println(db.toString());
   }
 
   @Test
-  public void getInvoices() throws Exception {
+  public void shouldGetInvoices() {
   }
-
 }

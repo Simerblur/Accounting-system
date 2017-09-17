@@ -42,16 +42,4 @@ public class InFileDatabase implements Database {
     }
     return invoices;
   }
-
-  @Override
-  public Integer getInvoiceIndex(int invoiceId) {
-    invoices = getInvoices();
-    int index = -1;
-    for (int i = 0; i < invoices.size(); i++) {
-      if (invoiceId == invoices.get(i).getId()) {
-        index = i;
-      }
-    }
-    return index;
-  }
 }

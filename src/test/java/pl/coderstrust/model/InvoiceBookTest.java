@@ -1,3 +1,4 @@
+/*
 package pl.coderstrust.model;
 
 import static org.junit.Assert.assertEquals;
@@ -25,9 +26,11 @@ public class InvoiceBookTest {
   @Mock
   private Database db;
 
-  /**
+  */
+/**
    * Test sample Javadoc.
-   */
+   *//*
+
 
   @Test
   public void shouldReturnEmptyListOfInvoicesIfNothingAdded() {
@@ -42,9 +45,11 @@ public class InvoiceBookTest {
     assertEquals(0, invoices.size());
   }
 
-  /**
+  */
+/**
    * Test sample Javadoc.
-   */
+   *//*
+
 
   @Test
   public void shouldReturnSingleInvoiceWhenItWasAddedToBook() {
@@ -63,4 +68,4 @@ public class InvoiceBookTest {
     assertEquals(1, invoices.size());
     assertEquals(invoice, invoices.get(0));
   }
-}
+}*/
