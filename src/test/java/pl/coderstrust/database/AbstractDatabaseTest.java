@@ -12,9 +12,7 @@ public abstract class AbstractDatabaseTest {
 
   @Test
   public void shouldSaveInvoice() {
-    // given
-    Database db = getDatabase();
-    System.out.println(db.toString());
+
   }
 
   @Test

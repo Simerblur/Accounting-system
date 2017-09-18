@@ -21,25 +21,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.parboiled</groupId>
-      <artifactId>parboiled-core</artifactId>
-      <version>1.1.4</version>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.12</version>
+      <groupId>com.darwinsys</groupId>
+      <artifactId>hirondelle-date4j</artifactId>
+      <version>1.5.0</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
       <version>1.10.19</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.doxia</groupId>
-      <artifactId>doxia-module-markdown</artifactId>
-      <version>1.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>

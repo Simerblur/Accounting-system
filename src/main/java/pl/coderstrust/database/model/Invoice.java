@@ -1,9 +1,12 @@
 package pl.coderstrust.database.model;
 
+import hirondelle.date4j.DateTime;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 public class Invoice {
 
@@ -12,7 +15,8 @@ public class Invoice {
   private List<InvoiceEntry> entries = new ArrayList<>();
   private Money netTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
   private Money grossTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
-  private LocalDate issueDate;
+ // private LocalDate issueDate;
+  private DateTime issueDate;
 
   public Invoice() {
   } //used by JASON
@@ -22,7 +26,7 @@ public class Invoice {
    */
 
   public Invoice(String id, String description, List<InvoiceEntry> entries) {
-    this.issueDate = LocalDate.now();
+    this.issueDate = DateTime.now(TimeZone.getDefault());
     this.id = id;
     this.description = description;
     this.entries = entries;
@@ -53,12 +57,12 @@ public class Invoice {
     entries.add(invoiceEntry);
   }
 
-  public LocalDate getIssueDate() {
+  public DateTime getIssueDate() {
     return issueDate;
   }
 
   public void setIssueDate(int year, int month, int day) {
-    this.issueDate = LocalDate.of(year, month, day);
+    this.issueDate = DateTime.forDateOnly(year, month, day).getEndOfDay();
   }
 
   public String getId() {
