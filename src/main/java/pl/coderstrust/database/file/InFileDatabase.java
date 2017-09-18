@@ -1,9 +1,9 @@
 package pl.coderstrust.database.file;
 
 import pl.coderstrust.database.Database;
-import pl.coderstrust.database.fileprocessor.FileProcessor;
-import pl.coderstrust.database.fileprocessor.InvoiceConverter;
-import pl.coderstrust.database.model.Invoice;
+import pl.coderstrust.fileprocessor.FileProcessor;
+import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.model.Invoice;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,17 +41,5 @@ public class InFileDatabase implements Database {
       e.printStackTrace();
     }
     return invoices;
-  }
-
-  @Override
-  public Integer getInvoiceIndex(int invoiceId) {
-    invoices = getInvoices();
-    int index = -1;
-    for (int i = 0; i < invoices.size(); i++) {
-      if (invoiceId == invoices.get(i).getId()) {
-        index = i;
-      }
-    }
-    return index;
   }
 }

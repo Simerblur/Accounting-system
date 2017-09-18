@@ -2,10 +2,10 @@ package pl.coderstrust.fileprocessor;
 
 import org.junit.Assert;
 import org.junit.Test;
-import pl.coderstrust.database.fileprocessor.InvoiceConverter;
-import pl.coderstrust.database.model.Currency;
-import pl.coderstrust.database.model.Invoice;
-import pl.coderstrust.database.model.Money;
+import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.model.Currency;
+import pl.coderstrust.model.Invoice;
+import pl.coderstrust.model.Money;
 
 import java.math.BigDecimal;
 

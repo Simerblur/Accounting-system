@@ -2,10 +2,10 @@ package pl.coderstrust.database.file;
 
 import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
-import pl.coderstrust.database.model.Currency;
-import pl.coderstrust.database.model.Invoice;
-import pl.coderstrust.database.model.InvoiceBook;
-import pl.coderstrust.database.model.Money;
+import pl.coderstrust.model.Currency;
+import pl.coderstrust.model.Invoice;
+import pl.coderstrust.model.InvoiceBook;
+import pl.coderstrust.model.Money;
 
 import java.math.BigDecimal;
 
@@ -28,7 +28,6 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     first.setAmount(new Money(new BigDecimal("555.55"), Currency.PLN));
     second.setAmount(new Money(new BigDecimal("777.55"), Currency.PLN));
     db.saveInvoice(second);
-    fileDb.getInvoiceIndex(2);
   }
 
   @Override
@@ -38,7 +37,5 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     Invoice second = invoiceBook.getInvoices().get(1);
     first.setAmount(new Money(new BigDecimal("555.55"), Currency.PLN));
     second.setAmount(new Money(new BigDecimal("777.55"), Currency.PLN));
-    int index = fileDb.getInvoiceIndex(2);
-    System.out.println(index);
   }
 }

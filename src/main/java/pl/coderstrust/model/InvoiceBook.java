@@ -1,4 +1,4 @@
-package pl.coderstrust.database.model;
+package pl.coderstrust.model;
 
 import pl.coderstrust.database.Database;
 

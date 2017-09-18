@@ -1,8 +1,8 @@
-package pl.coderstrust.database.fileprocessor;
+package pl.coderstrust.fileprocessor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pl.coderstrust.database.model.Invoice;
+import pl.coderstrust.model.Invoice;
 
 import java.io.IOException;
 
@@ -26,7 +26,7 @@ public class InvoiceConverter {
   }
 
   /**
-   * Test sample Javadoc.
+   * Converts given JSON string to the Invoice object.
    */
 
   public Invoice convertJsonToInvoice(String jsonString) {

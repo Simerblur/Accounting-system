@@ -1,4 +1,4 @@
-package pl.coderstrust.database.fileprocessor;
+package pl.coderstrust.fileprocessor;
 
 import java.io.File;
 import java.io.FileWriter;

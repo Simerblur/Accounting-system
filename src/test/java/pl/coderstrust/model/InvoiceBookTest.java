@@ -9,10 +9,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.coderstrust.database.Database;
-import pl.coderstrust.database.model.Currency;
-import pl.coderstrust.database.model.Invoice;
-import pl.coderstrust.database.model.InvoiceBook;
-import pl.coderstrust.database.model.Money;
+import pl.coderstrust.model.Currency;
+import pl.coderstrust.model.Invoice;
+import pl.coderstrust.model.InvoiceBook;
+import pl.coderstrust.model.Money;
 
 import java.math.BigDecimal;
 import java.util.Collections;
