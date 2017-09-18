@@ -48,11 +48,6 @@ public class Invoice {
     return grossTotal;
   }
 
-
-  public void addEntry(InvoiceEntry invoiceEntry) {
-    entries.add(invoiceEntry);
-  }
-
   public LocalDate getIssueDate() {
     return issueDate;
   }
