@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
+import pl.coderstrust.database.fileprocessor.InvoiceConverter;
 import pl.coderstrust.database.model.Currency;
 import pl.coderstrust.database.model.Invoice;
 import pl.coderstrust.database.model.InvoiceEntry;
@@ -62,10 +63,14 @@ public class InMemoryDatabaseTest extends AbstractDatabaseTest {
     //when
     memDb.saveInvoice(invoice1);
     memDb.saveInvoice(invoice2);
+    InvoiceConverter converter = new InvoiceConverter();
     //then
     Assert.assertNotNull(memDb);
+    System.out.println(converter.convertToJsonString(invoice1));
+    System.out.println(invoice1.getIssueDate());
     Assert.assertEquals("1", memDb.getInvoices().get(0).getId());
     Assert.assertEquals("Second Inv", memDb.getInvoices().get(1).getDescription());
+
   }
 
   @Override

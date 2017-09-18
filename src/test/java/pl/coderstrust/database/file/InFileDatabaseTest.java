@@ -5,13 +5,13 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
-import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.database.model.Currency;
 import pl.coderstrust.database.model.Invoice;
 import pl.coderstrust.database.model.InvoiceBook;
 import pl.coderstrust.database.model.InvoiceEntry;
 import pl.coderstrust.database.model.Money;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,10 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   private Database db;
   private Invoice invoice1;
   private List<InvoiceEntry> entryList = new ArrayList<>();
+
+  /**
+   * Test sample Javadoc.
+   */
 
   @Before
   public void fillDb() {
@@ -34,6 +38,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     entryList.add(invoiceEntry2);
     entryList.add(invoiceEntry3);
     invoice1 = new Invoice("1", "First Inv", entryList);
+    db = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
   }
 
   @Override
@@ -41,19 +46,37 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     return db;
   }
 
-  @Test
+  /**
+   * Test sample Javadoc.
+   */
+
+  @Override
   public void shouldSaveInvoice() {
     //given
-    db = new InFileDatabase("src/main/resources/pl.coderstrust/testFileOutput.txt");
+    File beforeTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    Long lengthBeforeTest = beforeTest.length();
     //when
     db.saveInvoice(invoice1);
+    File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    Long lengthAfterTest = beforeTest.length();
     //then
     Assert.assertNotNull(db);
-    Assert.assertEquals("1", db.getInvoices().get(0).getId());
-    Assert.assertEquals("First Inv", db.getInvoices().get(0).getDescription());
+    Assert.assertNotEquals(lengthBeforeTest, lengthAfterTest);
+    db.getInvoices();
   }
 
-  @Test
+  /**
+   * Test sample Javadoc.
+   */
+
+  @Override
   public void shouldGetInvoices() {
+    //given
+    List<Invoice> givenList = db.getInvoices();
+    //then
+    Assert.assertNotNull(givenList);
+    Assert.assertEquals("First Inv", db.getInvoices().get(0).getDescription());
+    Invoice invoice3 = givenList.get(0);
+    System.out.println(invoice3.toString());
   }
 }

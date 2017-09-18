@@ -13,14 +13,20 @@ public class FileProcessorTest {
 
   private FileProcessor fileProcessor = new FileProcessor();
 
+  /**
+   * Test sample Javadoc.
+   */
+
   @Test
   public void shouldReadUnformattedLinesFromTestInputFileToList() throws IOException {
     //given
     List<String> listFromFile;
     List<String> expectedList = new ArrayList<>();
     //when
-    expectedList.add("{\"id\":2,\"description\":\"conti:\",\"amount\":{\"amount\":88.88,\"currency\":\"PLN\"}}");
-    expectedList.add("{\"id\":3,\"description\":\"New 3:\",\"amount\":{\"amount\":333.33,\"currency\":\"PLN\"}}");
+    expectedList.add("{\"id\":2,\"description\":\"conti:\",\""
+        + "netTotalAmount\":{\"netTotalAmount\":88.88,\"currency\":\"PLN\"}}");
+    expectedList.add("{\"id\":3,\"description\":\"New 3:\",\""
+        + "netTotalAmount\":{\"netTotalAmount\":333.33,\"currency\":\"PLN\"}}");
     listFromFile = fileProcessor
         .readInvoicesFromFile("src/test/resources/pl.coderstrust/testFileInput.txt");
     //then
@@ -29,13 +35,17 @@ public class FileProcessorTest {
     Assert.assertEquals(expectedList.get(1), listFromFile.get(1));
   }
 
+  /**
+   * Test sample Javadoc.
+   */
+
   @Test
   public void shouldWriteTheProvidedListToTestFileOutput() throws IOException {
     //given
-    List<String> gotFromFile;
+    final List<String> gotFromFile;
     List<String> listToBeWritten = new ArrayList<>();
     File outFileBefore = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
-    Long lengthBefore = outFileBefore.length();
+    final Long lengthBefore = outFileBefore.length();
     //when
     listToBeWritten.add("283 + 293 + 307 + 311 + 313 + 317 + 331 + 337 + 347 + 349 = 3188");
     listToBeWritten.add("This is the test message to be written by FileProcessor");
@@ -45,7 +55,7 @@ public class FileProcessorTest {
         "src/test/resources/pl.coderstrust/testFileOutput.txt");
     gotFromFile = fileProcessor
         .readInvoicesFromFile("src/test/resources/pl.coderstrust/testFileOutput.txt");
-    Long lengthAfter = outFileBefore.length();
+    final Long lengthAfter = outFileBefore.length();
     //then
     Assert.assertNotNull(outFileBefore);
     Assert.assertNotNull(gotFromFile);
