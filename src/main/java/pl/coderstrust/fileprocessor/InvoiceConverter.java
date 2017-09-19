@@ -9,15 +9,14 @@ import java.io.IOException;
 public class InvoiceConverter {
 
   /**
-   * Converts Invoice object to the formatted JSON string.
-   * Test sample Javadoc.
+   * Converts Invoice object to the formatted JSON string. Test sample Javadoc.
    */
   public String convertToJsonString(Invoice inputInvoice) {
     try {
       ObjectMapper mapper = new ObjectMapper();
       return mapper.writeValueAsString(inputInvoice);
     } catch (JsonProcessingException e) {
-      e.printStackTrace();
+      System.out.println(e.toString());
     }
     return null;
   }
@@ -31,7 +30,7 @@ public class InvoiceConverter {
       ObjectMapper mapper = new ObjectMapper();
       return mapper.readValue(jsonString, Invoice.class);
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println(e.toString());
     }
     return null;
   }

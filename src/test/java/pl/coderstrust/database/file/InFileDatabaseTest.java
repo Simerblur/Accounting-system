@@ -1,7 +1,12 @@
 package pl.coderstrust.database.file;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Currency;
@@ -10,6 +15,8 @@ import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +44,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     entries.add(invoiceEntry2);
     entries.add(invoiceEntry3);
     givenInvoice = new Invoice("1", "First Inv", entries);
-    }
+  }
 
   @Override
   protected Database getDatabase() {
@@ -52,8 +59,8 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   public void shouldSaveInvoice() {
     //given
     File beforeTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
-    Long lengthBeforeTest = beforeTest.length();
     db = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    Long lengthBeforeTest = beforeTest.length();
     //when
     db.saveInvoice(givenInvoice);
     File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
@@ -61,7 +68,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     //then
     Assert.assertNotNull(db);
     Assert.assertNotEquals(lengthBeforeTest, lengthAfterTest);
-   }
+  }
 
   /**
    * Test sample Javadoc.
@@ -76,5 +83,25 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     Assert.assertNotNull(givenList);
     Assert.assertEquals("First Inv", db.getInvoices().get(0).getDescription());
     Assert.assertEquals("2017-09-19T14:20:16", db.getInvoices().get(0).getIssueDate().toString());
-   }
+  }
+
+  /**
+   * Test sample Javadoc.
+   */
+  @Test
+  public void shouldTestExceptionsHandlingWrongFilePath() throws IOException{
+    try {
+      //given
+      db = new InFileDatabase("src/test/resources/pl.coderstrust/WrongInvoiceBook.txt");
+      //when
+      List<Invoice> testList = db.getInvoices();
+      fail();
+
+    } catch (Exception e) {
+      System.out.println(e.toString());
+      Assert.assertThat(e.toString(), containsString("."));
+    }
+    //then
+
+  }
 }

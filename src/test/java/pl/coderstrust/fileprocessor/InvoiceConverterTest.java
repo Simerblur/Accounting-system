@@ -18,6 +18,10 @@ public class InvoiceConverterTest {
   private Invoice givenInvoice;
   private List<InvoiceEntry> entries = new ArrayList<>();
 
+  private InvoiceEntry jsonTester() {
+    return entries.get(0);
+  }
+
   /**
    * Provides the entries and invoices respectfully.
    */
@@ -50,51 +54,71 @@ public class InvoiceConverterTest {
         + "PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,\"currency\""
         + ":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,\""
         + "vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,\""
-        + "currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount\":5.30,\""
-        + "currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate\""
-        + ":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{\"amount\""
-        + ":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\"currency\":\""
-        + "PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\""
+        + "currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount"
+        + "\":5.30,\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},"
+        + "\"vatRate\":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{"
+        + "\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\""
+        + "currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\""
         + "issueDate\":\"2017-08-22 23:59:01\"}";
 
-    System.out.println(expectedString);
     //when
-    System.out.println(givenInvoice.getIssueDate());
     givenInvoice.setIssueDate(2017, 8, 22, 23, 59, 1);
     String givenString = invConverter.convertToJsonString(givenInvoice);
-    givenInvoice.setIssueDate(2016, 5, 15, 22, 45, 45);
-    System.out.println(givenInvoice.getDescription());
-    System.out.println(givenInvoice.getEntries());
-    System.out.println(givenInvoice.getIssueDate());
-    System.out.println(givenInvoice.getGrossTotalAmount());
-    givenInvoice.setId("22");
-    System.out.println(givenInvoice.getId());
-    System.out.println(givenInvoice.getNetTotalAmount());
+
     //then
     Assert.assertEquals(expectedString, givenString);
   }
 
-    @Test //the equals method should be redone
-   public void shouldConvertProvidedJsonToInvoice() throws Exception {
+  /**
+   * Test of getters and setters. Temporary tests to meet checkstyle and maven conditions.
+   */
+  @Test
+  public void shouldTestSettersAndGetters() {
+    final InvoiceEntry testEntry;
+    testEntry = givenInvoice.getEntries().get(0);
+    Assert.assertEquals("Opona", testEntry.getName());
+    Assert.assertEquals(4, testEntry.getQuantity());
+    Assert.assertEquals(new BigDecimal("15.70").setScale(2, BigDecimal.ROUND_HALF_UP),
+        testEntry.getNetPrice().getAmount());
+    Assert.assertEquals(23, testEntry.getVatRate());
+    Assert.assertEquals(new BigDecimal("14.44").setScale(2, BigDecimal.ROUND_HALF_UP),
+        testEntry.getVatValue().getAmount());
+    givenInvoice.setIssueDate(2016, 5, 15, 22, 45, 45);
+    Assert.assertEquals("First Inv", givenInvoice.getDescription());
+    Assert.assertEquals("2016-05-15T22:45:45", givenInvoice.getIssueDate().toString());
+    Assert.assertEquals(new BigDecimal("248.80").setScale(2, BigDecimal.ROUND_HALF_UP),
+        givenInvoice.getNetTotalAmount().getAmount());
+    Assert.assertEquals(new BigDecimal("306.02").setScale(2, BigDecimal.ROUND_HALF_UP),
+        givenInvoice.getGrossTotalAmount().getAmount());
+    givenInvoice.setId("22");
+    Assert.assertEquals("22", givenInvoice.getId());
+    System.out.println(jsonTester().getNetPrice().getAmount().toString());
+  }
+
+  /**
+   * Fills up the database with the entries and invoices respectfully.
+   */
+  @Test //the equals method should be redone
+  public void shouldConvertProvidedJsonToInvoice() throws Exception {
     //given
-      givenInvoice.setIssueDate(2017, 8, 22, 23, 59, 1);
-      String givenString = "{\"id\":\"1\",\"description\":\"First Inv\",\"entries\":[{\"name\""
-          + ":\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\""
-          + "netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\""
-          + "amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":\""
-          + "PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,\"currency\""
-          + ":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,\""
-          + "vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,\""
-          + "currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount\":5.30,\""
-          + "currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate\""
-          + ":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{\"amount\""
-          + ":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\"currency\":\""
-          + "PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\""
-          + "issueDate\":\"2017-08-22 23:59:01\"}";
+    givenInvoice.setIssueDate(2017, 8, 22, 23, 59, 1);
+    String givenString = "{\"id\":\"1\",\"description\":\"First Inv\",\"entries\":[{\"name\""
+        + ":\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\""
+        + "netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\""
+        + "amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":\""
+        + "PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,\"currency\""
+        + ":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,\""
+        + "vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,\""
+        + "currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount\":5.30,"
+        + "\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate\""
+        + ":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{\"amount\""
+        + ":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\"currency\":\""
+        + "PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\""
+        + "issueDate\":\"2017-08-22 23:59:01\"}";
     //when
-      Invoice expectedInvoice = invConverter.convertJsonToInvoice(givenString);
+    Invoice expectedInvoice = invConverter.convertJsonToInvoice(givenString);
     //then
 
-      Assert.assertNotEquals(givenInvoice, expectedInvoice);
+    Assert.assertNotEquals(expectedInvoice, givenInvoice);
   }
 }
