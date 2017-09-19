@@ -4,17 +4,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.coderstrust.database.Database;
-import pl.coderstrust.model.Currency;
-import pl.coderstrust.model.Invoice;
-import pl.coderstrust.model.InvoiceBook;
-import pl.coderstrust.model.Money;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,12 +21,31 @@ import java.util.List;
 @RunWith(MockitoJUnitRunner.class)
 public class InvoiceBookTest {
 
+  private Invoice givenInvoice;
+  private List<InvoiceEntry> entries = new ArrayList<>();
+
   @Mock
   private Database db;
 
   /**
    * Test sample Javadoc.
    */
+
+  @Before
+  public void fillDb() {
+
+    final InvoiceEntry invoiceEntry1 = new InvoiceEntry("Opona", 4,
+        new Money(new BigDecimal(15.7).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    final InvoiceEntry invoiceEntry2 = new InvoiceEntry("Felga", 4,
+        new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
+        new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    entries.add(invoiceEntry1);
+    entries.add(invoiceEntry2);
+    entries.add(invoiceEntry3);
+    givenInvoice = new Invoice("1", "First Inv", entries);
+  }
+
 
   @Test
   public void shouldReturnEmptyListOfInvoicesIfNothingAdded() {
@@ -50,17 +68,23 @@ public class InvoiceBookTest {
   public void shouldReturnSingleInvoiceWhenItWasAddedToBook() {
     // given
     InvoiceBook invoiceBook = new InvoiceBook(db);
-
-    Invoice invoice = new Invoice(1, "computer", new Money(BigDecimal.TEN, Currency.PLN));
-    when(db.getInvoices()).thenReturn(Collections.singletonList(invoice));
+    when(db.getInvoices()).thenReturn(Collections.singletonList(givenInvoice));
 
     // when
-    invoiceBook.addInvoice(invoice);
+    invoiceBook.addInvoice(givenInvoice);
     List<Invoice> invoices = invoiceBook.getInvoices();
 
     //then
     assertNotNull("Invoices should not be null", invoices);
     assertEquals(1, invoices.size());
-    assertEquals(invoice, invoices.get(0));
+    assertEquals(givenInvoice, invoices.get(0));
+  }
+
+  @Test
+  public void shouldTestEmptyInvoiceConstructor() {
+    //given
+    Invoice testJson = new Invoice();
+    //then
+    Assert.assertNotNull(testJson);
   }
 }

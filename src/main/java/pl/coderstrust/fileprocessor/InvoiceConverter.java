@@ -10,14 +10,11 @@ public class InvoiceConverter {
 
   /**
    * Converts Invoice object to the formatted JSON string.
-   */
-  private ObjectMapper mapper = new ObjectMapper();
-
-  /**
    * Test sample Javadoc.
    */
   public String convertToJsonString(Invoice inputInvoice) {
     try {
+      ObjectMapper mapper = new ObjectMapper();
       return mapper.writeValueAsString(inputInvoice);
     } catch (JsonProcessingException e) {
       e.printStackTrace();
@@ -31,6 +28,7 @@ public class InvoiceConverter {
 
   public Invoice convertJsonToInvoice(String jsonString) {
     try {
+      ObjectMapper mapper = new ObjectMapper();
       return mapper.readValue(jsonString, Invoice.class);
     } catch (IOException e) {
       e.printStackTrace();

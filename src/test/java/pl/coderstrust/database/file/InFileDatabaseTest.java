@@ -1,41 +1,80 @@
 package pl.coderstrust.database.file;
 
+import org.junit.Assert;
+import org.junit.Before;
 import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
-import pl.coderstrust.model.InvoiceBook;
+import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
 
+import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InFileDatabaseTest extends AbstractDatabaseTest {
 
-  private Database db = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
-  private InFileDatabase fileDb = new InFileDatabase(
-      "src/main/resources/pl.coderstrust/InvoiceBook.txt");
-  private InvoiceBook invoiceBook = new InvoiceBook(db);
+  private Database db;
+  private Invoice givenInvoice;
+  private List<InvoiceEntry> entries = new ArrayList<>();
+
+
+  /**
+   * Test sample Javadoc.
+   */
+
+  @Before
+  public void fillDb() {
+    final InvoiceEntry invoiceEntry1 = new InvoiceEntry("Opona", 4,
+        new Money(new BigDecimal(15.7).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    final InvoiceEntry invoiceEntry2 = new InvoiceEntry("Felga", 4,
+        new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
+        new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    entries.add(invoiceEntry1);
+    entries.add(invoiceEntry2);
+    entries.add(invoiceEntry3);
+    givenInvoice = new Invoice("1", "First Inv", entries);
+    }
 
   @Override
   protected Database getDatabase() {
-    return fileDb;
+    return db;
   }
+
+  /**
+   * Test sample Javadoc.
+   */
 
   @Override
-  public void saveInvoice() throws Exception {
-    Invoice first = new Invoice(1, "Starter:", new Money(new BigDecimal("234.45"), Currency.PLN));
-    Invoice second = new Invoice(2, "conti:", new Money(new BigDecimal("88.88"), Currency.PLN));
-    first.setAmount(new Money(new BigDecimal("555.55"), Currency.PLN));
-    second.setAmount(new Money(new BigDecimal("777.55"), Currency.PLN));
-    db.saveInvoice(second);
-  }
+  public void shouldSaveInvoice() {
+    //given
+    File beforeTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    Long lengthBeforeTest = beforeTest.length();
+    db = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    //when
+    db.saveInvoice(givenInvoice);
+    File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    Long lengthAfterTest = afetrTest.length();
+    //then
+    Assert.assertNotNull(db);
+    Assert.assertNotEquals(lengthBeforeTest, lengthAfterTest);
+   }
+
+  /**
+   * Test sample Javadoc.
+   */
 
   @Override
-  public void getInvoices() throws Exception {
-
-    Invoice first = invoiceBook.getInvoices().get(0);
-    Invoice second = invoiceBook.getInvoices().get(1);
-    first.setAmount(new Money(new BigDecimal("555.55"), Currency.PLN));
-    second.setAmount(new Money(new BigDecimal("777.55"), Currency.PLN));
-  }
+  public void shouldGetInvoices() {
+    //given
+    db = new InFileDatabase("src/test/resources/pl.coderstrust/InvoiceBook.txt");
+    List<Invoice> givenList = db.getInvoices();
+    //then
+    Assert.assertNotNull(givenList);
+    Assert.assertEquals("First Inv", db.getInvoices().get(0).getDescription());
+    Assert.assertEquals("2017-09-19T14:20:16", db.getInvoices().get(0).getIssueDate().toString());
+   }
 }
