@@ -2,7 +2,6 @@ package pl.coderstrust.database.file;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Currency;
@@ -77,21 +76,5 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     Assert.assertNotNull(givenList);
     Assert.assertEquals("First Inv", db.getInvoices().get(0).getDescription());
     Assert.assertEquals("2017-09-19T14:20:16", db.getInvoices().get(0).getIssueDate().toString());
-  }
-
-  /**
-   * Test sample Javadoc.
-   */
-  @Test
-  public void shouldTestExceptionsHandlingWrongFilePath() {
-
-    //given
-    db = new InFileDatabase("src/test/resources/pl.coderstrust/WrongInvoiceBook.txt");
-    //when
-    List<Invoice> testList = db.getInvoices();
-    System.out.println(testList.size());
-
-    //then
-
   }
 }

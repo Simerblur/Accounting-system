@@ -1,8 +1,5 @@
 package pl.coderstrust.fileprocessor;
 
-import static junit.framework.TestCase.fail;
-import static org.hamcrest.CoreMatchers.containsString;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +10,7 @@ import java.util.List;
 
 public class FileProcessorTest {
 
-  private FileProcessor fileProcessor = new FileProcessor();
+  private FileProcessor processor = new FileProcessor();
 
   /**
    * Test sample Javadoc.
@@ -51,7 +48,7 @@ public class FileProcessorTest {
         + "\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,"
         + "\"currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},"
         + "\"issueDate\":\"2017-09-19 14:25:01\"}");
-    listFromFile = fileProcessor
+    listFromFile = processor
         .readInvoicesFromFile("src/test/resources/pl.coderstrust/testFileInput.txt");
     //then
     Assert.assertNotNull(listFromFile);
@@ -73,11 +70,11 @@ public class FileProcessorTest {
     //when
     listToBeWritten.add("283 + 293 + 307 + 311 + 313 + 317 + 331 + 337 + 347 + 349 = 3188");
     listToBeWritten.add("This is the test message to be written by FileProcessor");
-    fileProcessor.appendInvoiceToFile(listToBeWritten.get(0),
+    processor.appendInvoiceToFile(listToBeWritten.get(0),
         "src/test/resources/pl.coderstrust/testFileOutput.txt");
-    fileProcessor.appendInvoiceToFile(listToBeWritten.get(0),
+    processor.appendInvoiceToFile(listToBeWritten.get(0),
         "src/test/resources/pl.coderstrust/testFileOutput.txt");
-    gotFromFile = fileProcessor
+    gotFromFile = processor
         .readInvoicesFromFile("src/test/resources/pl.coderstrust/testFileOutput.txt");
     final Long lengthAfter = outFileBefore.length();
     //then
@@ -91,17 +88,12 @@ public class FileProcessorTest {
    */
   @Test
   public void shouldTestExceptionsHandlingWrongFilePathRead() {
-    try {
-      //given
-
-      //when
-      List<String> testList = fileProcessor
-          .readInvoicesFromFile("src/test/resources/pl.coderstrust/WrongInvoiceBook.txt");
-      testList.size();
-      //then
-    } catch (Exception e) {
-      Assert.assertThat(e.toString(), containsString("FileNotFoundException"));
-
-    }
+    //given
+    List<String> testList;
+    //when
+    testList = processor.readInvoicesFromFile(
+        "src/test/resources/pl.coderstrust/WrongInvoiceBook.txt");
+    //then
+    Assert.assertEquals("File not found", testList.get(0));
   }
 }

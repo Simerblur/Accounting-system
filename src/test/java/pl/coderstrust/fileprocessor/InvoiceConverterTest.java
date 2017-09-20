@@ -137,4 +137,18 @@ public class InvoiceConverterTest {
     //then
     Assert.assertEquals("Wrong JSON provided", testResultInvoice.getDescription());
   }
+
+  /**
+   * Exception handlig test.
+   */
+
+  @Test
+  public void shouldConvertWrongProvidedInvoiceToJson() {
+    //given
+    String givenString = "     ";
+    //when
+    Invoice testResultInvoice = invConverter.convertJsonToInvoice(givenString);
+    //then
+    Assert.assertEquals("Wrong JSON provided", testResultInvoice.getDescription());
+  }
 }

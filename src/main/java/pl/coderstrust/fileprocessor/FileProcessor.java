@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class FileProcessor {
 
-  private List<String> readLinesFromFile;
+  private List<String> readLinesFromFile = new ArrayList<>();
 
   private List<String> readLinesFromFile(String pathNameInput) {
     try {
@@ -18,18 +18,21 @@ public class FileProcessor {
       while (inLineScan.hasNextLine()) {
         readLinesFromFile.add(inLineScan.nextLine());
       }
+      return readLinesFromFile;
     } catch (IOException e) {
       System.out.println(e.toString());
+      readLinesFromFile = new ArrayList<>();
+      readLinesFromFile.add(0, "File not found");
+      return readLinesFromFile;
     }
+  }
+
+  public List<String> readInvoicesFromFile(String pathNameInput) {
+    this.readLinesFromFile = readLinesFromFile(pathNameInput);
     return readLinesFromFile;
   }
 
-  public List<String> readInvoicesFromFile(String pathNameInput) throws IOException {
-    readLinesFromFile = readLinesFromFile(pathNameInput);
-    return readLinesFromFile;
-  }
-
-  public void appendInvoiceToFile(String inputString, String pathNameOutput) throws IOException {
+  public void appendInvoiceToFile(String inputString, String pathNameOutput) {
     writeProvidedLinesToFile(inputString, pathNameOutput);
   }
 

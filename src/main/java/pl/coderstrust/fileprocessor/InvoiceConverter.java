@@ -10,7 +10,8 @@ import java.util.ArrayList;
 public class InvoiceConverter {
 
   /**
-   * Converts Invoice object to the formatted JSON string. Test sample Javadoc.
+   * Converts Invoice object to the formatted JSON string. Test sample Javadoc. Coverage problem,
+   * can't reach catch block, any idea?
    */
   public String convertToJsonString(Invoice inputInvoice) {
     try {
