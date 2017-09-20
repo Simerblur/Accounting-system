@@ -25,7 +25,7 @@ public class InFileDatabase implements Database {
     try {
       fp.appendInvoiceToFile(invConverter.convertToJsonString(invoice), filePath);
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println(e.toString());
     }
   }
 
@@ -37,9 +37,11 @@ public class InFileDatabase implements Database {
       for (String iterator : jsonStrings) {
         invoices.add(invConverter.convertJsonToInvoice(iterator));
       }
+      return invoices;
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println(e.toString());
+      return invoices = null;
     }
-    return invoices;
+
   }
 }

@@ -19,7 +19,7 @@ public class FileProcessor {
         readLinesFromFile.add(inLineScan.nextLine());
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println(e.toString());
     }
     return readLinesFromFile;
   }
@@ -38,7 +38,7 @@ public class FileProcessor {
       myFileWriter.write(inputString);
       myFileWriter.write(System.lineSeparator());
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println(e.toString());
     }
   }
 }

@@ -1,5 +1,8 @@
 package pl.coderstrust.fileprocessor;
 
+import static junit.framework.TestCase.fail;
+import static org.hamcrest.CoreMatchers.containsString;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -81,5 +84,24 @@ public class FileProcessorTest {
     Assert.assertNotNull(outFileBefore);
     Assert.assertNotNull(gotFromFile);
     Assert.assertNotEquals(lengthBefore, lengthAfter);
+  }
+
+  /**
+   * Test file not found exception.
+   */
+  @Test
+  public void shouldTestExceptionsHandlingWrongFilePathRead() {
+    try {
+      //given
+
+      //when
+      List<String> testList = fileProcessor
+          .readInvoicesFromFile("src/test/resources/pl.coderstrust/WrongInvoiceBook.txt");
+      testList.size();
+      //then
+    } catch (Exception e) {
+      Assert.assertThat(e.toString(), containsString("FileNotFoundException"));
+
+    }
   }
 }

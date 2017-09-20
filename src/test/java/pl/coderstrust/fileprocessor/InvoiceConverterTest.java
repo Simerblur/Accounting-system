@@ -72,6 +72,7 @@ public class InvoiceConverterTest {
   /**
    * Test of getters and setters. Temporary tests to meet checkstyle and maven conditions.
    */
+
   @Test
   public void shouldTestSettersAndGetters() {
     final InvoiceEntry testEntry;
@@ -98,6 +99,7 @@ public class InvoiceConverterTest {
   /**
    * Fills up the database with the entries and invoices respectfully.
    */
+
   @Test //the equals method should be redone
   public void shouldConvertProvidedJsonToInvoice() throws Exception {
     //given
@@ -120,5 +122,19 @@ public class InvoiceConverterTest {
     //then
 
     Assert.assertNotEquals(expectedInvoice, givenInvoice);
+  }
+
+  /**
+   * Exception handlig test.
+   */
+
+  @Test
+  public void shouldConvertWrongProvidedJsonToInvoice() {
+    //given
+    String givenString = "     ";
+    //when
+    Invoice testResultInvoice = invConverter.convertJsonToInvoice(givenString);
+    //then
+    Assert.assertEquals("Wrong JSON provided", testResultInvoice.getDescription());
   }
 }

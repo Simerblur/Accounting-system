@@ -46,6 +46,9 @@ public class InvoiceBookTest {
     givenInvoice = new Invoice("1", "First Inv", entries);
   }
 
+  /**
+   * Test sample Javadoc.
+   */
 
   @Test
   public void shouldReturnEmptyListOfInvoicesIfNothingAdded() {
@@ -80,10 +83,26 @@ public class InvoiceBookTest {
     assertEquals(givenInvoice, invoices.get(0));
   }
 
+  /**
+   * Test sample Javadoc.
+   */
+
   @Test
   public void shouldTestEmptyInvoiceConstructor() {
     //given
     Invoice testJson = new Invoice();
+    //then
+    Assert.assertNotNull(testJson);
+  }
+
+  /**
+   * Test sample Javadoc.
+   */
+
+  @Test
+  public void shouldTestEmptyInvoiceEntryConstructor() {
+    //given
+    InvoiceEntry testJson = new InvoiceEntry();
     //then
     Assert.assertNotNull(testJson);
   }

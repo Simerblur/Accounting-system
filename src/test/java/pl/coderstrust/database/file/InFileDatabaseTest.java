@@ -1,9 +1,5 @@
 package pl.coderstrust.database.file;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +11,6 @@ import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,18 +83,14 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
    * Test sample Javadoc.
    */
   @Test
-  public void shouldTestExceptionsHandlingWrongFilePath() throws IOException{
-    try {
-      //given
-      db = new InFileDatabase("src/test/resources/pl.coderstrust/WrongInvoiceBook.txt");
-      //when
-      List<Invoice> testList = db.getInvoices();
-      fail();
+  public void shouldTestExceptionsHandlingWrongFilePath() {
 
-    } catch (Exception e) {
-      System.out.println(e.toString());
-      Assert.assertThat(e.toString(), containsString("."));
-    }
+    //given
+    db = new InFileDatabase("src/test/resources/pl.coderstrust/WrongInvoiceBook.txt");
+    //when
+    List<Invoice> testList = db.getInvoices();
+    System.out.println(testList.size());
+
     //then
 
   }
