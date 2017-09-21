@@ -22,23 +22,17 @@ public class InFileDatabase implements Database {
 
   @Override
   public void saveInvoice(Invoice invoice) {
-    try {
-      fp.appendInvoiceToFile(invConverter.convertToJsonString(invoice), filePath);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+
+    fp.appendInvoiceToFile(invConverter.convertToJsonString(invoice), filePath);
   }
 
   @Override
   public List<Invoice> getInvoices() {
-    try {
-      List<String> jsonStrings;
-      jsonStrings = fp.readInvoicesFromFile(filePath);
-      for (String iterator : jsonStrings) {
-        invoices.add(invConverter.convertJsonToInvoice(iterator));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
+
+    List<String> jsonStrings;
+    jsonStrings = fp.readInvoicesFromFile(filePath);
+    for (String iterator : jsonStrings) {
+      invoices.add(invConverter.convertJsonToInvoice(iterator));
     }
     return invoices;
   }

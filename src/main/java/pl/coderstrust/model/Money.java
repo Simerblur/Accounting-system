@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class Money {
 
-  private BigDecimal amount;
+  private BigDecimal amount = BigDecimal.ZERO.setScale(2,BigDecimal.ROUND_HALF_UP);
   private Currency currency;
 
   public Money() {
@@ -21,11 +21,5 @@ public class Money {
 
   public BigDecimal getAmount() {
     return amount;
-  }
-
-  @Override
-  public String toString() {
-    return amount
-        + ", Currency=" + currency;
   }
 }

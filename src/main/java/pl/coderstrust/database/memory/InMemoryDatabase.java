@@ -20,5 +20,4 @@ public class InMemoryDatabase implements Database {
   public List<Invoice> getInvoices() {
     return Collections.unmodifiableList(invoices);
   }
-
 }

@@ -5,24 +5,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pl.coderstrust.model.Invoice;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class InvoiceConverter {
 
   /**
-   * Converts Invoice object to the formatted JSON string.
-   */
-  private ObjectMapper mapper = new ObjectMapper();
-
-  /**
-   * Test sample Javadoc.
+   * Converts Invoice object to the formatted JSON string. Test sample Javadoc. Coverage problem,
+   * can't reach catch block, any idea?
    */
   public String convertToJsonString(Invoice inputInvoice) {
     try {
+      ObjectMapper mapper = new ObjectMapper();
       return mapper.writeValueAsString(inputInvoice);
     } catch (JsonProcessingException e) {
-      e.printStackTrace();
+      return "Wrong Invoice provided, can't convert to JSON";
     }
-    return null;
   }
 
   /**
@@ -31,10 +28,11 @@ public class InvoiceConverter {
 
   public Invoice convertJsonToInvoice(String jsonString) {
     try {
+      ObjectMapper mapper = new ObjectMapper();
       return mapper.readValue(jsonString, Invoice.class);
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println(e.toString());
+      return new Invoice("Error", "Wrong JSON provided", new ArrayList<>());
     }
-    return null;
   }
 }
