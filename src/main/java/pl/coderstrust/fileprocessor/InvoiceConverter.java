@@ -18,7 +18,6 @@ public class InvoiceConverter {
       ObjectMapper mapper = new ObjectMapper();
       return mapper.writeValueAsString(inputInvoice);
     } catch (JsonProcessingException e) {
-      System.out.println(e.toString());
       return "Wrong Invoice provided, can't convert to JSON";
     }
   }
