@@ -32,7 +32,7 @@ public class InvoiceConverter {
       return mapper.readValue(jsonString, Invoice.class);
     } catch (IOException e) {
       System.out.println(e.toString());
-      return new Invoice("Error", "Wrong JSON provided", new ArrayList<>());
+      return new Invoice(1, "Wrong JSON provided", new ArrayList<>());
     }
   }
 }

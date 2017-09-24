@@ -11,6 +11,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.coderstrust.database.Database;
+import pl.coderstrust.database.memory.InMemoryDatabase;
+import pl.coderstrust.fileprocessor.InvoiceConverter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class InvoiceBookTest {
     entries.add(invoiceEntry1);
     entries.add(invoiceEntry2);
     entries.add(invoiceEntry3);
-    givenInvoice = new Invoice("1", "First Inv", entries);
+    givenInvoice = new Invoice(1, "First Inv", entries);
   }
 
   /**
@@ -106,4 +108,64 @@ public class InvoiceBookTest {
     //then
     Assert.assertNotNull(testJson);
   }
+
+  /**
+   * Test getters and setters.
+   * Tests DI and Invoice name generation.
+   */
+
+  @Test
+  public void shouldTestGettersAndSetters() {
+    Database memDb = new InMemoryDatabase();
+    InvoiceBook ib = new InvoiceBook(memDb);
+    InvoiceConverter converter = new InvoiceConverter();
+    Invoice testInvoice = converter.convertJsonToInvoice(
+        "{\"invoiceId\":1,\"name\":\"111defaultName\",\"description\":\"First Inv\",\""
+            + "entries\":[{\"name\":\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\""
+            + "currency\":\"PLN\"},\"netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\""
+            + "vatRate\":23,\"vatValue\":{\"amount\":14.44,\"currency\":\"PLN\"},\"grossValue\""
+            + ":{\"amount\":77.24,\"currency\":\"PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\""
+            + "netPrice\":{\"amount\":20.00,\"currency\":\"PLN\"},\"netValue\":{\"amount\""
+            + ":80.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":18.40,\""
+            + "currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,\"currency\":\"PLN\"}},{\""
+            + "name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount\":5.30,\"currency\":\""
+            + "PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate\":23,\""
+            + "vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{\"amount\""
+            + ":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\"currency\""
+            + ":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\""
+            + "issueDate\":\"2017-08-22 23:59:01\"}");
+    ib.addInvoice(testInvoice);
+    System.out.println(converter.convertToJsonString(ib.getInvoices().get(0)));
+    ib.addInvoice(testInvoice);
+    System.out.println(converter.convertToJsonString(ib.getInvoices().get(0)));
+    System.out.println(converter.convertToJsonString(ib.getInvoices().get(1)));
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(testInvoice);
+    System.out.println(ib.getInvoices().size());
+    System.out.println(converter.convertToJsonString(ib.getInvoices().get(2)));
+    System.out.println(converter.convertToJsonString(ib.getInvoices().get(0)));
+    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(new Invoice(555, "TestOnNewSecondInvoice", new ArrayList<>()));
+    System.out.println(ib.getInvoices().size());
+
+    System.out.println("tessss" + ib.getInvoices().get(0).getInvoiceId());
+    for (int i = 0; i < ib.getInvoices().size(); i++) {
+      System.out.println(
+          ib.getInvoices().get(i).getInvoiceId() + " " + ib.getInvoices().get(i).getName());
+    }
+  }
+
 }

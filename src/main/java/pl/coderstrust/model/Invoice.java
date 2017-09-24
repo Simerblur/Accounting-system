@@ -13,7 +13,8 @@ import java.util.List;
 
 public class Invoice {
 
-  private String id;
+  private int invoiceId;
+  private String name;
   private String description;
   private List<InvoiceEntry> entries = new ArrayList<>();
   private Money netTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
@@ -29,9 +30,10 @@ public class Invoice {
    * Test sample Javadoc.
    */
 
-  public Invoice(String id, String description, List<InvoiceEntry> entries) {
+  public Invoice(int invoiceId, String description, List<InvoiceEntry> entries) {
     this.issueDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-    this.id = id;
+    this.name = "Default Name";
+    this.invoiceId = invoiceId;
     this.description = description;
     this.entries = entries;
     this.netTotalAmount = calculateNetTotal(entries);
@@ -65,12 +67,20 @@ public class Invoice {
         .truncatedTo(ChronoUnit.SECONDS);
   }
 
-  public String getId() {
-    return id;
+  public int getInvoiceId() {
+    return invoiceId;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setInvoiceId(int invoiceId) {
+    this.invoiceId = invoiceId;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public String getDescription() {

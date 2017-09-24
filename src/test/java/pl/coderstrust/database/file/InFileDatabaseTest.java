@@ -36,7 +36,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     entries.add(invoiceEntry1);
     entries.add(invoiceEntry2);
     entries.add(invoiceEntry3);
-    givenInvoice = new Invoice("1", "First Inv", entries);
+    givenInvoice = new Invoice(1, "First Inv", entries);
   }
 
   @Override
@@ -75,6 +75,6 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     //then
     Assert.assertNotNull(givenList);
     Assert.assertEquals("First Inv", db.getInvoices().get(0).getDescription());
-    Assert.assertEquals("2017-09-19T14:20:16", db.getInvoices().get(0).getIssueDate().toString());
+    Assert.assertEquals("2017-08-22T23:59:01", db.getInvoices().get(0).getIssueDate().toString());
   }
 }

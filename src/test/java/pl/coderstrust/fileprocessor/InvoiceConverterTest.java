@@ -37,7 +37,7 @@ public class InvoiceConverterTest {
     entries.add(invoiceEntry1);
     entries.add(invoiceEntry2);
     entries.add(invoiceEntry3);
-    givenInvoice = new Invoice("1", "First Inv", entries);
+    givenInvoice = new Invoice(1, "First Inv", entries);
   }
 
   /**
@@ -47,19 +47,19 @@ public class InvoiceConverterTest {
   @Test
   public void shouldConvertToJsonStringProvidedInvoice() {
     //given
-    String expectedString = "{\"id\":\"1\",\"description\":\"First Inv\",\"entries\":[{\"name\""
-        + ":\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\""
-        + "netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\""
-        + "amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":\""
-        + "PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,\"currency\""
-        + ":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,\""
-        + "vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,\""
-        + "currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount"
-        + "\":5.30,\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},"
-        + "\"vatRate\":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{"
-        + "\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\""
-        + "currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\""
-        + "issueDate\":\"2017-08-22 23:59:01\"}";
+    String expectedString = "{\"invoiceId\":1,\"name\":\"Default Name\",\"description\":\""
+        + "First Inv\",\"entries\":[{\"name\":\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\""
+        + ":15.70,\"currency\":\"PLN\"},\"netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\""
+        + "vatRate\":23,\"vatValue\":{\"amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\""
+        + "amount\":77.24,\"currency\":\"PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\""
+        + ":{\"amount\":20.00,\"currency\":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\""
+        + "PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\""
+        + "grossValue\":{\"amount\":98.40,\"currency\":\"PLN\"}},{\"name\":\"Sruba\","
+        + "\"quantity\":20,\"netPrice\":{\"amount\":5.30,\"currency\":\"PLN\"},\"netValue\""
+        + ":{\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\""
+        + ":24.38,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":130.38,\"currency\":\"PLN\""
+        + "}}],\"netTotalAmount\":{\"amount\":248.80,\"currency\":\"PLN\"},\"grossTotalAmount\""
+        + ":{\"amount\":306.02,\"currency\":\"PLN\"},\"issueDate\":\"2017-08-22 23:59:01\"}";
 
     //when
     givenInvoice.setIssueDate(2017, 8, 22, 23, 59, 1);
@@ -91,8 +91,8 @@ public class InvoiceConverterTest {
         givenInvoice.getNetTotalAmount().getAmount());
     Assert.assertEquals(new BigDecimal("306.02").setScale(2, BigDecimal.ROUND_HALF_UP),
         givenInvoice.getGrossTotalAmount().getAmount());
-    givenInvoice.setId("22");
-    Assert.assertEquals("22", givenInvoice.getId());
+    givenInvoice.setInvoiceId(22);
+    Assert.assertEquals(22, givenInvoice.getInvoiceId());
     System.out.println(jsonTester().getNetPrice().getAmount().toString());
   }
 
@@ -104,7 +104,7 @@ public class InvoiceConverterTest {
   public void shouldConvertProvidedJsonToInvoice() throws Exception {
     //given
     givenInvoice.setIssueDate(2017, 8, 22, 23, 59, 1);
-    String givenString = "{\"id\":\"1\",\"description\":\"First Inv\",\"entries\":[{\"name\""
+    String givenString = "{\"invoiceId\":\"1\",\"description\":\"First Inv\",\"entries\":[{\"name\""
         + ":\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\""
         + "netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\""
         + "amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":\""
