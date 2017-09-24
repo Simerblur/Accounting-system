@@ -41,13 +41,9 @@ public class InvoiceBookController {
     return allList;
   }
 
-/*  @RequestMapping(value = "/system", method = RequestMethod.GET)
-  public Invoice getInvoice(
-      @RequestParam(value = "index", defaultValue = "0", required = false) int index) {
-
-    Invoice testInvoice = ibFile.getInvoices().get(index);
-    return testInvoice;
-  }*/
+  /**
+   * Post invoice to the Database.
+   */
 
   @RequestMapping(value = "/system", method = RequestMethod.POST)
   public String postInvoice(@RequestBody Invoice jsonString) {
