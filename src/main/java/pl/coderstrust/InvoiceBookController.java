@@ -38,7 +38,7 @@ public class InvoiceBookController {
     if (requestAll.equals("all")) {
       invoices = ibFile.getInvoices();
     } else {
-      invoices.add(0, new Invoice("Wrong request", "Wrong request", new ArrayList<InvoiceEntry>()));
+      invoices.add(0, new Invoice(0, "Wrong request", new ArrayList<InvoiceEntry>()));
     }
     return invoices;
   }
@@ -52,7 +52,7 @@ public class InvoiceBookController {
 
     return invoices
         .stream()
-        .filter(invoice -> Integer.valueOf(invoice.getId()) == id)
+        .filter(invoice -> invoice.getInvoiceId() == id)
         .findFirst().get();
   }
 
