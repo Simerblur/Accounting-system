@@ -8,6 +8,8 @@ public interface Database {
 
   void saveInvoice(Invoice invoice);
 
+  void saveInvoice(String jsonString);
+
   List<Invoice> getInvoices();
 
 }

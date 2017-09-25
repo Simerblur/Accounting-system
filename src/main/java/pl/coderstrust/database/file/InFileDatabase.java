@@ -27,6 +27,12 @@ public class InFileDatabase implements Database {
   }
 
   @Override
+  public void saveInvoice(String jsonString) {
+
+    fp.appendInvoiceToFile(jsonString, filePath);
+  }
+
+  @Override
   public List<Invoice> getInvoices() {
 
     List<String> jsonStrings;
