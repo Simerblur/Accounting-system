@@ -1,7 +1,6 @@
 package pl.coderstrust.model;
 
 import pl.coderstrust.database.Database;
-import pl.coderstrust.database.file.InFileDatabase;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -81,15 +80,5 @@ public class InvoiceBook {
       }
     }
     return resultList;
-  }
-
-  public static void main(String[] args) {
-    Database database = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
-    InvoiceBook invoiceBook = new InvoiceBook(database);
-    List<Invoice> test = invoiceBook.getInvoicesByDateRange(LocalDateTime.of(2017,5,1,0,0,0),LocalDateTime.of(2017,9,30,0,0,0));
-    System.out.println(test.get(0).getInvoiceId());
-    for(Invoice iterator: test){
-      System.out.println(iterator.getInvoiceId() + " " + iterator.getIssueDate());
-    }
   }
 }
