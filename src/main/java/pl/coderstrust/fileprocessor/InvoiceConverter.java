@@ -3,6 +3,7 @@ package pl.coderstrust.fileprocessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pl.coderstrust.model.Invoice;
+import pl.coderstrust.model.counterparts.Counterparts;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class InvoiceConverter {
       return mapper.readValue(jsonString, Invoice.class);
     } catch (IOException e) {
       System.out.println(e.toString());
-      return new Invoice(1, "Wrong JSON provided", new ArrayList<>());
+      return new Invoice(new Counterparts(), "Wrong JSON provided", new ArrayList<>());
     }
   }
 }

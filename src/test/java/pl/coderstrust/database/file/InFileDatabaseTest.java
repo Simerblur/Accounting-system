@@ -8,6 +8,7 @@ import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
+import pl.coderstrust.model.counterparts.Counterparts;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -36,7 +37,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     entries.add(invoiceEntry1);
     entries.add(invoiceEntry2);
     entries.add(invoiceEntry3);
-    givenInvoice = new Invoice(1, "First Inv", entries);
+    givenInvoice = new Invoice(new Counterparts(), "First Inv", entries);
   }
 
   @Override
