@@ -11,10 +11,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.coderstrust.database.Database;
+import pl.coderstrust.database.file.InFileDatabase;
 import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -110,8 +112,7 @@ public class InvoiceBookTest {
   }
 
   /**
-   * Test getters and setters.
-   * Tests DI and Invoice name generation.
+   * Test getters and setters. Tests DI and Invoice name generation.
    */
 
   @Test
@@ -168,4 +169,16 @@ public class InvoiceBookTest {
     }
   }
 
+  @Test
+  public void shouldIfReturnInvoicesFromRange() {
+
+    Database database = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
+    InvoiceBook invoiceBook = new InvoiceBook(database);
+    List<Invoice> test = invoiceBook.getInvoicesByDateRange(LocalDateTime.of(2017, 5, 1, 0, 0, 0),
+        LocalDateTime.of(2017, 9, 30, 0, 0, 0));
+    System.out.println(test.get(0).getInvoiceId());
+    for (Invoice iterator : test) {
+      System.out.println(iterator.getInvoiceId() + " " + iterator.getIssueDate());
+    }
+  }
 }

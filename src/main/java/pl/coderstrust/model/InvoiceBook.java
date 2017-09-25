@@ -2,6 +2,8 @@ package pl.coderstrust.model;
 
 import pl.coderstrust.database.Database;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,5 +69,16 @@ public class InvoiceBook {
           current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
       invoiceToRename.setName(newName);
     }
+  }
+
+  public List<Invoice> getInvoicesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+    List<Invoice> invoicesFromRange = getInvoices();
+    List<Invoice> resultList = new ArrayList<>();
+    for (Invoice iterator : invoicesFromRange) {
+      if (iterator.getIssueDate().isAfter(startDate) && iterator.getIssueDate().isBefore(endDate)) {
+        resultList.add(iterator);
+      }
+    }
+    return resultList;
   }
 }
