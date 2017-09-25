@@ -8,7 +8,9 @@ import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
+import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.Counterparts;
+import pl.coderstrust.model.counterparts.Seller;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -19,6 +21,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
 
   private Database db;
   private Invoice givenInvoice;
+  private Invoice givenInvoice2;
   private List<InvoiceEntry> entries = new ArrayList<>();
 
 
@@ -37,7 +40,10 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     entries.add(invoiceEntry1);
     entries.add(invoiceEntry2);
     entries.add(invoiceEntry3);
-    givenInvoice = new Invoice(new Counterparts(), "First Inv", entries);
+    givenInvoice = new Invoice(new Counterparts(new Buyer("Kupiec Jas", "PL12345678"),
+        new Seller("Sprzedawca Jacek", "PL999888777")), "First Inv", entries);
+    givenInvoice2 = new Invoice(new Counterparts(new Buyer("Kupiec Piotr", "PL222333444"),
+        new Seller("Sprzedawca Tomek", "PL333555888")), "Second Inv", entries);
   }
 
   @Override
@@ -57,6 +63,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     Long lengthBeforeTest = beforeTest.length();
     //when
     db.saveInvoice(givenInvoice);
+    db.saveInvoice(givenInvoice2);
     File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
     Long lengthAfterTest = afetrTest.length();
     //then

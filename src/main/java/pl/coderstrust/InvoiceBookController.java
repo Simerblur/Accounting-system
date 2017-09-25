@@ -13,6 +13,9 @@ import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceBook;
 import pl.coderstrust.model.InvoiceEntry;
+import pl.coderstrust.model.counterparts.Buyer;
+import pl.coderstrust.model.counterparts.Counterparts;
+import pl.coderstrust.model.counterparts.Seller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +25,7 @@ import java.util.stream.Collectors;
 @RestController
 public class InvoiceBookController {
 
-  private Database fileDb = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
+  private Database fileDb = new InFileDatabase("src/main/resources/InvoiceBook.txt");
   private Database memDb = new InMemoryDatabase();
   private InvoiceBook ibFile = new InvoiceBook(fileDb);
   private InvoiceBook ibMem = new InvoiceBook(memDb);
@@ -38,7 +41,9 @@ public class InvoiceBookController {
     if (requestAll.equals("all")) {
       invoices = ibFile.getInvoices();
     } else {
-      invoices.add(0, new Invoice(0, "Wrong request", new ArrayList<InvoiceEntry>()));
+      invoices.add(0, new Invoice(new Counterparts(new Buyer("Kupiec Jas", "PL12345678"),
+          new Seller("Sprzedawca Jacek", "PL999888777")), "Wrong request",
+          new ArrayList<InvoiceEntry>()));
     }
     return invoices;
   }
@@ -64,6 +69,5 @@ public class InvoiceBookController {
   public String postInvoice(@RequestBody Invoice jsonString) {
     ibFile.addInvoice(jsonString);
     return "Invoice added succesfully";
-
   }
 }

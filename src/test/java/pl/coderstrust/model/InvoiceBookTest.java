@@ -14,7 +14,9 @@ import pl.coderstrust.database.Database;
 import pl.coderstrust.database.file.InFileDatabase;
 import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.Counterparts;
+import pl.coderstrust.model.counterparts.Seller;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,6 +29,7 @@ import java.util.List;
 public class InvoiceBookTest {
 
   private Invoice givenInvoice;
+  private Invoice givenInvoice2;
   private List<InvoiceEntry> entries = new ArrayList<>();
 
   @Mock
@@ -38,7 +41,6 @@ public class InvoiceBookTest {
 
   @Before
   public void fillDb() {
-
     final InvoiceEntry invoiceEntry1 = new InvoiceEntry("Opona", 4,
         new Money(new BigDecimal(15.7).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry2 = new InvoiceEntry("Felga", 4,
@@ -48,7 +50,10 @@ public class InvoiceBookTest {
     entries.add(invoiceEntry1);
     entries.add(invoiceEntry2);
     entries.add(invoiceEntry3);
-    givenInvoice = new Invoice(new Counterparts(), "First Inv", entries);
+    givenInvoice = new Invoice(new Counterparts(new Buyer("Kupiec Jas", "PL12345678"),
+        new Seller("Sprzedawca Jacek", "PL999888777")), "First Inv", entries);
+    givenInvoice2 = new Invoice(new Counterparts(new Buyer("Kupiec Piotr", "PL222333444"),
+        new Seller("Sprzedawca Tomek", "PL333555888")), "Second Inv", entries);
   }
 
   /**
@@ -80,6 +85,7 @@ public class InvoiceBookTest {
 
     // when
     invoiceBook.addInvoice(givenInvoice);
+    invoiceBook.addInvoice(givenInvoice2);
     List<Invoice> invoices = invoiceBook.getInvoices();
 
     //then
@@ -173,7 +179,7 @@ public class InvoiceBookTest {
   @Test
   public void shouldIfReturnInvoicesFromRange() {
 
-    Database database = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
+    Database database = new InFileDatabase("src/main/resources/InvoiceBook.txt");
     InvoiceBook invoiceBook = new InvoiceBook(database);
     List<Invoice> test = invoiceBook.getInvoicesByDateRange(LocalDateTime.of(2017, 5, 1, 0, 0, 0),
         LocalDateTime.of(2017, 9, 30, 0, 0, 0));
@@ -181,5 +187,21 @@ public class InvoiceBookTest {
     for (Invoice iterator : test) {
       System.out.println(iterator.getInvoiceId() + " " + iterator.getIssueDate());
     }
+  }
+
+  @Test
+  public void shouldWriteInvoicesToTheInvoiceBook() {
+    // given
+    InvoiceBook invoiceBook = new InvoiceBook(
+        new InFileDatabase("src/test/resources/testFileOutputIB.txt"));
+    // when
+    invoiceBook.addInvoice(givenInvoice);
+    invoiceBook.addInvoice(givenInvoice2);
+ //   List<Invoice> invoices = invoiceBook.getInvoices();
+
+    //then
+ //   assertNotNull("Invoices should not be null", invoices);
+ //   assertEquals(1, invoices.size());
+ //   assertEquals(givenInvoice, invoices.get(0));
   }
 }

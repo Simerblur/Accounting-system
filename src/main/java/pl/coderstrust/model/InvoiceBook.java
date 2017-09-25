@@ -25,23 +25,23 @@ public class InvoiceBook {
    */
 
   public void addInvoice(Invoice invoice) {
-    generateInvoiceId(invoice);
-    generateInvoiceName(invoice);
+    invoice.setInvoiceId(generateInvoiceId(invoice));
+    invoice.setName(generateInvoiceName(invoice));
     database.saveInvoice(invoice);
   }
 
-  private void generateInvoiceId(Invoice updatedInvoice) {
+  private int generateInvoiceId(Invoice updatedInvoice) {
     int newId;
     if (getInvoices().size() == 0) {
       newId = 1;
     } else {
       newId = getInvoices().get(getInvoices().size() - 1).getInvoiceId() + 1;
     }
-    updatedInvoice.setInvoiceId(newId);
+    return newId;
   }
 
-  private void generateInvoiceName(Invoice invoiceToRename) {
-    String newName;
+  private String generateInvoiceName(Invoice invoiceToRename) {
+    String newName = invoiceToRename.getName();
     String previousName;
     int current = 1;
     int currentIssueMonth = invoiceToRename.getIssueDate().getMonthValue();
@@ -54,21 +54,25 @@ public class InvoiceBook {
       if (currentIssueMonth != previousIssueMonth) {
         newName =
             current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
-        invoiceToRename.setName(newName);
+ //       invoiceToRename.setName(newName);
       } else {
         Matcher matcher = Pattern.compile("[^0-9]*([0-9]+).*").matcher(previousName);
         if (matcher.matches()) {
           current = current + Integer.valueOf(matcher.group(1));
           newName =
               current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
-          invoiceToRename.setName(newName);
+ //         invoiceToRename.setName(newName);
+        } else {
+          newName =
+              current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
         }
       }
     } else {
       newName =
           current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
-      invoiceToRename.setName(newName);
+ //     invoiceToRename.setName(newName);
     }
+    return newName;
   }
 
   public List<Invoice> getInvoicesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
