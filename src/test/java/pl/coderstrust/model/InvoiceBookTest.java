@@ -14,6 +14,7 @@ import pl.coderstrust.database.Database;
 import pl.coderstrust.database.file.InFileDatabase;
 import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.model.counterparts.Counterparts;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -47,7 +48,7 @@ public class InvoiceBookTest {
     entries.add(invoiceEntry1);
     entries.add(invoiceEntry2);
     entries.add(invoiceEntry3);
-    givenInvoice = new Invoice(1, "First Inv", entries);
+    givenInvoice = new Invoice(new Counterparts(), "First Inv", entries);
   }
 
   /**
@@ -145,21 +146,21 @@ public class InvoiceBookTest {
     System.out.println(ib.getInvoices().size());
     System.out.println(converter.convertToJsonString(ib.getInvoices().get(2)));
     System.out.println(converter.convertToJsonString(ib.getInvoices().get(0)));
-    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
 
     System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
 
     System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
 
     System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
 
     System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(555, "TestOnNewInvoice", new ArrayList<>()));
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
     System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(555, "TestOnNewSecondInvoice", new ArrayList<>()));
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewSecondInvoice", new ArrayList<>()));
     System.out.println(ib.getInvoices().size());
 
     System.out.println("tessss" + ib.getInvoices().get(0).getInvoiceId());

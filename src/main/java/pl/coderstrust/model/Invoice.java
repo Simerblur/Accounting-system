@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import pl.coderstrust.fileprocessor.JsonDateDeserializer;
 import pl.coderstrust.fileprocessor.JsonDateSerializer;
+import pl.coderstrust.model.counterparts.Counterparts;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class Invoice {
   private int invoiceId;
   private String name;
   private String description;
+  private Counterparts counterparts;
   private List<InvoiceEntry> entries = new ArrayList<>();
   private Money netTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
   private Money grossTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
@@ -30,11 +32,12 @@ public class Invoice {
    * Test sample Javadoc.
    */
 
-  public Invoice(int invoiceId, String description, List<InvoiceEntry> entries) {
+  public Invoice(Counterparts counterparts, String description, List<InvoiceEntry> entries) {
     this.issueDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     this.name = "Default Name";
-    this.invoiceId = invoiceId;
+    this.invoiceId = 0;
     this.description = description;
+    this.counterparts = counterparts;
     this.entries = entries;
     this.netTotalAmount = calculateNetTotal(entries);
     this.grossTotalAmount = calculateGrossTotal(entries);
@@ -97,5 +100,9 @@ public class Invoice {
 
   public List<InvoiceEntry> getEntries() {
     return entries;
+  }
+
+  public Counterparts getCounterparts() {
+    return counterparts;
   }
 }
