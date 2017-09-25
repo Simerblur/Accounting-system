@@ -1,7 +1,10 @@
 package pl.coderstrust.model;
 
 import pl.coderstrust.database.Database;
+import pl.coderstrust.database.file.InFileDatabase;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,6 +69,27 @@ public class InvoiceBook {
       newName =
           current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
       invoiceToRename.setName(newName);
+    }
+  }
+
+  public List<Invoice> getInvoicesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+    List<Invoice> invoicesFromRange = getInvoices();
+    List<Invoice> resultList = new ArrayList<>();
+    for (Invoice iterator : invoicesFromRange) {
+      if (iterator.getIssueDate().isAfter(startDate) && iterator.getIssueDate().isBefore(endDate)) {
+        resultList.add(iterator);
+      }
+    }
+    return resultList;
+  }
+
+  public static void main(String[] args) {
+    Database database = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
+    InvoiceBook invoiceBook = new InvoiceBook(database);
+    List<Invoice> test = invoiceBook.getInvoicesByDateRange(LocalDateTime.of(2017,5,1,0,0,0),LocalDateTime.of(2017,9,30,0,0,0));
+    System.out.println(test.get(0).getInvoiceId());
+    for(Invoice iterator: test){
+      System.out.println(iterator.getInvoiceId() + " " + iterator.getIssueDate());
     }
   }
 }
