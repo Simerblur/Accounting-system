@@ -25,12 +25,12 @@ public class InvoiceBook {
    */
 
   public void addInvoice(Invoice invoice) {
-    invoice.setInvoiceId(generateInvoiceId(invoice));
+    invoice.setInvoiceId(generateInvoiceId());
     invoice.setName(generateInvoiceName(invoice));
     database.saveInvoice(invoice);
   }
 
-  private int generateInvoiceId(Invoice updatedInvoice) {
+  private int generateInvoiceId() {
     int newId;
     if (getInvoices().size() == 0) {
       newId = 1;
@@ -41,7 +41,7 @@ public class InvoiceBook {
   }
 
   private String generateInvoiceName(Invoice invoiceToRename) {
-    String newName = invoiceToRename.getName();
+    String newName;
     String previousName;
     int current = 1;
     int currentIssueMonth = invoiceToRename.getIssueDate().getMonthValue();
@@ -54,14 +54,12 @@ public class InvoiceBook {
       if (currentIssueMonth != previousIssueMonth) {
         newName =
             current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
- //       invoiceToRename.setName(newName);
       } else {
         Matcher matcher = Pattern.compile("[^0-9]*([0-9]+).*").matcher(previousName);
         if (matcher.matches()) {
           current = current + Integer.valueOf(matcher.group(1));
           newName =
               current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
- //         invoiceToRename.setName(newName);
         } else {
           newName =
               current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
@@ -70,10 +68,13 @@ public class InvoiceBook {
     } else {
       newName =
           current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
- //     invoiceToRename.setName(newName);
     }
     return newName;
   }
+
+  /**
+   * Returns invoices by the range of dates.
+   */
 
   public List<Invoice> getInvoicesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
     List<Invoice> invoicesFromRange = getInvoices();

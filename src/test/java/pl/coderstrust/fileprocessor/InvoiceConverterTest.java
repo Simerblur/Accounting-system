@@ -51,8 +51,7 @@ public class InvoiceConverterTest {
   @Test
   public void shouldConvertToJsonStringProvidedInvoice() {
     //given
-    String expectedString = "{\"invoiceId\":0,\"name\":\"Default Name\",\"description\":\"First Inv\",\"counterparts\":{\"buyer\":{\"name\":\"Kupiec Jas\",\"address1\":null,\"address2\":null,\"zip\":null,\"vatId\":\"PL12345678\",\"accountNumber\":null},\"seller\":{\"name\":\"Sprzedawca Jacek\",\"address1\":null,\"address2\":null,\"zip\":null,\"vatId\":\"PL999888777\",\"accountNumber\":null}},\"entries\":[{\"name\":\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\"netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":\"PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,\"currency\":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,\"currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount\":5.30,\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\"currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\"issueDate\":\"2017-08-22 23:59:01\"}";
-
+    String expectedString = "{\"invoiceId\":0,\"name\":\"7/9/2017\",\"description\":\"First Inv\",\"counterparts\":{\"buyer\":{\"name\":\"Kupiec Jas\",\"address1\":null,\"address2\":null,\"zip\":null,\"vatId\":\"PL12345678\",\"accountNumber\":null},\"seller\":{\"name\":\"Sprzedawca Jacek\",\"address1\":null,\"address2\":null,\"zip\":null,\"vatId\":\"PL999888777\",\"accountNumber\":null}},\"entries\":[{\"name\":\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\"netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":\"PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,\"currency\":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,\"currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount\":5.30,\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\"currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\"issueDate\":\"2017-08-22 23:59:01\"}";
     //when
     givenInvoice.setIssueDate(2017, 8, 22, 23, 59, 1);
     String givenString = invConverter.convertToJsonString(givenInvoice);
@@ -96,25 +95,12 @@ public class InvoiceConverterTest {
   public void shouldConvertProvidedJsonToInvoice() throws Exception {
     //given
     givenInvoice.setIssueDate(2017, 8, 22, 23, 59, 1);
-    String givenString = "{\"invoiceId\":0,\"name\":\"Default Name\",\"description\":\"First Inv"
-        + "\",\"counterparts\":{\"buyer\":null,\"seller\":null},\"entries\":[{\"name\":\"Opona\","
-        + "\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\"netValue\":{"
-        + "\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":14.44,"
-        + "\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":\"PLN\"}},{\"name"
-        + "\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,\"currency\":\"PLN\"},"
-        + "\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{"
-        + "\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,\"currency"
-        + "\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount\":5.30,"
-        + "\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},"
-        + "\"vatRate\":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue"
-        + "\":{\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,"
-        + "\"currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},"
-        + "\"issueDate\":\"2017-08-22 23:59:01\"}";
+    String givenString = "invoiceId=0, name='Wrong JSON provided', description='First Inv', counterparts=Counterparts{buyer=Buyer{name='Kupiec Jas', address1='null', address2='null', zip='null', vatId='PL12345678', accountNumber='null'}, seller=Seller{name='Sprzedawca Jacek', address1='null', address2='null', zip='null', vatId='PL999888777', accountNumber='null'}}, entries=[InvoiceEntry{name='Opona', quantity=4, netPrice=Money{amount=15.70, currency=PLN}, netValue=Money{amount=62.80, currency=PLN}, vatRate=23, vatValue=Money{amount=14.44, currency=PLN}, grossValue=Money{amount=77.24, currency=PLN}}, InvoiceEntry{name='Felga', quantity=4, netPrice=Money{amount=20.00, currency=PLN}, netValue=Money{amount=80.00, currency=PLN}, vatRate=23, vatValue=Money{amount=18.40, currency=PLN}, grossValue=Money{amount=98.40, currency=PLN}}, InvoiceEntry{name='Sruba', quantity=20, netPrice=Money{amount=5.30, currency=PLN}, netValue=Money{amount=106.00, currency=PLN}, vatRate=23, vatValue=Money{amount=24.38, currency=PLN}, grossValue=Money{amount=130.38, currency=PLN}}], netTotalAmount=Money{amount=248.80, currency=PLN}, grossTotalAmount=Money{amount=306.02, currency=PLN}, issueDate=2017-08-22T23:59:01}";
     //when
     Invoice expectedInvoice = invConverter.convertJsonToInvoice(givenString);
     //then
     System.out.println(invConverter.convertToJsonString(givenInvoice));
-    Assert.assertNotEquals(expectedInvoice, givenInvoice);
+    Assert.assertEquals(expectedInvoice, givenInvoice);
   }
 
   /**

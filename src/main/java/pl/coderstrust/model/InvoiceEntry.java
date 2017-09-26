@@ -60,4 +60,61 @@ public class InvoiceEntry {
   public Money getGrossValue() {
     return grossValue;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof InvoiceEntry)) {
+      return false;
+    }
+
+    InvoiceEntry that = (InvoiceEntry) o;
+
+    if (quantity != that.quantity) {
+      return false;
+    }
+    if (vatRate != that.vatRate) {
+      return false;
+    }
+    if (name != null ? !name.equals(that.name) : that.name != null) {
+      return false;
+    }
+    if (netPrice != null ? !netPrice.equals(that.netPrice) : that.netPrice != null) {
+      return false;
+    }
+    if (netValue != null ? !netValue.equals(that.netValue) : that.netValue != null) {
+      return false;
+    }
+    if (vatValue != null ? !vatValue.equals(that.vatValue) : that.vatValue != null) {
+      return false;
+    }
+    return grossValue != null ? grossValue.equals(that.grossValue) : that.grossValue == null;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = name != null ? name.hashCode() : 0;
+    result = 31 * result + quantity;
+    result = 31 * result + (netPrice != null ? netPrice.hashCode() : 0);
+    result = 31 * result + (netValue != null ? netValue.hashCode() : 0);
+    result = 31 * result + vatRate;
+    result = 31 * result + (vatValue != null ? vatValue.hashCode() : 0);
+    result = 31 * result + (grossValue != null ? grossValue.hashCode() : 0);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "InvoiceEntry{" +
+        "name='" + name + '\'' +
+        ", quantity=" + quantity +
+        ", netPrice=" + netPrice +
+        ", netValue=" + netValue +
+        ", vatRate=" + vatRate +
+        ", vatValue=" + vatValue +
+        ", grossValue=" + grossValue +
+        '}';
+  }
 }
