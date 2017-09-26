@@ -1,6 +1,6 @@
 package pl.coderstrust;
 
-import javax.websocket.server.PathParam;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +18,8 @@ import pl.coderstrust.model.counterparts.Counterparts;
 import pl.coderstrust.model.counterparts.Seller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -69,5 +69,35 @@ public class InvoiceBookController {
   public String postInvoice(@RequestBody Invoice jsonString) {
     ibFile.addInvoice(jsonString);
     return "Invoice added succesfully";
+  }
+
+  /**
+   * Removes the invoice with the provided ID from the Database.
+   */
+  @RequestMapping(value = "/system/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<?> deleteInvoice(@PathVariable Integer id) {
+    Iterator<Invoice> iterator = ibFile.getInvoices().iterator();
+    while (iterator.hasNext()) {
+      if (iterator.next().getInvoiceId() == id) {
+        iterator.remove();
+        return ResponseEntity.ok("Removed succes!");
+      }
+    }
+    return ResponseEntity.status(404).body("Invoice ID not found!");
+  }
+
+  /**
+   * Updates the invoice with the provided ID from the Database.
+   */
+  @RequestMapping(value = "/system/{id}", method = RequestMethod.PUT)
+  public ResponseEntity<?> updateInvoice(@PathVariable Integer id, @RequestBody Invoice invoice) {
+    List<Invoice> listToPut = ibFile.getInvoices();
+    for (Invoice inv : listToPut) {
+      if (inv.getInvoiceId() == id) {
+        inv.setContent(invoice.getContent)
+      }
+    }
+
+    return ResponseEntity.status(200).body("sucess");
   }
 }
