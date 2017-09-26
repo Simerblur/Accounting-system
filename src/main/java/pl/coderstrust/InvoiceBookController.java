@@ -35,7 +35,7 @@ public class InvoiceBookController {
    * Request all invoices from Database.
    */
 
-  @RequestMapping(value = "/system", method = RequestMethod.GET)
+  @RequestMapping(value = "/invoices", method = RequestMethod.GET)
   public List<Invoice> getAllInvoices(
       @RequestParam(value = "getall", defaultValue = "all", required = false) String requestAll) {
     if (requestAll.equals("all")) {
@@ -52,7 +52,7 @@ public class InvoiceBookController {
    * Request single invoice from Database by Inoivoce ID.
    */
 
-  @RequestMapping(value = "/system/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/invoices/{id}", method = RequestMethod.GET)
   public Invoice getSingleInvoice(@PathVariable int id) {
 
     return invoices
@@ -65,7 +65,7 @@ public class InvoiceBookController {
    * Post invoice to the Database.
    */
 
-  @RequestMapping(value = "/system", method = RequestMethod.POST)
+  @RequestMapping(value = "/invoices", method = RequestMethod.POST)
   public String postInvoice(@RequestBody Invoice jsonString) {
     ibFile.addInvoice(jsonString);
     return "Invoice added succesfully";
@@ -74,12 +74,14 @@ public class InvoiceBookController {
   /**
    * Removes the invoice with the provided ID from the Database.
    */
-  @RequestMapping(value = "/system/{id}", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/invoices/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<?> deleteInvoice(@PathVariable Integer id) {
-    Iterator<Invoice> iterator = ibFile.getInvoices().iterator();
+    List<Invoice> listToPut = ibFile.getInvoices();
+    Iterator<Invoice> iterator = listToPut.iterator();
     while (iterator.hasNext()) {
       if (iterator.next().getInvoiceId() == id) {
         iterator.remove();
+        //write list to put to the Db
         return ResponseEntity.ok("Removed succes!");
       }
     }
@@ -88,13 +90,14 @@ public class InvoiceBookController {
 
   /**
    * Updates the invoice with the provided ID from the Database.
+   * To be redone.
    */
-  @RequestMapping(value = "/system/{id}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/invoices/{id}", method = RequestMethod.PUT)
   public ResponseEntity<?> updateInvoice(@PathVariable Integer id, @RequestBody Invoice invoice) {
     List<Invoice> listToPut = ibFile.getInvoices();
     for (Invoice inv : listToPut) {
       if (inv.getInvoiceId() == id) {
-        inv.setContent(invoice.getContent)
+        inv = invoice;
       }
     }
 
