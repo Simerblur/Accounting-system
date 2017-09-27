@@ -1,6 +1,8 @@
 package pl.coderstrust;
 
 import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceBook;
 
@@ -18,16 +21,16 @@ import java.util.List;
 @RestController
 public class InvoiceBookController {
 
-  @Resource(name = "invoiceBook")
-  // private Database database; // = new InFileDatabase("src\\main\\resources\\InvoiceBook.txt");
-  private InvoiceBook invoiceBook;// = new InvoiceBook(database);
+  @Resource(name = "$(pl.coderstrust.database.memory)")
+  private Database database;
+  private InvoiceBook invoiceBook = new InvoiceBook(database);
 
 
-  InvoiceBookController() {
-  }
-
-/*  InvoiceBookController(InvoiceBook ib){
-
+  /* InvoiceBookController() {
+   }*/
+/*  @Autowired
+  InvoiceBookController(InvoiceBook ib) {
+    this.invoiceBook = ib;
   }*/
 
   /**
@@ -81,8 +84,7 @@ public class InvoiceBookController {
   }
 
   /**
-   * Updates the invoice with the provided ID from the Database.
-   * To be redone.
+   * Updates the invoice with the provided ID from the Database. To be redone.
    */
   @RequestMapping(value = "/invoices/{id}", method = RequestMethod.PUT)
   public ResponseEntity<?> updateInvoice(@PathVariable Integer id, @RequestBody Invoice invoice) {

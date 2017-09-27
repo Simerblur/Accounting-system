@@ -1,5 +1,6 @@
 package pl.coderstrust.database.file;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.FileProcessor;
@@ -8,6 +9,7 @@ import pl.coderstrust.model.Invoice;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class InFileDatabase implements Database {
