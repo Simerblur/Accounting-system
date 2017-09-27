@@ -76,8 +76,7 @@ public class InvoiceBookController {
    */
   @RequestMapping(value = "/invoices/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<?> deleteInvoice(@PathVariable Integer id) {
-    List<Invoice> listToPut = ibFile.getInvoices();
-    Iterator<Invoice> iterator = listToPut.iterator();
+    Iterator<Invoice> iterator = ibFile.getInvoices().iterator();
     while (iterator.hasNext()) {
       if (iterator.next().getInvoiceId() == id) {
         iterator.remove();
@@ -100,7 +99,6 @@ public class InvoiceBookController {
         inv = invoice;
       }
     }
-
-    return ResponseEntity.status(200).body("sucess");
+   return ResponseEntity.status(200).body("sucess");
   }
 }
