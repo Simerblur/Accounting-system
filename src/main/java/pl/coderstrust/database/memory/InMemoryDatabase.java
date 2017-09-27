@@ -1,5 +1,6 @@
 package pl.coderstrust.database.memory;
 
+import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.Invoice;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Service
 public class InMemoryDatabase implements Database {
 
   private List<Invoice> invoices = new ArrayList<>();

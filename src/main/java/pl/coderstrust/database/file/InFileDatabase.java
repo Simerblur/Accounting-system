@@ -1,14 +1,15 @@
 package pl.coderstrust.database.file;
 
+import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.FileProcessor;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.Invoice;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class InFileDatabase implements Database {
 
   private String filePath;

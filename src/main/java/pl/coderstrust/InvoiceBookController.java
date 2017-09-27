@@ -1,5 +1,6 @@
 package pl.coderstrust;
 
+import javax.annotation.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,17 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.coderstrust.database.Database;
-import pl.coderstrust.database.file.InFileDatabase;
-import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceBook;
-import pl.coderstrust.model.InvoiceEntry;
-import pl.coderstrust.model.counterparts.Buyer;
-import pl.coderstrust.model.counterparts.Counterparts;
-import pl.coderstrust.model.counterparts.Seller;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,11 +18,17 @@ import java.util.List;
 @RestController
 public class InvoiceBookController {
 
-  private Database fileDb = new InFileDatabase("src/main/resources/InvoiceBook.txt");
-  private Database memDb = new InMemoryDatabase();
-  private InvoiceBook ibFile = new InvoiceBook(fileDb);
-  private InvoiceBook ibMem = new InvoiceBook(memDb);
-  private List<Invoice> invoices = new ArrayList<>();
+  @Resource(name = "invoiceBook")
+  // private Database database; // = new InFileDatabase("src\\main\\resources\\InvoiceBook.txt");
+  private InvoiceBook invoiceBook;// = new InvoiceBook(database);
+
+
+  InvoiceBookController() {
+  }
+
+/*  InvoiceBookController(InvoiceBook ib){
+
+  }*/
 
   /**
    * Request all invoices from Database.
@@ -38,14 +37,7 @@ public class InvoiceBookController {
   @RequestMapping(value = "/invoices", method = RequestMethod.GET)
   public List<Invoice> getAllInvoices(
       @RequestParam(value = "getall", defaultValue = "all", required = false) String requestAll) {
-    if (requestAll.equals("all")) {
-      invoices = ibFile.getInvoices();
-    } else {
-      invoices.add(0, new Invoice(new Counterparts(new Buyer("Kupiec Jas", "PL12345678"),
-          new Seller("Sprzedawca Jacek", "PL999888777")), "Wrong request",
-          new ArrayList<InvoiceEntry>()));
-    }
-    return invoices;
+    return invoiceBook.getInvoices();
   }
 
   /**
@@ -55,7 +47,8 @@ public class InvoiceBookController {
   @RequestMapping(value = "/invoices/{id}", method = RequestMethod.GET)
   public Invoice getSingleInvoice(@PathVariable int id) {
 
-    return invoices
+    return invoiceBook
+        .getInvoices()
         .stream()
         .filter(invoice -> invoice.getInvoiceId() == id)
         .findFirst().get();
@@ -67,7 +60,7 @@ public class InvoiceBookController {
 
   @RequestMapping(value = "/invoices", method = RequestMethod.POST)
   public String postInvoice(@RequestBody Invoice jsonString) {
-    ibFile.addInvoice(jsonString);
+    invoiceBook.addInvoice(jsonString);
     return "Invoice added succesfully";
   }
 
@@ -76,7 +69,7 @@ public class InvoiceBookController {
    */
   @RequestMapping(value = "/invoices/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<?> deleteInvoice(@PathVariable Integer id) {
-    Iterator<Invoice> iterator = ibFile.getInvoices().iterator();
+    Iterator<Invoice> iterator = invoiceBook.getInvoices().iterator();
     while (iterator.hasNext()) {
       if (iterator.next().getInvoiceId() == id) {
         iterator.remove();
@@ -93,12 +86,12 @@ public class InvoiceBookController {
    */
   @RequestMapping(value = "/invoices/{id}", method = RequestMethod.PUT)
   public ResponseEntity<?> updateInvoice(@PathVariable Integer id, @RequestBody Invoice invoice) {
-    List<Invoice> listToPut = ibFile.getInvoices();
+    List<Invoice> listToPut = invoiceBook.getInvoices();
     for (Invoice inv : listToPut) {
       if (inv.getInvoiceId() == id) {
         inv = invoice;
       }
     }
-   return ResponseEntity.status(200).body("sucess");
+    return ResponseEntity.status(200).body("sucess");
   }
 }

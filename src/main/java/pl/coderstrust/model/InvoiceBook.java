@@ -1,5 +1,6 @@
 package pl.coderstrust.model;
 
+import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Service
 public class InvoiceBook {
 
   private final Database database;
