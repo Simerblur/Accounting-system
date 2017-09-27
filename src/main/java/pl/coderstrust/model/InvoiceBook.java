@@ -68,4 +68,9 @@ public class InvoiceBook {
       invoiceToRename.setName(newName);
     }
   }
+
+  public void removeInvoice(Invoice invoice) {
+
+  }
 }
+
