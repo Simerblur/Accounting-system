@@ -95,4 +95,9 @@ public class InvoiceBook {
     }
     return resultList;
   }
+
+  public void removeInvoice(Invoice invoice) {
+
+  }
 }
+
