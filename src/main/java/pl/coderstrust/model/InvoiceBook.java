@@ -4,6 +4,8 @@ import pl.coderstrust.database.Database;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,38 +47,49 @@ public class InvoiceBook {
     String previousName;
     int current = 1;
     int currentIssueMonth = invoiceToRename.getIssueDate().getMonthValue();
+    int currentIssueYear = invoiceToRename.getIssueDate().getYear();
     if (getInvoices().size() > 0) {
-      previousName = getInvoices().get(getInvoices().size() - 1).getName();
-      int previousIssueMonth = getInvoices().get(getInvoices().size() - 1).getIssueDate()
-          .getMonthValue();
-      currentIssueMonth = invoiceToRename.getIssueDate().getMonthValue();
-
-      if (currentIssueMonth != previousIssueMonth) {
-        newName =
-            current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
-        invoiceToRename.setName(newName);
-      } else {
+      int lastDayOfMonth = invoiceToRename.getIssueDate().getMonth().maxLength();
+      List<Invoice> currentMonthInvoices = getInvoicesByDateRange(
+          LocalDateTime.of(currentIssueYear, currentIssueMonth, 1, 0, 0, 0),
+          LocalDateTime.of(currentIssueYear, currentIssueMonth, lastDayOfMonth, 23, 59, 59));
+      List<String> currentMonthNames = new ArrayList<>();
+      for (Invoice invoice : currentMonthInvoices) {
+        currentMonthNames.add(invoice.getName());
+      }
+      Collections.sort(currentMonthNames);
+      if (currentMonthNames.size() > 0) {
+        previousName = currentMonthNames.get(currentMonthNames.size() - 1);
         Matcher matcher = Pattern.compile("[^0-9]*([0-9]+).*").matcher(previousName);
         if (matcher.matches()) {
           current = current + Integer.valueOf(matcher.group(1));
           newName =
               current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
-          invoiceToRename.setName(newName);
+        } else {
+          newName =
+              current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
         }
+      } else {
+        newName =
+            current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
       }
     } else {
       newName =
           current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
-      invoiceToRename.setName(newName);
     }
+    invoiceToRename.setName(newName);
   }
 
+  /**
+   * Returns ArrayList of invoices from the given time range inclusively.
+   */
   public List<Invoice> getInvoicesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
     List<Invoice> invoicesFromRange = getInvoices();
     List<Invoice> resultList = new ArrayList<>();
-    for (Invoice iterator : invoicesFromRange) {
-      if (iterator.getIssueDate().isAfter(startDate) && iterator.getIssueDate().isBefore(endDate)) {
-        resultList.add(iterator);
+    for (Invoice invoice : invoicesFromRange) {
+      if (invoice.getIssueDate().isAfter(startDate.minusSeconds(1))
+          && invoice.getIssueDate().isBefore(endDate.plusSeconds(1))) {
+        resultList.add(invoice);
       }
     }
     return resultList;

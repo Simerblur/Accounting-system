@@ -138,7 +138,7 @@ public class InvoiceConverterTest {
     //when
     Invoice testResultInvoice = invConverter.convertJsonToInvoice(givenString);
     //then
-    Assert.assertEquals("Wrong JSON provided", testResultInvoice.getDescription());
+    Assert.assertEquals(null, testResultInvoice.getDescription());
   }
 
   /**
@@ -152,6 +152,6 @@ public class InvoiceConverterTest {
     //when
     Invoice testResultInvoice = invConverter.convertJsonToInvoice(givenString);
     //then
-    Assert.assertEquals("Wrong JSON provided", testResultInvoice.getDescription());
+    Assert.assertEquals(null, testResultInvoice.getDescription());
   }
 }

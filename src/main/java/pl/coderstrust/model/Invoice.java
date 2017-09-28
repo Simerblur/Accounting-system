@@ -2,8 +2,6 @@ package pl.coderstrust.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import pl.coderstrust.fileprocessor.JsonDateDeserializer;
-import pl.coderstrust.fileprocessor.JsonDateSerializer;
 import pl.coderstrust.model.counterparts.Counterparts;
 
 import java.math.BigDecimal;
@@ -21,8 +19,6 @@ public class Invoice {
   private List<InvoiceEntry> entries = new ArrayList<>();
   private Money netTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
   private Money grossTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
-  @JsonDeserialize(using = JsonDateDeserializer.class)
-  @JsonSerialize(using = JsonDateSerializer.class)
   private LocalDateTime issueDate;
 
   public Invoice() {

@@ -16,6 +16,7 @@ import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.counterparts.Counterparts;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -170,16 +171,36 @@ public class InvoiceBookTest {
     }
   }
 
+  /**
+   * Test sample Javadoc.
+   */
   @Test
   public void shouldIfReturnInvoicesFromRange() {
 
     Database database = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
     InvoiceBook invoiceBook = new InvoiceBook(database);
-    List<Invoice> test = invoiceBook.getInvoicesByDateRange(LocalDateTime.of(2017, 5, 1, 0, 0, 0),
-        LocalDateTime.of(2017, 9, 30, 0, 0, 0));
+    List<Invoice> test = invoiceBook
+        .getInvoicesByDateRange(LocalDateTime.of(2017, 5, 25, 11, 9, 36),
+            LocalDateTime.of(2017, 8, 25, 11, 9, 37));
     System.out.println(test.get(0).getInvoiceId());
     for (Invoice iterator : test) {
       System.out.println(iterator.getInvoiceId() + " " + iterator.getIssueDate());
     }
+  }
+
+  /**
+   * Should add new invoice.
+   */
+  @Test
+  public void shouldAddInvoice() {
+    //given
+    db = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    InvoiceBook invoiceBook = new InvoiceBook(db);
+    //when
+    invoiceBook.addInvoice(givenInvoice);
+
+    //then
+    Assert.assertNotNull(db);
+    System.out.println(givenInvoice.toString());
   }
 }
