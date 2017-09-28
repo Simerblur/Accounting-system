@@ -11,17 +11,18 @@ import pl.coderstrust.model.InvoiceBook;
 @Configuration
 public class AppConfig {
 
- /* @Bean
+/*  @Bean
   public InvoiceBook invoiceBook() {
     return new InvoiceBook(inMemoryDatabase());
-  }
+  }*/
 
-  // @Primary
+  @Primary
   @Bean
   public Database inMemoryDatabase() {
     return new InMemoryDatabase();
   }
 
+  //@Primary
   @Bean
   public Database inFIleDatabase() {
     return new InFileDatabase(dbPath());
@@ -30,5 +31,5 @@ public class AppConfig {
   @Bean
   public String dbPath() {
     return "src\\main\\resources\\InvoiceBook.txt";
-  }*/
+  }
 }

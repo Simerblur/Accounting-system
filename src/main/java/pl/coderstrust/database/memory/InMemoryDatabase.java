@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Service
+//@Service
 public class InMemoryDatabase implements Database {
 
   private List<Invoice> invoices = new ArrayList<>();
