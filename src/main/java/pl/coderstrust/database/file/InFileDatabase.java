@@ -1,5 +1,7 @@
 package pl.coderstrust.database.file;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -11,18 +13,15 @@ import pl.coderstrust.model.Invoice;
 import java.util.ArrayList;
 import java.util.List;
 
-
-//@Service
+@Service
+@ConditionalOnProperty(name = "pl.coderstrust.database", havingValue = "inFileDatabase")
 public class InFileDatabase implements Database {
 
+  @Value("${file.path}")
   private String filePath;
   private List<Invoice> invoices = new ArrayList<>();
   private InvoiceConverter invConverter = new InvoiceConverter();
   private FileProcessor fp = new FileProcessor();
-
-  public InFileDatabase(String filePath) {
-    this.filePath = filePath;
-  }
 
   @Override
   public void saveInvoice(Invoice invoice) {

@@ -176,7 +176,7 @@ public class InvoiceBookTest {
     }
   }
 
-  @Test
+ /* @Test
   public void shouldIfReturnInvoicesFromRange() {
 
     Database database = new InFileDatabase("src/main/resources/InvoiceBook.txt");
@@ -203,5 +203,5 @@ public class InvoiceBookTest {
  //   assertNotNull("Invoices should not be null", invoices);
  //   assertEquals(1, invoices.size());
  //   assertEquals(givenInvoice, invoices.get(0));
-  }
+  }*/
 }
