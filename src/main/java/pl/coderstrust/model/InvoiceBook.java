@@ -4,7 +4,6 @@ import pl.coderstrust.database.Database;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -34,10 +33,11 @@ public class InvoiceBook {
 
   private void generateInvoiceId(Invoice updatedInvoice) {
     int newId;
-    if (getInvoices().size() == 0) {
+    List<Invoice> listOfAllInvoices = getInvoices();
+    if (listOfAllInvoices.size() == 0) {
       newId = 1;
     } else {
-      newId = getInvoices().get(getInvoices().size() - 1).getInvoiceId() + 1;
+      newId = listOfAllInvoices.get(listOfAllInvoices.size() - 1).getInvoiceId() + 1;
     }
     updatedInvoice.setInvoiceId(newId);
   }
@@ -54,11 +54,11 @@ public class InvoiceBook {
           LocalDateTime.of(currentIssueYear, currentIssueMonth, 1, 0, 0, 0),
           LocalDateTime.of(currentIssueYear, currentIssueMonth, lastDayOfMonth, 23, 59, 59));
       List<String> currentMonthNames = new ArrayList<>();
-      for (Invoice invoice : currentMonthInvoices) {
-        currentMonthNames.add(invoice.getName());
-      }
-      Collections.sort(currentMonthNames);
-      if (currentMonthNames.size() > 0) {
+      if (currentMonthInvoices.size() > 0) {
+        for (Invoice invoice : currentMonthInvoices) {
+          currentMonthNames.add(invoice.getName());
+        }
+        Collections.sort(currentMonthNames);
         previousName = currentMonthNames.get(currentMonthNames.size() - 1);
         Matcher matcher = Pattern.compile("[^0-9]*([0-9]+).*").matcher(previousName);
         if (matcher.matches()) {
@@ -84,12 +84,13 @@ public class InvoiceBook {
    * Returns ArrayList of invoices from the given time range inclusively.
    */
   public List<Invoice> getInvoicesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-    List<Invoice> invoicesFromRange = getInvoices();
     List<Invoice> resultList = new ArrayList<>();
-    for (Invoice invoice : invoicesFromRange) {
-      if (invoice.getIssueDate().isAfter(startDate.minusSeconds(1))
-          && invoice.getIssueDate().isBefore(endDate.plusSeconds(1))) {
-        resultList.add(invoice);
+    if (getInvoices().size() > 0) {
+      for (Invoice invoice : getInvoices()) {
+        if (invoice.getIssueDate().isAfter(startDate.minusSeconds(1))
+            && invoice.getIssueDate().isBefore(endDate.plusSeconds(1))) {
+          resultList.add(invoice);
+        }
       }
     }
     return resultList;

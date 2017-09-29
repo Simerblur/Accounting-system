@@ -22,7 +22,7 @@ public class Invoice {
   private LocalDateTime issueDate;
 
   public Invoice() {
-  } //used by JASON
+  } //used by JACKSON
 
   /**
    * Test sample Javadoc.

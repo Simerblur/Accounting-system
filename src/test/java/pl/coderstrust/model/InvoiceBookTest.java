@@ -14,7 +14,9 @@ import pl.coderstrust.database.Database;
 import pl.coderstrust.database.file.InFileDatabase;
 import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.Counterparts;
+import pl.coderstrust.model.counterparts.Seller;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -28,6 +30,8 @@ import java.util.List;
 public class InvoiceBookTest {
 
   private Invoice givenInvoice;
+  private Invoice givenInvoice2;
+  private Invoice givenInvoice3;
   private List<InvoiceEntry> entries = new ArrayList<>();
 
   @Mock
@@ -49,7 +53,16 @@ public class InvoiceBookTest {
     entries.add(invoiceEntry1);
     entries.add(invoiceEntry2);
     entries.add(invoiceEntry3);
-    givenInvoice = new Invoice(new Counterparts(), "First Inv", entries);
+    givenInvoice = new Invoice(
+        new Counterparts(new Buyer("Kasia", "PL12345678"), new Seller("Zosia", "PL9999999")),
+        "First Inv", entries);
+    givenInvoice2 = new Invoice(
+        new Counterparts(new Buyer("Gosia", "PL222333444"), new Seller("Jacek", "PL33333333")),
+        "Second Inv", entries);
+    givenInvoice3 = new Invoice(
+        new Counterparts(new Buyer("Ania", "PL1555677777"), new Seller("Wacek", "PL8888811111")),
+        "Third Inv", entries);
+
   }
 
   /**
@@ -194,13 +207,19 @@ public class InvoiceBookTest {
   @Test
   public void shouldAddInvoice() {
     //given
-    db = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    db = new InMemoryDatabase();
     InvoiceBook invoiceBook = new InvoiceBook(db);
     //when
     invoiceBook.addInvoice(givenInvoice);
+    invoiceBook.addInvoice(givenInvoice2);
+    invoiceBook.addInvoice(givenInvoice3);
+    List<Invoice> testedRange = invoiceBook
+        .getInvoicesByDateRange(LocalDateTime.of(2017, 9, 1, 0, 0, 0),
+            LocalDateTime.of(2017, 9, 30, 23, 59, 59));
+//then
+    Assert.assertEquals("1/9/2017",testedRange.get(0).getName());
+    Assert.assertEquals("2/9/2017",testedRange.get(1).getName());
+    Assert.assertEquals("3/9/2017",testedRange.get(2).getName());
 
-    //then
-    Assert.assertNotNull(db);
-    System.out.println(givenInvoice.toString());
   }
 }

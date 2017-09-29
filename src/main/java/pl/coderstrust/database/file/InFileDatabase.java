@@ -5,16 +5,14 @@ import pl.coderstrust.fileprocessor.FileProcessor;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.Invoice;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InFileDatabase implements Database {
 
-  private String filePath;
-  private List<Invoice> invoices = new ArrayList<>();
-  private InvoiceConverter invConverter = new InvoiceConverter();
-  private FileProcessor fp = new FileProcessor();
+  private final String filePath;
+  private final InvoiceConverter invConverter = new InvoiceConverter();
+  private final FileProcessor fileProcessor = new FileProcessor();
 
   public InFileDatabase(String filePath) {
     this.filePath = filePath;
@@ -22,17 +20,16 @@ public class InFileDatabase implements Database {
 
   @Override
   public void saveInvoice(Invoice invoice) {
-
-    fp.appendInvoiceToFile(invConverter.convertToJsonString(invoice), filePath);
+    fileProcessor.appendInvoiceToFile(invConverter.convertToJsonString(invoice), filePath);
   }
 
   @Override
   public List<Invoice> getInvoices() {
-
-    List<String> jsonStrings;
-    jsonStrings = fp.readInvoicesFromFile(filePath);
-    for (String iterator : jsonStrings) {
-      invoices.add(invConverter.convertJsonToInvoice(iterator));
+    List<String> stringsFromFile;
+    final List<Invoice> invoices = new ArrayList<>();
+    stringsFromFile = fileProcessor.readInvoicesFromFile(filePath);
+    for (String stringFromFile : stringsFromFile) {
+      invoices.add(invConverter.convertJsonToInvoice(stringFromFile));
     }
     return invoices;
   }

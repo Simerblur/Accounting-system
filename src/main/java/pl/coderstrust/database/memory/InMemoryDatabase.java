@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InMemoryDatabase implements Database {
 
-  private List<Invoice> invoices = new ArrayList<>();
+  private final List<Invoice> invoices = new ArrayList<>();
 
   @Override
   public void saveInvoice(Invoice invoice) {

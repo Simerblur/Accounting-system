@@ -13,7 +13,7 @@ public class InvoiceEntry {
   private Money grossValue;
 
   public InvoiceEntry() {
-  } //used by JASON
+  } //used by JACKSON
 
   /**
    * Test sample Javadoc.

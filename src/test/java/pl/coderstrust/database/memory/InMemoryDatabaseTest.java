@@ -20,7 +20,7 @@ import java.util.List;
 
 public class InMemoryDatabaseTest extends AbstractDatabaseTest {
 
-  private Database memDb = new InMemoryDatabase();
+  private Database memoryDatabase = new InMemoryDatabase();
   private List<InvoiceEntry> entryList = new ArrayList<>();
   private Invoice invoice1;
   private Invoice invoice2;
@@ -51,42 +51,44 @@ public class InMemoryDatabaseTest extends AbstractDatabaseTest {
     entryList.add(invoiceEntry4);
     entryList.add(invoiceEntry5);
     entryList.add(invoiceEntry6);
-    invoice2 = new Invoice(new Counterparts(new Buyer("Super Kupiec", "PL12345678"), new Seller("Super Sprzedawca", "PL999888777")), "Second Inv", entryList);
+    invoice2 = new Invoice(new Counterparts(new Buyer("Super Kupiec", "PL12345678"),
+        new Seller("Super Sprzedawca", "PL999888777")), "Second Inv", entryList);
   }
 
   @Override
-  protected Database getDatabase() {
-    return memDb;
+  protected Database getFileDatabase() {
+    return memoryDatabase;
   }
 
   @Override
   public void shouldSaveInvoice() {
     //given
-    memDb = new InMemoryDatabase();
+    memoryDatabase = new InMemoryDatabase();
     //when
-    memDb.saveInvoice(invoice1);
-    memDb.saveInvoice(invoice2);
+    memoryDatabase.saveInvoice(invoice1);
+    memoryDatabase.saveInvoice(invoice2);
     InvoiceConverter converter = new InvoiceConverter();
     //then
-    Assert.assertNotNull(memDb);
+    Assert.assertNotNull(memoryDatabase);
     System.out.println(converter.convertToJsonString(invoice1));
     System.out.println(converter.convertToJsonString(invoice2));
     System.out.println(invoice1.getIssueDate());
-    Assert.assertEquals(0, memDb.getInvoices().get(0).getInvoiceId());
-    Assert.assertEquals("Second Inv", memDb.getInvoices().get(1).getDescription());
-    Assert.assertEquals("PL12345678", memDb.getInvoices().get(1).getCounterparts().getBuyer().getVatId());
+    Assert.assertEquals(0, memoryDatabase.getInvoices().get(0).getInvoiceId());
+    Assert.assertEquals("Second Inv", memoryDatabase.getInvoices().get(1).getDescription());
+    Assert.assertEquals("PL12345678",
+        memoryDatabase.getInvoices().get(1).getCounterparts().getBuyer().getVatId());
   }
 
   @Override
   public void shouldGetInvoices() {
     //given
-    memDb = new InMemoryDatabase();
-    memDb.saveInvoice(invoice1);
-    memDb.saveInvoice(invoice2);
+    memoryDatabase = new InMemoryDatabase();
+    memoryDatabase.saveInvoice(invoice1);
+    memoryDatabase.saveInvoice(invoice2);
     List<Invoice> givenList;
     List<Invoice> expectedList = new ArrayList<>(Arrays.asList(invoice1, invoice2));
     //when
-    givenList = getDatabase().getInvoices();
+    givenList = getFileDatabase().getInvoices();
     //then
     Assert.assertNotNull(givenList);
     Assert.assertEquals(expectedList.size(), givenList.size());

@@ -9,9 +9,8 @@ import java.util.Scanner;
 
 public class FileProcessor {
 
-  private List<String> readLinesFromFile = new ArrayList<>();
-
   private List<String> readLinesFromFile(String pathNameInput) {
+    List<String> readLinesFromFile;
     try {
       readLinesFromFile = new ArrayList<>();
       Scanner inLineScan = new Scanner(new File(pathNameInput));
@@ -27,8 +26,16 @@ public class FileProcessor {
     }
   }
 
+  /**
+   * Returns content of the provided file as a List of strings.
+   *
+   * @param pathNameInput specifies a path to the file.
+   * @return ArrayList of Strings.
+   */
+
   public List<String> readInvoicesFromFile(String pathNameInput) {
-    this.readLinesFromFile = readLinesFromFile(pathNameInput);
+    List<String> readLinesFromFile;
+    readLinesFromFile = readLinesFromFile(pathNameInput);
     return readLinesFromFile;
   }
 

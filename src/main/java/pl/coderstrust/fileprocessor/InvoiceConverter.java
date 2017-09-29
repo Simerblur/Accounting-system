@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class InvoiceConverter {
 
-  final ObjectMapper mapper = objectMapper();
+  private final ObjectMapper mapper = objectMapper();
 
   /**
    * Provides correctly configured ObjectMapper.

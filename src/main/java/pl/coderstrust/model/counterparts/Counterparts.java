@@ -5,7 +5,7 @@ public class Counterparts {
   private Seller seller;
 
   public Counterparts() {
-  } // used by JSON.
+  } // used by JACKSON.
 
   public Counterparts(Buyer buyer, Seller seller) {
     this.buyer = buyer;

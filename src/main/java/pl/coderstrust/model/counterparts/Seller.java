@@ -9,7 +9,7 @@ public class Seller {
   private String accountNumber;
 
   public Seller() {
-  } //used by Jason
+  } //used by JACKSON
 
   public Seller(String sellerName, String sellerVatId) {
     this.name = sellerName;

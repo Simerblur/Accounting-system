@@ -19,10 +19,9 @@ import java.util.List;
 
 public class InFileDatabaseTest extends AbstractDatabaseTest {
 
-  private Database db;
+  private Database fileDatabase;
   private Invoice givenInvoice;
   private List<InvoiceEntry> entries = new ArrayList<>();
-
 
   /**
    * Test sample Javadoc.
@@ -43,8 +42,8 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   }
 
   @Override
-  protected Database getDatabase() {
-    return db;
+  protected Database getFileDatabase() {
+    return fileDatabase;
   }
 
   /**
@@ -55,14 +54,14 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   public void shouldSaveInvoice() {
     //given
     File beforeTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
-    db = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    fileDatabase = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
     Long lengthBeforeTest = beforeTest.length();
     //when
-    db.saveInvoice(givenInvoice);
+    fileDatabase.saveInvoice(givenInvoice);
     File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
     Long lengthAfterTest = afetrTest.length();
     //then
-    Assert.assertNotNull(db);
+    Assert.assertNotNull(fileDatabase);
     Assert.assertNotEquals(lengthBeforeTest, lengthAfterTest);
   }
 
@@ -73,11 +72,12 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   @Override
   public void shouldGetInvoices() {
     //given
-    db = new InFileDatabase("src/test/resources/pl.coderstrust/InvoiceBook.txt");
-    List<Invoice> givenList = db.getInvoices();
+    fileDatabase = new InFileDatabase("src/test/resources/pl.coderstrust/InvoiceBook.txt");
+    List<Invoice> givenList = fileDatabase.getInvoices();
     //then
     Assert.assertNotNull(givenList);
-    Assert.assertEquals("First Inv", db.getInvoices().get(0).getDescription());
-    Assert.assertEquals("2017-08-22T23:59:01", db.getInvoices().get(0).getIssueDate().toString());
+    Assert.assertEquals("First Inv", fileDatabase.getInvoices().get(0).getDescription());
+    Assert.assertEquals("2017-08-22T23:59:01",
+        fileDatabase.getInvoices().get(0).getIssueDate().toString());
   }
 }
