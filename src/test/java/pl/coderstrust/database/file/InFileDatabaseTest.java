@@ -21,7 +21,6 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
 
   private Database fileDatabase;
   private Invoice givenInvoice;
-  private List<InvoiceEntry> entries = new ArrayList<>();
 
   /**
    * Test sample Javadoc.
@@ -35,10 +34,10 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
         new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
         new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
-    entries.add(invoiceEntry1);
-    entries.add(invoiceEntry2);
-    entries.add(invoiceEntry3);
-    givenInvoice = new Invoice(new Counterparts(new Buyer(), new Seller()), "First Inv", entries);
+    givenInvoice = new Invoice(new Counterparts(new Buyer(), new Seller()), "First Inv");
+    givenInvoice.addEntry(invoiceEntry1);
+    givenInvoice.addEntry(invoiceEntry2);
+    givenInvoice.addEntry(invoiceEntry3);
   }
 
   @Override

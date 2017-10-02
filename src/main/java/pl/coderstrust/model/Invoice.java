@@ -28,33 +28,48 @@ public class Invoice {
    * Test sample Javadoc.
    */
 
-  public Invoice(Counterparts counterparts, String description, List<InvoiceEntry> entries) {
+  public Invoice(Counterparts counterparts, String description) {
     this.issueDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     this.name = "Default Name";
     this.invoiceId = 0;
     this.description = description;
     this.counterparts = counterparts;
-    this.entries = entries;
     this.netTotalAmount = calculateNetTotal(entries);
     this.grossTotalAmount = calculateGrossTotal(entries);
   }
 
   private Money calculateNetTotal(List<InvoiceEntry> entries) {
     Money netTotal = new Money();
-    for (InvoiceEntry invoiceEntry : entries) {
-      netTotal = new Money((netTotal.getAmount().add(invoiceEntry.getNetValue()
-          .getAmount())), invoiceEntry.getNetValue().getCurrency());
+    if (entries != null) {
+      for (InvoiceEntry invoiceEntry : entries) {
+        if (invoiceEntry.getNetPrice() != null) {
+          netTotal = new Money((netTotal.getAmount().add(invoiceEntry.getNetValue()
+              .getAmount())), invoiceEntry.getNetValue().getCurrency());
+        } else {
+          return netTotal;
+        }
+      }
+      return netTotal;
+    } else {
+      return netTotal;
     }
-    return netTotal;
   }
 
   private Money calculateGrossTotal(List<InvoiceEntry> entries) {
     Money grossTotal = new Money();
-    for (InvoiceEntry invoiceEntry : entries) {
-      grossTotal = new Money((grossTotal.getAmount().add(invoiceEntry.getGrossValue()
-          .getAmount())), invoiceEntry.getGrossValue().getCurrency());
+    if (entries != null) {
+      for (InvoiceEntry invoiceEntry : entries) {
+        if (invoiceEntry.getNetPrice() != null) {
+          grossTotal = new Money((grossTotal.getAmount().add(invoiceEntry.getGrossValue()
+              .getAmount())), invoiceEntry.getGrossValue().getCurrency());
+        } else {
+          return grossTotal;
+        }
+      }
+      return grossTotal;
+    } else {
+      return grossTotal;
     }
-    return grossTotal;
   }
 
   public LocalDateTime getIssueDate() {
@@ -64,6 +79,30 @@ public class Invoice {
   public void setIssueDate(int year, int month, int day, int hour, int minute, int seconds) {
     this.issueDate = LocalDateTime.of(year, month, day, hour, minute, seconds)
         .truncatedTo(ChronoUnit.SECONDS);
+  }
+
+  /**
+   * Adds new invoice entry at the end of the list and recalculates Invoice net total amount, and
+   * gross total amount.
+   */
+  public void addEntry(InvoiceEntry invoiceEntry) {
+    invoiceEntry.setEntryId(entries.size() + 1);
+    this.entries.add(invoiceEntry);
+    this.netTotalAmount = calculateNetTotal(entries);
+    this.grossTotalAmount = calculateGrossTotal(entries);
+  }
+
+  /**
+   * Removes an existing invoice entry by entryId and recalculates Invoice net total amount, and
+   * gross total amount.
+   */
+  public void removeEntry(int entryId) {
+    this.entries.remove(entryId - 1);
+    for (int i = 0; i < entries.size(); i++) {
+      entries.get(i).setEntryId(i + 1);
+    }
+    this.netTotalAmount = calculateNetTotal(entries);
+    this.grossTotalAmount = calculateGrossTotal(entries);
   }
 
   public int getInvoiceId() {
