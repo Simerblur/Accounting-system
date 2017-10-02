@@ -96,8 +96,8 @@ public class InvoiceBook {
     return resultList;
   }
 
-  public void removeInvoice(Invoice invoice) {
-
+  public void removeInvoice(int invoiceId) {
+    database.removeInvoice(invoiceId);
   }
 }
 
