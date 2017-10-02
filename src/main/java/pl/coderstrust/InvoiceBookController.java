@@ -1,5 +1,6 @@
 package pl.coderstrust;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,14 +19,10 @@ import java.util.List;
 @RestController
 public class InvoiceBookController {
 
-  //@Resource(name = "${pl.coderstrust.database.memory}")
   private Database database;
   private InvoiceBook invoiceBook;
 
-/*  InvoiceBookController() {
-  }*/
-
-  // @Autowired
+  @Autowired
   InvoiceBookController(Database database) {
     this.invoiceBook = new InvoiceBook(database);
   }

@@ -2,7 +2,11 @@ package pl.coderstrust.database.file;
 
 import org.junit.Assert;
 import org.junit.Before;
-import pl.coderstrust.database.AbstractDatabaseTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
@@ -17,9 +21,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InFileDatabaseTest extends AbstractDatabaseTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class InFileDatabaseTest {
 
-  private Database db;
+  @Autowired
+  private Database database;
   private Invoice givenInvoice;
   private Invoice givenInvoice2;
   private List<InvoiceEntry> entries = new ArrayList<>();
@@ -46,43 +53,41 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
         new Seller("Sprzedawca Tomek", "PL333555888")), "Second Inv", entries);
   }
 
-  @Override
+
   protected Database getDatabase() {
-    return db;
+    return database;
   }
 
   /**
    * Test sample Javadoc.
    */
 
-  @Override
+  @Test
   public void shouldSaveInvoice() {
     //given
     File beforeTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
-    db = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
-    Long lengthBeforeTest = beforeTest.length();
     //when
-    db.saveInvoice(givenInvoice);
-    db.saveInvoice(givenInvoice2);
+    database.saveInvoice(givenInvoice);
+    database.saveInvoice(givenInvoice2);
     File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
-    Long lengthAfterTest = afetrTest.length();
     //then
-    Assert.assertNotNull(db);
-    Assert.assertNotEquals(lengthBeforeTest, lengthAfterTest);
+    Assert.assertNotNull(database);
+    Assert.assertEquals(beforeTest, afetrTest);
   }
+
 
   /**
    * Test sample Javadoc.
    */
 
-  @Override
+  @Test
   public void shouldGetInvoices() {
     //given
-    db = new InFileDatabase("src/test/resources/pl.coderstrust/InvoiceBook.txt");
-    List<Invoice> givenList = db.getInvoices();
+    List<Invoice> givenList = database.getInvoices();
     //then
     Assert.assertNotNull(givenList);
-    Assert.assertEquals("First Inv", db.getInvoices().get(0).getDescription());
-    Assert.assertEquals("2017-08-22T23:59:01", db.getInvoices().get(0).getIssueDate().toString());
+    Assert.assertEquals("First Inv", database.getInvoices().get(0).getDescription());
+    Assert.assertEquals("2017-08-25T11:09:36",
+        database.getInvoices().get(0).getIssueDate().toString());
   }
 }

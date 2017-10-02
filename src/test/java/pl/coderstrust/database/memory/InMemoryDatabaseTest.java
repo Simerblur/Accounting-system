@@ -2,7 +2,7 @@ package pl.coderstrust.database.memory;
 
 import org.junit.Assert;
 import org.junit.Before;
-import pl.coderstrust.database.AbstractDatabaseTest;
+import org.junit.Test;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.Currency;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InMemoryDatabaseTest extends AbstractDatabaseTest {
+public class InMemoryDatabaseTest {
 
   private Database memDb = new InMemoryDatabase();
   private List<InvoiceEntry> entryList = new ArrayList<>();
@@ -54,12 +54,12 @@ public class InMemoryDatabaseTest extends AbstractDatabaseTest {
     invoice2 = new Invoice(new Counterparts(new Buyer("Super Kupiec", "PL12345678"), new Seller("Super Sprzedawca", "PL999888777")), "Second Inv", entryList);
   }
 
-  @Override
+
   protected Database getDatabase() {
     return memDb;
   }
 
-  @Override
+  @Test
   public void shouldSaveInvoice() {
     //given
     memDb = new InMemoryDatabase();
@@ -77,7 +77,7 @@ public class InMemoryDatabaseTest extends AbstractDatabaseTest {
     Assert.assertEquals("PL12345678", memDb.getInvoices().get(1).getCounterparts().getBuyer().getVatId());
   }
 
-  @Override
+  @Test
   public void shouldGetInvoices() {
     //given
     memDb = new InMemoryDatabase();
