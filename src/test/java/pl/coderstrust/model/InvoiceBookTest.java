@@ -18,7 +18,6 @@ import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.Counterparts;
 import pl.coderstrust.model.counterparts.Seller;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -214,12 +213,58 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
     List<Invoice> testedRange = invoiceBook
-        .getInvoicesByDateRange(LocalDateTime.of(2017, 9, 1, 0, 0, 0),
-            LocalDateTime.of(2017, 9, 30, 23, 59, 59));
-//then
-    Assert.assertEquals("1/9/2017",testedRange.get(0).getName());
-    Assert.assertEquals("2/9/2017",testedRange.get(1).getName());
-    Assert.assertEquals("3/9/2017",testedRange.get(2).getName());
+        .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
+            LocalDateTime.of(2017, 10, 30, 23, 59, 59));
+    //then
+    Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
+    Assert.assertEquals("2/10/2017", testedRange.get(1).getName());
+    Assert.assertEquals("3/10/2017", testedRange.get(2).getName());
 
+  }
+
+  /**
+   * Should add new invoice.
+   */
+  @Test
+  public void shouldRemoveInvoice() {
+    //given
+    db = new InMemoryDatabase();
+    InvoiceBook invoiceBook = new InvoiceBook(db);
+    //when
+    invoiceBook.addInvoice(givenInvoice);
+    invoiceBook.addInvoice(givenInvoice2);
+    invoiceBook.addInvoice(givenInvoice3);
+    //then
+    invoiceBook.removeInvoice(2);
+    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add", entries));
+    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add2", entries));
+    invoiceBook.removeInvoice(2);
+    List<Invoice> testedRange = invoiceBook
+        .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
+            LocalDateTime.of(2017, 10, 30, 23, 59, 59));
+    for (Invoice invoice : testedRange) {
+      System.out.println(invoice.getInvoiceId());
+    }
+  }
+  @Test
+  public void shouldRemoveInvoiceFromFile() {
+    //given
+    db = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutputIB.txt");
+    InvoiceBook invoiceBook = new InvoiceBook(db);
+    //when
+    invoiceBook.addInvoice(givenInvoice);
+    invoiceBook.addInvoice(givenInvoice2);
+    invoiceBook.addInvoice(givenInvoice3);
+    //then
+    invoiceBook.removeInvoice(2);
+    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add", entries));
+    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add2", entries));
+    invoiceBook.removeInvoice(2);
+    List<Invoice> testedRange = invoiceBook
+        .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
+            LocalDateTime.of(2017, 10, 30, 23, 59, 59));
+    for (Invoice invoice : testedRange) {
+      System.out.println(invoice.getInvoiceId());
+    }
   }
 }
