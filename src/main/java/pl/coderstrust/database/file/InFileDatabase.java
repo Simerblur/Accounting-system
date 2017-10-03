@@ -48,20 +48,22 @@ public class InFileDatabase implements Database {
         }
       }
       allInvoices.remove(index);
-      writeAllListofInvoicesToTheFile(allInvoices);
+      writeListToTheFile(allInvoices);
     } catch (ArrayIndexOutOfBoundsException e) {
       System.out.println("Invoice not found!");
     }
   }
 
-  private void writeAllListofInvoicesToTheFile(List<Invoice> updatedList) {
-    for (Invoice invoice : updatedList) {
-      fileProcessor.appendInvoiceToFile(invConverter.convertToJsonString(invoice), tempFilePath);
-    }
+  private void writeListToTheFile(List<Invoice> updatedList) {
 
     File beforeDeletion = new File(filePath);
     File newTempFile = new File(tempFilePath);
-    newTempFile.renameTo(beforeDeletion);
-
+    newTempFile.deleteOnExit();
+    for (Invoice invoice : updatedList) {
+      fileProcessor.appendInvoiceToFile(invConverter.convertToJsonString(invoice), tempFilePath);
+    }
+    if (beforeDeletion.delete()) {
+      newTempFile.renameTo(beforeDeletion);
+    }
   }
 }
