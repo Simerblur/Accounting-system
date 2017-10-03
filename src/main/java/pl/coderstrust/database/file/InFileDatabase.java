@@ -45,6 +45,7 @@ public class InFileDatabase implements Database {
       for (Invoice invoice : allInvoices) {
         if (invoice.getInvoiceId() == invoiceId) {
           index = allInvoices.indexOf(invoice);
+          break;
         }
       }
       allInvoices.remove(index);
@@ -54,12 +55,12 @@ public class InFileDatabase implements Database {
     }
   }
 
-  private void writeListToTheFile(List<Invoice> updatedList) {
+  private void writeListToTheFile(List<Invoice> inputList) {
 
     File beforeDeletion = new File(filePath);
     File newTempFile = new File(tempFilePath);
-    newTempFile.deleteOnExit();
-    for (Invoice invoice : updatedList) {
+//    newTempFile.deleteOnExit();
+    for (Invoice invoice : inputList) {
       fileProcessor.appendInvoiceToFile(invConverter.convertToJsonString(invoice), tempFilePath);
     }
     if (beforeDeletion.delete()) {

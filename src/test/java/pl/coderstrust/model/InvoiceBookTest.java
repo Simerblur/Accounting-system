@@ -246,20 +246,21 @@ public class InvoiceBookTest {
       System.out.println(invoice.getInvoiceId());
     }
   }
+
   @Test
   public void shouldRemoveInvoiceFromFile() {
     //given
-    db = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutputIB.txt");
+    db = new InFileDatabase("src/test/resources/testFileOutputIB.txt");
     InvoiceBook invoiceBook = new InvoiceBook(db);
     //when
-    invoiceBook.addInvoice(givenInvoice);
+   /* invoiceBook.addInvoice(givenInvoice);
     invoiceBook.addInvoice(givenInvoice2);
-    invoiceBook.addInvoice(givenInvoice3);
+    invoiceBook.addInvoice(givenInvoice3);*/
     //then
-    invoiceBook.removeInvoice(2);
-    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add", entries));
+    invoiceBook.removeInvoice(22);
+ /*   invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add", entries));
     invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add2", entries));
-    invoiceBook.removeInvoice(2);
+ */   invoiceBook.removeInvoice(21);
     List<Invoice> testedRange = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
             LocalDateTime.of(2017, 10, 30, 23, 59, 59));
