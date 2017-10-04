@@ -38,20 +38,12 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
         new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
         new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
-    entries.add(invoiceEntry1);
-    entries.add(invoiceEntry2);
-    entries.add(invoiceEntry3);
-    givenInvoice = new Invoice(new Counterparts(new Buyer(), new Seller()), "First Inv", entries);
-    givenInvoice2 = new Invoice(
-        new Counterparts(new Buyer("Gosia", "PL222333444"), new Seller("Jacek", "PL33333333")),
-        "Second Inv", entries);
-    givenInvoice3 = new Invoice(
-        new Counterparts(new Buyer("Ania", "PL1555677777"), new Seller("Wacek", "PL8888811111")),
-        "Third Inv", entries);
-    invoice1 = new Invoice(new MyCompanySell(), new Buyer());
-    invoice1.addEntry(invoiceEntry1);
-    invoice1.addEntry(invoiceEntry2);
-    invoice1.addEntry(invoiceEntry3);
+
+    givenInvoice3 = new Invoice(new Seller(), new Buyer());
+    givenInvoice = new Invoice(new MyCompanySell(), new Buyer());
+    givenInvoice.addEntry(invoiceEntry1);
+    givenInvoice.addEntry(invoiceEntry2);
+    givenInvoice.addEntry(invoiceEntry3);
 
     final InvoiceEntry invoiceEntry4 = new InvoiceEntry("Telefon", 2,
         new Money(new BigDecimal(10).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
@@ -59,10 +51,10 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
         new Money(new BigDecimal(10).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry6 = new InvoiceEntry("Karta SIM", 20,
         new Money(new BigDecimal(1.1).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
-    invoice2 = new Invoice(new Seller(), new MyCompanyBuy());
-    invoice2.addEntry(invoiceEntry4);
-    invoice2.addEntry(invoiceEntry5);
-    invoice2.addEntry(invoiceEntry6);
+    givenInvoice2 = new Invoice(new Seller(), new MyCompanyBuy());
+    givenInvoice2.addEntry(invoiceEntry4);
+    givenInvoice2.addEntry(invoiceEntry5);
+    givenInvoice2.addEntry(invoiceEntry6);
   }
 
   @Override

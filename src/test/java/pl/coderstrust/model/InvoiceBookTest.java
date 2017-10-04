@@ -15,7 +15,6 @@ import pl.coderstrust.database.file.InFileDatabase;
 import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.counterparts.Buyer;
-import pl.coderstrust.model.counterparts.Counterparts;
 import pl.coderstrust.model.counterparts.Seller;
 
 import java.math.BigDecimal;
@@ -31,7 +30,7 @@ public class InvoiceBookTest {
   private Invoice givenInvoice;
   private Invoice givenInvoice2;
   private Invoice givenInvoice3;
-  private LocalDateTime now;
+
 
   @Mock
   private Database db;
@@ -42,7 +41,6 @@ public class InvoiceBookTest {
 
   @Before
   public void fillDb() {
-
     final InvoiceEntry invoiceEntry1 = new InvoiceEntry("Opona", 4,
         new Money(new BigDecimal(15.7).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry2 = new InvoiceEntry("Felga", 4,
@@ -59,12 +57,11 @@ public class InvoiceBookTest {
     givenInvoice2.addEntry(invoiceEntry1);
     givenInvoice2.addEntry(invoiceEntry2);
     givenInvoice2.addEntry(invoiceEntry3);
-    givenInvoice3 = new Invoice
-        (new Seller("Ania", "PL1555677777"), new Buyer("Wacek", "PL8888811111"));
+    givenInvoice3 = new Invoice(new Seller("Ania", "PL155567777"),
+        new Buyer("Wacek", "PL888811111"));
     givenInvoice3.addEntry(invoiceEntry1);
     givenInvoice3.addEntry(invoiceEntry2);
     givenInvoice3.addEntry(invoiceEntry3);
-
   }
 
   /**
@@ -196,19 +193,12 @@ public class InvoiceBookTest {
   @Test
   public void shouldAddInvoice() {
     //given
-    now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     db = new InMemoryDatabase();
     InvoiceBook invoiceBook = new InvoiceBook(db);
     //when
     invoiceBook.addInvoice(givenInvoice);
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
-    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add", entries));
-    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add2", entries));
-    List<Invoice> testedRange = invoiceBook
-        .getInvoicesByDateRange(LocalDateTime.of(now.getYear(), now.getMonth(), 1, 0, 0, 0),
-            LocalDateTime
-                .of(now.getYear(), now.getMonth(), now.getMonth().maxLength(), 23, 59, 59));
     givenInvoice2.addEntry(new InvoiceEntry("estowy wpis", 12,
         new Money(new BigDecimal(25.5).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23));
     for (InvoiceEntry invoiceEntry : givenInvoice2.getEntries()) {
@@ -217,6 +207,11 @@ public class InvoiceBookTest {
               .getAmount());
     }
     System.out.println("net total " + givenInvoice2.getNetTotalAmount().getAmount());
+    LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    List<Invoice> testedRange = invoiceBook
+        .getInvoicesByDateRange(LocalDateTime.of(now.getYear(), now.getMonth(), 1, 0, 0, 0),
+            LocalDateTime
+                .of(now.getYear(), now.getMonth(), now.getMonth().maxLength(), 23, 59, 59));
     //then
     Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
     Assert.assertEquals("2/10/2017", testedRange.get(1).getName());
@@ -242,8 +237,6 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice);
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
-    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add", entries));
-    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add2", entries));
     invoiceBook.removeInvoice(2);
     //then
     List<Invoice> testedRange = invoiceBook
