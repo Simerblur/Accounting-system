@@ -59,12 +59,12 @@ public class InFileDatabase implements Database {
 
     File beforeDeletion = new File(filePath);
     File newTempFile = new File(tempFilePath);
-//    newTempFile.deleteOnExit();
     for (Invoice invoice : inputList) {
       fileProcessor.appendInvoiceToFile(invConverter.convertToJsonString(invoice), tempFilePath);
     }
     if (beforeDeletion.delete()) {
       if (newTempFile.renameTo(beforeDeletion)) {
+        System.out.println("Invoice removed");
       } else {
         System.out.println("Invoice not found");
       }

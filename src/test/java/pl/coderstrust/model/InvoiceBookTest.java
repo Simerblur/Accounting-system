@@ -189,14 +189,15 @@ public class InvoiceBookTest {
   @Test
   public void shouldIfReturnInvoicesFromRange() {
 
-    Database database = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
+    Database database = new InFileDatabase("src/test/resources/testFileOutputIB.txt");
     InvoiceBook invoiceBook = new InvoiceBook(database);
     List<Invoice> test = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 5, 25, 11, 9, 36),
-            LocalDateTime.of(2017, 8, 25, 11, 9, 37));
+            LocalDateTime.of(2017, 11, 25, 11, 9, 37));
     System.out.println(test.get(0).getInvoiceId());
     for (Invoice iterator : test) {
-      System.out.println(iterator.getInvoiceId() + " " + iterator.getIssueDate());
+      System.out.println(
+          iterator.getInvoiceId() + " " + iterator.getIssueDate() + " " + iterator.getName());
     }
   }
 
@@ -212,13 +213,15 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice);
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
+    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add", entries));
+    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add2", entries));
     List<Invoice> testedRange = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
             LocalDateTime.of(2017, 10, 30, 23, 59, 59));
     //then
     Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
     Assert.assertEquals("2/10/2017", testedRange.get(1).getName());
-    Assert.assertEquals("3/10/2017", testedRange.get(2).getName());
+    Assert.assertEquals("5/10/2017", testedRange.get(4).getName());
 
   }
 
@@ -234,19 +237,24 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice);
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
-    //then
-    invoiceBook.removeInvoice(2);
     invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add", entries));
     invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add2", entries));
     invoiceBook.removeInvoice(2);
+    //then
     List<Invoice> testedRange = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
             LocalDateTime.of(2017, 10, 30, 23, 59, 59));
     for (Invoice invoice : testedRange) {
-      System.out.println(invoice.getInvoiceId());
+      System.out.println(invoice.getInvoiceId() + " " + invoice.getName());
+      Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
+      Assert.assertEquals("3/10/2017", testedRange.get(1).getName());
+      Assert.assertEquals("5/10/2017", testedRange.get(3).getName());
     }
   }
 
+  /**
+   * Should remove  invoice from file.
+   */
   @Test
   public void shouldRemoveInvoiceFromFile() {
     //given
@@ -257,8 +265,10 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
     //then
-    invoiceBook.removeInvoice(22);
+    invoiceBook.removeInvoice(28);
+    invoiceBook.removeInvoice(29);
 
+    Assert.assertEquals(20, invoiceBook.getInvoices().get(19).getInvoiceId());
   }
 }
 
