@@ -1,8 +1,7 @@
 package pl.coderstrust.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import pl.coderstrust.model.counterparts.Counterparts;
+import pl.coderstrust.model.counterparts.Buyer;
+import pl.coderstrust.model.counterparts.Seller;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,10 +11,11 @@ import java.util.List;
 
 public class Invoice {
 
+  private Buyer buyer;
+  private Seller seller;
   private int invoiceId;
   private String name;
   private String description;
-  private Counterparts counterparts;
   private List<InvoiceEntry> entries = new ArrayList<>();
   private Money netTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
   private Money grossTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
@@ -28,12 +28,13 @@ public class Invoice {
    * Test sample Javadoc.
    */
 
-  public Invoice(Counterparts counterparts, String description) {
+  public Invoice(Seller seller, Buyer buyer) {
     this.issueDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     this.name = "Default Name";
     this.invoiceId = 0;
-    this.description = description;
-    this.counterparts = counterparts;
+    this.description = "default description";
+    this.buyer = buyer;
+    this.seller = seller;
     this.netTotalAmount = calculateNetTotal(entries);
     this.grossTotalAmount = calculateGrossTotal(entries);
   }
@@ -107,6 +108,7 @@ public class Invoice {
 
   public int getInvoiceId() {
     return invoiceId;
+
   }
 
   public void setInvoiceId(int invoiceId) {
@@ -135,9 +137,5 @@ public class Invoice {
 
   public List<InvoiceEntry> getEntries() {
     return entries;
-  }
-
-  public Counterparts getCounterparts() {
-    return counterparts;
   }
 }

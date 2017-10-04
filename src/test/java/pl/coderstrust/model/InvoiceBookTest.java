@@ -15,14 +15,11 @@ import pl.coderstrust.database.file.InFileDatabase;
 import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.counterparts.Buyer;
-import pl.coderstrust.model.counterparts.Counterparts;
 import pl.coderstrust.model.counterparts.Seller;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,28 +41,24 @@ public class InvoiceBookTest {
 
   @Before
   public void fillDb() {
-
     final InvoiceEntry invoiceEntry1 = new InvoiceEntry("Opona", 4,
         new Money(new BigDecimal(15.7).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry2 = new InvoiceEntry("Felga", 4,
         new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
         new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
-    givenInvoice = new Invoice(
-        new Counterparts(new Buyer("Kasia", "PL12345678"), new Seller("Zosia", "PL9999999")),
-        "First Inv");
+    givenInvoice = new Invoice(new Seller("Kasia", "PL12345678"), new Buyer("Zosia", "PL9999999"));
     givenInvoice.addEntry(invoiceEntry1);
     givenInvoice.addEntry(invoiceEntry2);
     givenInvoice.addEntry(invoiceEntry3);
-    givenInvoice2 = new Invoice(
-        new Counterparts(new Buyer("Gosia", "PL222333444"), new Seller("Jacek", "PL33333333")),
-        "Second Inv");
+    //   givenInvoice.setCounterparts()
+    givenInvoice2 = new Invoice(new Seller("Gosia", "PL222333444"),
+        new Buyer("Jacek", "PL33333333"));
     givenInvoice2.addEntry(invoiceEntry1);
     givenInvoice2.addEntry(invoiceEntry2);
     givenInvoice2.addEntry(invoiceEntry3);
-    givenInvoice3 = new Invoice(
-        new Counterparts(new Buyer("Ania", "PL1555677777"), new Seller("Wacek", "PL8888811111")),
-        "Third Inv");
+    givenInvoice3 = new Invoice
+        (new Seller("Ania", "PL1555677777"), new Buyer("Wacek", "PL8888811111"));
     givenInvoice3.addEntry(invoiceEntry1);
     givenInvoice3.addEntry(invoiceEntry2);
     givenInvoice3.addEntry(invoiceEntry3);
@@ -230,8 +223,11 @@ public class InvoiceBookTest {
     givenInvoice2.addEntry(new InvoiceEntry("estowy wpis", 12,
         new Money(new BigDecimal(25.5).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23));
     for (InvoiceEntry invoiceEntry : givenInvoice2.getEntries()) {
-      System.out.println("entry = " + invoiceEntry.getEntryId());
+      System.out.println(
+          "entry = " + invoiceEntry.getEntryId() + " entry amount = " + invoiceEntry.getNetValue()
+              .getAmount());
     }
+    System.out.println("net total " + givenInvoice2.getNetTotalAmount().getAmount());
     //then
     Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
     Assert.assertEquals("2/10/2017", testedRange.get(1).getName());
@@ -241,5 +237,8 @@ public class InvoiceBookTest {
     Assert.assertEquals(3, testedRange.get(1).getEntries().get(2).getEntryId());
     System.out.println("after entry modification size = " + testedRange.get(1).getEntries().size());
     System.out.println("and last id = " + testedRange.get(1).getEntries().get(2).getEntryId());
+    System.out
+        .println("net total after operations = " + givenInvoice2.getNetTotalAmount().getAmount());
+    System.out.println(givenInvoice.getCounterparts().getBuyer().getName());
   }
 }

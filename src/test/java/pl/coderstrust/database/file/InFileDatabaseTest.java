@@ -9,12 +9,11 @@ import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
 import pl.coderstrust.model.counterparts.Buyer;
-import pl.coderstrust.model.counterparts.Counterparts;
+import pl.coderstrust.model.counterparts.MyCompanyBuy;
 import pl.coderstrust.model.counterparts.Seller;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 public class InFileDatabaseTest extends AbstractDatabaseTest {
@@ -38,6 +37,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     givenInvoice.addEntry(invoiceEntry1);
     givenInvoice.addEntry(invoiceEntry2);
     givenInvoice.addEntry(invoiceEntry3);
+    givenInvoice.setCounterparts(new Counterparts(new MyCompanyBuy(), new Seller()));
   }
 
   @Override

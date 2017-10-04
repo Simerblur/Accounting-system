@@ -10,7 +10,6 @@ import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
 import pl.coderstrust.model.counterparts.Buyer;
-import pl.coderstrust.model.counterparts.Counterparts;
 import pl.coderstrust.model.counterparts.Seller;
 
 import java.math.BigDecimal;
