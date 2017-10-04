@@ -11,14 +11,14 @@ import java.util.List;
 
 public class Invoice {
 
-  private Buyer buyer;
-  private Seller seller;
   private int invoiceId;
   private String name;
   private String description;
+  private Buyer buyer;
+  private Seller seller;
   private List<InvoiceEntry> entries = new ArrayList<>();
-  private Money netTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
-  private Money grossTotalAmount = new Money(BigDecimal.ZERO, Currency.PLN);
+  private Money netTotalAmount;
+  private Money grossTotalAmount;
   private LocalDateTime issueDate;
 
   public Invoice() {
@@ -35,8 +35,6 @@ public class Invoice {
     this.description = "default description";
     this.buyer = buyer;
     this.seller = seller;
-    this.netTotalAmount = calculateNetTotal(entries);
-    this.grossTotalAmount = calculateGrossTotal(entries);
   }
 
   private Money calculateNetTotal(List<InvoiceEntry> entries) {
@@ -89,8 +87,6 @@ public class Invoice {
   public void addEntry(InvoiceEntry invoiceEntry) {
     invoiceEntry.setEntryId(entries.size() + 1);
     this.entries.add(invoiceEntry);
-    this.netTotalAmount = calculateNetTotal(entries);
-    this.grossTotalAmount = calculateGrossTotal(entries);
   }
 
   /**
@@ -102,8 +98,6 @@ public class Invoice {
     for (int i = 0; i < entries.size(); i++) {
       entries.get(i).setEntryId(i + 1);
     }
-    this.netTotalAmount = calculateNetTotal(entries);
-    this.grossTotalAmount = calculateGrossTotal(entries);
   }
 
   public int getInvoiceId() {
@@ -128,14 +122,22 @@ public class Invoice {
   }
 
   public Money getNetTotalAmount() {
-    return netTotalAmount;
+    return calculateNetTotal(entries);
   }
 
   public Money getGrossTotalAmount() {
-    return grossTotalAmount;
+    return calculateGrossTotal(entries);
   }
 
   public List<InvoiceEntry> getEntries() {
     return entries;
+  }
+
+  public Buyer getBuyer() {
+    return buyer;
+  }
+
+  public Seller getSeller() {
+    return seller;
   }
 }

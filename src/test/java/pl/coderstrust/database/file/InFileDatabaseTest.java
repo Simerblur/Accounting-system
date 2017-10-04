@@ -10,6 +10,7 @@ import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
 import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.MyCompanyBuy;
+import pl.coderstrust.model.counterparts.MyCompanySell;
 import pl.coderstrust.model.counterparts.Seller;
 
 import java.io.File;
@@ -19,7 +20,8 @@ import java.util.List;
 public class InFileDatabaseTest extends AbstractDatabaseTest {
 
   private Database fileDatabase;
-  private Invoice givenInvoice;
+  private Invoice invoice1;
+  private Invoice invoice2;
 
   /**
    * Test sample Javadoc.
@@ -33,11 +35,21 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
         new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
         new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
-    givenInvoice = new Invoice(new Counterparts(new Buyer(), new Seller()), "First Inv");
-    givenInvoice.addEntry(invoiceEntry1);
-    givenInvoice.addEntry(invoiceEntry2);
-    givenInvoice.addEntry(invoiceEntry3);
-    givenInvoice.setCounterparts(new Counterparts(new MyCompanyBuy(), new Seller()));
+    invoice1 = new Invoice(new MyCompanySell(), new Buyer());
+    invoice1.addEntry(invoiceEntry1);
+    invoice1.addEntry(invoiceEntry2);
+    invoice1.addEntry(invoiceEntry3);
+
+    final InvoiceEntry invoiceEntry4 = new InvoiceEntry("Telefon", 2,
+        new Money(new BigDecimal(10).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    final InvoiceEntry invoiceEntry5 = new InvoiceEntry("Bateria", 2,
+        new Money(new BigDecimal(10).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    final InvoiceEntry invoiceEntry6 = new InvoiceEntry("Karta SIM", 20,
+        new Money(new BigDecimal(1.1).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    invoice2 = new Invoice(new Seller(), new MyCompanyBuy());
+    invoice2.addEntry(invoiceEntry4);
+    invoice2.addEntry(invoiceEntry5);
+    invoice2.addEntry(invoiceEntry6);
   }
 
   @Override
@@ -56,7 +68,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     fileDatabase = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
     Long lengthBeforeTest = beforeTest.length();
     //when
-    fileDatabase.saveInvoice(givenInvoice);
+    fileDatabase.saveInvoice(invoice1);
     File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
     Long lengthAfterTest = afetrTest.length();
     //then

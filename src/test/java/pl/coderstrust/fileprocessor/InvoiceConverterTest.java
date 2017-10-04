@@ -7,6 +7,8 @@ import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
+import pl.coderstrust.model.counterparts.Buyer;
+import pl.coderstrust.model.counterparts.Seller;
 
 import java.math.BigDecimal;
 
@@ -31,7 +33,7 @@ public class InvoiceConverterTest {
         new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
         new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
-    givenInvoice = new Invoice(new Counterparts(), "First Inv");
+    givenInvoice = new Invoice(new Seller(), new Buyer());
     givenInvoice.addEntry(invoiceEntry1);
     givenInvoice.addEntry(invoiceEntry2);
     givenInvoice.addEntry(invoiceEntry3);

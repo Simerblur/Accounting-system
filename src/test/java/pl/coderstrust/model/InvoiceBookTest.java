@@ -161,21 +161,6 @@ public class InvoiceBookTest {
     System.out.println(ib.getInvoices().size());
     System.out.println(converter.convertToJsonString(ib.getInvoices().get(2)));
     System.out.println(converter.convertToJsonString(ib.getInvoices().get(0)));
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice"));
-
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice"));
-
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice"));
-
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice"));
-
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice"));
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewSecondInvoice"));
     System.out.println(ib.getInvoices().size());
     System.out.println(ib.getInvoices().get(5).getEntries());
 
@@ -239,6 +224,5 @@ public class InvoiceBookTest {
     System.out.println("and last id = " + testedRange.get(1).getEntries().get(2).getEntryId());
     System.out
         .println("net total after operations = " + givenInvoice2.getNetTotalAmount().getAmount());
-    System.out.println(givenInvoice.getCounterparts().getBuyer().getName());
   }
 }
