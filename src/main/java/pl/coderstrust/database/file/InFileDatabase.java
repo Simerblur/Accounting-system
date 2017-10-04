@@ -64,7 +64,12 @@ public class InFileDatabase implements Database {
       fileProcessor.appendInvoiceToFile(invConverter.convertToJsonString(invoice), tempFilePath);
     }
     if (beforeDeletion.delete()) {
-      newTempFile.renameTo(beforeDeletion);
+      if (newTempFile.renameTo(beforeDeletion)) {
+        System.out.println("ok");
+
+      } else {
+        System.out.println("success");
+      }
     }
   }
 }
