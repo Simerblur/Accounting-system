@@ -20,4 +20,19 @@ public class InMemoryDatabase implements Database {
   public List<Invoice> getInvoices() {
     return Collections.unmodifiableList(invoices);
   }
+
+  @Override
+  public void removeInvoice(int invoiceId) {
+    int index = -1;
+    try {
+      for (Invoice invoice : invoices) {
+        if (invoice.getInvoiceId() == invoiceId) {
+          index = invoices.indexOf(invoice);
+        }
+      }
+      invoices.remove(index);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      System.out.println("Invoice not found!");
+    }
+  }
 }

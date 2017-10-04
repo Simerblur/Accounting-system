@@ -15,13 +15,16 @@ import pl.coderstrust.model.counterparts.Seller;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InFileDatabaseTest extends AbstractDatabaseTest {
 
   private Database fileDatabase;
-  private Invoice invoice1;
-  private Invoice invoice2;
+  private Invoice givenInvoice;
+  private Invoice givenInvoice2;
+  private Invoice givenInvoice3;
+  private List<InvoiceEntry> entries = new ArrayList<>();
 
   /**
    * Test sample Javadoc.
@@ -35,6 +38,16 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
         new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
         new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
+    entries.add(invoiceEntry1);
+    entries.add(invoiceEntry2);
+    entries.add(invoiceEntry3);
+    givenInvoice = new Invoice(new Counterparts(new Buyer(), new Seller()), "First Inv", entries);
+    givenInvoice2 = new Invoice(
+        new Counterparts(new Buyer("Gosia", "PL222333444"), new Seller("Jacek", "PL33333333")),
+        "Second Inv", entries);
+    givenInvoice3 = new Invoice(
+        new Counterparts(new Buyer("Ania", "PL1555677777"), new Seller("Wacek", "PL8888811111")),
+        "Third Inv", entries);
     invoice1 = new Invoice(new MyCompanySell(), new Buyer());
     invoice1.addEntry(invoiceEntry1);
     invoice1.addEntry(invoiceEntry2);
@@ -64,12 +77,13 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   @Override
   public void shouldSaveInvoice() {
     //given
-    File beforeTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
-    fileDatabase = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    File beforeTest = new File("src/test/resources/pl.coderstrust/testFileOutputIB.txt");
+    fileDatabase = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutputIB.txt");
     Long lengthBeforeTest = beforeTest.length();
     //when
-    fileDatabase.saveInvoice(invoice1);
-    File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    fileDatabase.saveInvoice(givenInvoice);
+    fileDatabase.saveInvoice(givenInvoice2);
+    File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutputIB.txt");
     Long lengthAfterTest = afetrTest.length();
     //then
     Assert.assertNotNull(fileDatabase);

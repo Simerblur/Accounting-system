@@ -44,7 +44,6 @@ public class InvoiceBook {
 
   private void generateInvoiceName(Invoice invoiceToRename) {
     String newName;
-    String previousName;
     int current = 1;
     int currentIssueMonth = invoiceToRename.getIssueDate().getMonthValue();
     int currentIssueYear = invoiceToRename.getIssueDate().getYear();
@@ -53,22 +52,18 @@ public class InvoiceBook {
       List<Invoice> currentMonthInvoices = getInvoicesByDateRange(
           LocalDateTime.of(currentIssueYear, currentIssueMonth, 1, 0, 0, 0),
           LocalDateTime.of(currentIssueYear, currentIssueMonth, lastDayOfMonth, 23, 59, 59));
-      List<String> currentMonthNames = new ArrayList<>();
       if (currentMonthInvoices.size() > 0) {
+        Pattern pattern = Pattern.compile("[^0-9]*([0-9]+).*");
         for (Invoice invoice : currentMonthInvoices) {
-          currentMonthNames.add(invoice.getName());
+          Matcher newMatcher = pattern.matcher(invoice.getName());
+          if (newMatcher.matches()) {
+            if (current <= Integer.valueOf(newMatcher.group(1))) {
+              current = Integer.valueOf(newMatcher.group(1));
+            }
+          }
         }
-        Collections.sort(currentMonthNames);
-        previousName = currentMonthNames.get(currentMonthNames.size() - 1);
-        Matcher matcher = Pattern.compile("[^0-9]*([0-9]+).*").matcher(previousName);
-        if (matcher.matches()) {
-          current = current + Integer.valueOf(matcher.group(1));
-          newName =
-              current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
-        } else {
-          newName =
-              current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
-        }
+        newName =
+            current + 1 + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
       } else {
         newName =
             current + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate().getYear();
@@ -95,4 +90,10 @@ public class InvoiceBook {
     }
     return resultList;
   }
+
+  public void removeInvoice(int invoiceId) {
+    database.removeInvoice(invoiceId);
+  }
 }
+
+
