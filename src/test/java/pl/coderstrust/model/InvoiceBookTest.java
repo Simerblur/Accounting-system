@@ -257,15 +257,8 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
     //then
-    invoiceBook.removeInvoice(24);
- /*   invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add", entries));
-    invoiceBook.addInvoice(new Invoice(new Counterparts(), "New test add2", entries));
- */ //  invoiceBook.removeInvoice(21);
-    List<Invoice> testedRange = invoiceBook
-        .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
-            LocalDateTime.of(2017, 10, 30, 23, 59, 59));
-    for (Invoice invoice : testedRange) {
-      System.out.println(invoice.getInvoiceId());
-    }
+    invoiceBook.removeInvoice(22);
+
   }
 }
+

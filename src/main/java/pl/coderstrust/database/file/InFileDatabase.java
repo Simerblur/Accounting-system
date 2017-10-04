@@ -65,10 +65,8 @@ public class InFileDatabase implements Database {
     }
     if (beforeDeletion.delete()) {
       if (newTempFile.renameTo(beforeDeletion)) {
-        System.out.println("ok");
-
       } else {
-        System.out.println("success");
+        System.out.println("Invoice not found");
       }
     }
   }

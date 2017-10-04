@@ -17,6 +17,7 @@ public class FileProcessor {
       while (inLineScan.hasNextLine()) {
         readLinesFromFile.add(inLineScan.nextLine());
       }
+      inLineScan.close();
       return readLinesFromFile;
     } catch (IOException e) {
       System.out.println(e.toString());
@@ -47,6 +48,7 @@ public class FileProcessor {
     try (FileWriter myFileWriter = new FileWriter(pathNameOutput, true)) {
       myFileWriter.write(inputString);
       myFileWriter.write(System.lineSeparator());
+      myFileWriter.close();
     } catch (IOException e) {
       System.out.println(e.toString());
     }
