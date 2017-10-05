@@ -18,7 +18,6 @@ import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.Counterparts;
 import pl.coderstrust.model.counterparts.Seller;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -215,11 +214,11 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice3);
     List<Invoice> testedRange = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 9, 1, 0, 0, 0),
-            LocalDateTime.of(2017, 9, 30, 23, 59, 59));
+            LocalDateTime.of(2017, 12, 30, 23, 59, 59));
 //then
-    Assert.assertEquals("1/9/2017",testedRange.get(0).getName());
-    Assert.assertEquals("2/9/2017",testedRange.get(1).getName());
-    Assert.assertEquals("3/9/2017",testedRange.get(2).getName());
+    Assert.assertEquals("1/10/2017",testedRange.get(0).getName());
+    Assert.assertEquals("2/10/2017",testedRange.get(1).getName());
+    Assert.assertEquals("3/10/2017",testedRange.get(2).getName());
 
   }
 }
