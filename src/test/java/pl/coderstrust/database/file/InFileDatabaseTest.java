@@ -68,7 +68,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   public void shouldSaveInvoice() {
     //given
     File beforeTest = new File("src/test/resources/testFileOutput.txt");
-    fileDatabase = new InFileDatabase("src/test/resources/testFileOutput.txt");
+    fileDatabase = new InFileDatabase(); //"src/test/resources/testFileOutput.txt"
     Long lengthBeforeTest = beforeTest.length();
     //when
     fileDatabase.saveInvoice(givenInvoice);
@@ -88,7 +88,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   @Override
   public void shouldGetInvoices() {
     //given
-    fileDatabase = new InFileDatabase("src/test/resources/testFileOutput.txt");
+    fileDatabase = new InFileDatabase(); //"src/test/resources/testFileOutput.txt"
     List<Invoice> givenList = fileDatabase.getInvoices();
     //then
     Assert.assertNotNull(givenList);

@@ -1,5 +1,8 @@
 package pl.coderstrust.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.annotations.ApiModelProperty;
 import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.Seller;
 
@@ -10,8 +13,10 @@ import java.util.List;
 
 public class Invoice {
 
+  //@ApiModelProperty(hidden = true) I
   private int invoiceId;
   private String name;
+  @ApiModelProperty(value = "Text annotation on the invoice in the separate field")
   private String description;
   private Buyer buyer;
   private Seller seller;

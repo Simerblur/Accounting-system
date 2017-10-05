@@ -1,5 +1,7 @@
 package pl.coderstrust;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,8 @@ import pl.coderstrust.model.InvoiceBook;
 import java.util.Iterator;
 import java.util.List;
 
-
+@Api(value = "/invoices", description = "API to controll invoices, read, add, delete,"
+    + " modify invoice in the InvoiceBook", consumes = "application/json")
 @RestController
 public class InvoiceBookController {
 
@@ -30,7 +33,9 @@ public class InvoiceBookController {
   /**
    * Request all invoices from Database.
    */
-
+  @ApiOperation(value = "Return all invoices, or single invoice by ID, optionally filtered"
+      + " by its fields", notes = "Multiple parameters can be provided",
+      response = Invoice.class, responseContainer = "List")
   @RequestMapping(value = "/invoices", method = RequestMethod.GET)
   public List<Invoice> getAllInvoices(
       @RequestParam(value = "getall", defaultValue = "all", required = false) String requestAll) {

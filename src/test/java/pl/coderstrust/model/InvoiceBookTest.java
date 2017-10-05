@@ -173,7 +173,7 @@ public class InvoiceBookTest {
   @Test
   public void shouldReturnInvoicesFromRange() {
 
-    Database database = new InFileDatabase("src/test/resources/testFileOutputIB.txt");
+    Database database = new InFileDatabase(); //"src/test/resources/testFileOutputIB.txt"
     InvoiceBook invoiceBook = new InvoiceBook(database);
     List<Invoice> test = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 9, 25, 11, 9, 36),
@@ -229,7 +229,7 @@ public class InvoiceBookTest {
   @Test
   public void shouldAddInvoiceToFile() {
     //given
-    db = new InFileDatabase("src/test/resources/testFileOutputIB.txt");
+    db = new InFileDatabase(); //"src/test/resources/testFileOutputIB.txt"
     InvoiceBook invoiceBook = new InvoiceBook(db);
     //when
     invoiceBook.addInvoice(givenInvoice);
@@ -286,7 +286,7 @@ public class InvoiceBookTest {
   @Test
   public void shouldRemoveInvoiceFromFile() {
     //given
-    db = new InFileDatabase("src/test/resources/testFileOutputIB.txt");
+    db = new InFileDatabase(); //"src/test/resources/testFileOutputIB.txt"
     InvoiceBook invoiceBook = new InvoiceBook(db);
     //when
     invoiceBook.addInvoice(givenInvoice);
