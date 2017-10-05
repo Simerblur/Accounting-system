@@ -2,7 +2,7 @@ package pl.coderstrust.database.memory;
 
 import org.junit.Assert;
 import org.junit.Before;
-import pl.coderstrust.database.AbstractDatabaseTest;
+import org.junit.Test;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.Currency;

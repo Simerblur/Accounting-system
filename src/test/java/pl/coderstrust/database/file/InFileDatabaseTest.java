@@ -2,7 +2,11 @@ package pl.coderstrust.database.file;
 
 import org.junit.Assert;
 import org.junit.Before;
-import pl.coderstrust.database.AbstractDatabaseTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
@@ -18,12 +22,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InFileDatabaseTest extends AbstractDatabaseTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class InFileDatabaseTest {
 
   private Database fileDatabase;
+  @Autowired
+  private Database database;
   private Invoice givenInvoice;
   private Invoice givenInvoice2;
   private Invoice givenInvoice3;
+  private Invoice givenInvoice2;
   private List<InvoiceEntry> entries = new ArrayList<>();
 
   /**
@@ -60,6 +69,9 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   @Override
   protected Database getFileDatabase() {
     return fileDatabase;
+
+  protected Database getDatabase() {
+    return database;
   }
 
   /**
@@ -81,6 +93,7 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     Assert.assertNotNull(fileDatabase);
     Assert.assertNotEquals(lengthBeforeTest, lengthAfterTest);
   }
+
 
   /**
    * Test sample Javadoc.

@@ -1,5 +1,6 @@
 package pl.coderstrust.model;
 
+import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Service
 public class InvoiceBook {
 
   private final Database database;
@@ -74,6 +76,10 @@ public class InvoiceBook {
     }
     invoiceToRename.setName(newName);
   }
+
+  /**
+   * Returns invoices by the range of dates.
+   */
 
   /**
    * Returns ArrayList of invoices from the given time range inclusively.

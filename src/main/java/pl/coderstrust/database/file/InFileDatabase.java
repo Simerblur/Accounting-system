@@ -1,5 +1,10 @@
 package pl.coderstrust.database.file;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.FileProcessor;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
@@ -9,12 +14,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
+@ConditionalOnProperty(name = "pl.coderstrust.database", havingValue = "inFileDatabase")
 public class InFileDatabase implements Database {
 
   private final String filePath;
   private final String tempFilePath;
   private final InvoiceConverter invConverter = new InvoiceConverter();
   private final FileProcessor fileProcessor = new FileProcessor();
+  @Value("${file.path}")
+  private String filePath;
+  private List<Invoice> invoices = new ArrayList<>();
+  private InvoiceConverter invConverter = new InvoiceConverter();
+  private FileProcessor fp = new FileProcessor();
 
   public InFileDatabase(String filePath) {
     this.filePath = filePath;
@@ -24,6 +36,12 @@ public class InFileDatabase implements Database {
   @Override
   public void saveInvoice(Invoice invoice) {
     fileProcessor.appendInvoiceToFile(invConverter.convertToJsonString(invoice), filePath);
+  }
+
+  @Override
+  public void saveInvoice(String jsonString) {
+
+    fp.appendInvoiceToFile(jsonString, filePath);
   }
 
   @Override

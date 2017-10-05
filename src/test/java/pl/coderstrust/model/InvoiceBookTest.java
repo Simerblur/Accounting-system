@@ -14,12 +14,11 @@ import pl.coderstrust.database.Database;
 import pl.coderstrust.database.file.InFileDatabase;
 import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
-import pl.coderstrust.model.counterparts.Buyer;
-import pl.coderstrust.model.counterparts.Seller;
+import pl.coderstrust.model.counterparts.Counterparts;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -93,6 +92,7 @@ public class InvoiceBookTest {
 
     // when
     invoiceBook.addInvoice(givenInvoice);
+    invoiceBook.addInvoice(givenInvoice2);
     List<Invoice> invoices = invoiceBook.getInvoices();
 
     //then
@@ -160,8 +160,22 @@ public class InvoiceBookTest {
     System.out.println(ib.getInvoices().size());
     System.out.println(converter.convertToJsonString(ib.getInvoices().get(2)));
     System.out.println(converter.convertToJsonString(ib.getInvoices().get(0)));
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
+
     System.out.println(ib.getInvoices().size());
-    System.out.println(ib.getInvoices().get(5).getEntries());
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
+
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
+
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
+
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
+    System.out.println(ib.getInvoices().size());
+    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewSecondInvoice", new ArrayList<>()));
+    System.out.println(ib.getInvoices().size());
 
     System.out.println("tessss" + ib.getInvoices().get(0).getInvoiceId());
     for (int i = 0; i < ib.getInvoices().size(); i++) {
@@ -176,7 +190,7 @@ public class InvoiceBookTest {
   @Test
   public void shouldIfReturnInvoicesFromRange() {
 
-    Database database = new InFileDatabase("src/main/resources/pl.coderstrust/InvoiceBook.txt");
+    Database database = new InFileDatabase("src/main/resources/InvoiceBook.txt");
     InvoiceBook invoiceBook = new InvoiceBook(database);
     List<Invoice> test = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 5, 25, 11, 9, 36),
