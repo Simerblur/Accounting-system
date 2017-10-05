@@ -14,11 +14,14 @@ import pl.coderstrust.database.Database;
 import pl.coderstrust.database.file.InFileDatabase;
 import pl.coderstrust.database.memory.InMemoryDatabase;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
-import pl.coderstrust.model.counterparts.Counterparts;
+import pl.coderstrust.model.counterparts.Buyer;
+import pl.coderstrust.model.counterparts.MyCompanyBuy;
+import pl.coderstrust.model.counterparts.MyCompanySell;
+import pl.coderstrust.model.counterparts.Seller;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -135,66 +138,46 @@ public class InvoiceBookTest {
     InvoiceBook ib = new InvoiceBook(memDb);
     InvoiceConverter converter = new InvoiceConverter();
     Invoice testInvoice = converter.convertJsonToInvoice(
-        "{\"invoiceId\":1,\"name\":\"1/8/2017\",\"description\":\"First Inv\","
-            + "\"counterparts\":null,\"entries\":[{\"name\":\"Opona\",\"entryId\":1,\"quantity"
-            + "\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\"netValue\":{\"amount"
-            + "\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":14.44,"
-            + "\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":\"PLN\"}},{"
-            + "\"name\":\"Felga\",\"entryId\":2,\"quantity\":4,\"netPrice\":{\"amount\":20.00,"
-            + "\"currency\":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\""
-            + "vatRate\":23,\"vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue"
-            + "\":{\"amount\":98.40,\"currency\":\"PLN\"}},{\"name\":\"Sruba\",\"entryId\":3,"
-            + "\"quantity\":20,\"netPrice\":{\"amount\":5.30,\"currency\":\"PLN\"},\"netValue\":{"
-            + "\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount"
-            + "\":24.38,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":130.38,\"currency\":\""
-            + "PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\"currency\":\"PLN\"},"
-            + "\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\"issueDate\":"
-            + "\"2017-08-22 23:59:01\"}");
-    ib.addInvoice(testInvoice);
+        "{\"invoiceId\":1,\"name\":\"1/10/2017\",\"description\":\"default description\",\"buyer"
+            + "\":{\"name\":\"Wacek\",\"address1\":null,\"address2\":null,\"zip\":null,\"vatId"
+            + "\":\"PL888811111\",\"accountNumber\":null},\"seller\":{\"name\":\"Ania\",\"address1"
+            + "\":null,\"address2\":null,\"zip\":null,\"vatId\":\"PL155567777\",\"accountNumber"
+            + "\":null},\"entries\":[{\"name\":\"Opona\",\"entryId\":1,\"quantity\":4,\"netPrice"
+            + "\":{\"amount\":15.70,\"currency\":\"PLN\"},\"netValue\":{\"amount\":62.80,"
+            + "\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":14.44,\"currency"
+            + "\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":\"PLN\"}},{\"name\":"
+            + "\"Felga\",\"entryId\":2,\"quantity\":4,\"netPrice\":{\"amount\":20.00,\"currency"
+            + "\":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,"
+            + "\"vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{\"amount"
+            + "\":98.40,\"currency\":\"PLN\"}},{\"name\":\"Sruba\",\"entryId\":3,\"quantity"
+            + "\":20,\"netPrice\":{\"amount\":5.30,\"currency\":\"PLN\"},\"netValue\":{"
+            + "\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{"
+            + "\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":130.38,"
+            + "\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,\"currency"
+            + "\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},"
+            + "\"issueDate\":\"2017-10-05 15:56:25\"}");
+    ib.addInvoice(givenInvoice3);
     System.out.println(converter.convertToJsonString(ib.getInvoices().get(0)));
-    ib.addInvoice(testInvoice);
-    System.out.println(converter.convertToJsonString(ib.getInvoices().get(0)));
-    System.out.println(converter.convertToJsonString(ib.getInvoices().get(1)));
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(testInvoice);
-    System.out.println(ib.getInvoices().size());
-    System.out.println(converter.convertToJsonString(ib.getInvoices().get(2)));
-    System.out.println(converter.convertToJsonString(ib.getInvoices().get(0)));
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
-
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
-
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
-
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
-
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewInvoice", new ArrayList<>()));
-    System.out.println(ib.getInvoices().size());
-    ib.addInvoice(new Invoice(new Counterparts(), "TestOnNewSecondInvoice", new ArrayList<>()));
-    System.out.println(ib.getInvoices().size());
-
-    System.out.println("tessss" + ib.getInvoices().get(0).getInvoiceId());
+    ib.addInvoice(givenInvoice2);
+    ib.addInvoice(givenInvoice);
     for (int i = 0; i < ib.getInvoices().size(); i++) {
       System.out.println(
           ib.getInvoices().get(i).getInvoiceId() + " " + ib.getInvoices().get(i).getName());
     }
+    Assert.assertEquals(givenInvoice3.getName(), testInvoice.getName());
   }
 
   /**
    * Test sample Javadoc.
    */
   @Test
-  public void shouldIfReturnInvoicesFromRange() {
+  public void shouldReturnInvoicesFromRange() {
 
-    Database database = new InFileDatabase("src/main/resources/InvoiceBook.txt");
+    Database database = new InFileDatabase("src/test/resources/testFileOutputIB.txt");
     InvoiceBook invoiceBook = new InvoiceBook(database);
     List<Invoice> test = invoiceBook
-        .getInvoicesByDateRange(LocalDateTime.of(2017, 5, 25, 11, 9, 36),
-            LocalDateTime.of(2017, 8, 25, 11, 9, 37));
+        .getInvoicesByDateRange(LocalDateTime.of(2017, 9, 25, 11, 9, 36),
+            LocalDateTime.of(2017, 12, 25, 11, 9, 37));
     System.out.println(test.get(0).getInvoiceId());
     for (Invoice iterator : test) {
       System.out.println(iterator.getInvoiceId() + " " + iterator.getIssueDate());
@@ -239,6 +222,37 @@ public class InvoiceBookTest {
         .println("net total after operations = " + givenInvoice2.getNetTotalAmount().getAmount());
   }
 
+
+  /**
+   * Should add new invoice.
+   */
+  @Test
+  public void shouldAddInvoiceToFile() {
+    //given
+    db = new InFileDatabase("src/test/resources/testFileOutputIB.txt");
+    InvoiceBook invoiceBook = new InvoiceBook(db);
+    //when
+    invoiceBook.addInvoice(givenInvoice);
+    invoiceBook.addInvoice(givenInvoice2);
+    invoiceBook.addInvoice(givenInvoice3);
+    for (InvoiceEntry invoiceEntry : givenInvoice2.getEntries()) {
+      System.out.println(
+          "entry = " + invoiceEntry.getEntryId() + " entry amount = " + invoiceEntry.getNetValue()
+              .getAmount());
+    }
+    System.out.println("net total " + givenInvoice2.getNetTotalAmount().getAmount());
+    LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    List<Invoice> testedRange = invoiceBook
+        .getInvoicesByDateRange(LocalDateTime.of(now.getYear(), now.getMonth(), 1, 0, 0, 0),
+            LocalDateTime
+                .of(now.getYear(), now.getMonth(), now.getMonth().maxLength(), 23, 59, 59));
+    //then
+    Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
+    Assert.assertEquals("2/10/2017", testedRange.get(1).getName());
+    Assert.assertEquals("3/10/2017", testedRange.get(2).getName());
+    Assert.assertEquals(3, testedRange.get(1).getEntries().get(2).getEntryId());
+  }
+
   /**
    * Should add new invoice.
    */
@@ -252,10 +266,12 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
     invoiceBook.removeInvoice(2);
+    invoiceBook.addInvoice(new Invoice(new MyCompanySell(), new Buyer()));
+    invoiceBook.addInvoice(new Invoice(new Seller(), new MyCompanyBuy()));
     //then
     List<Invoice> testedRange = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
-            LocalDateTime.of(2017, 10, 30, 23, 59, 59));
+            LocalDateTime.of(2017, 12, 30, 23, 59, 59));
     for (Invoice invoice : testedRange) {
       System.out.println(invoice.getInvoiceId() + " " + invoice.getName());
       Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
@@ -277,9 +293,9 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
     //then
-    invoiceBook.removeInvoice(28);
-    invoiceBook.removeInvoice(29);
+    invoiceBook.removeInvoice(15);
+    invoiceBook.removeInvoice(14);
 
-    Assert.assertEquals(20, invoiceBook.getInvoices().get(19).getInvoiceId());
+    Assert.assertEquals(16, invoiceBook.getInvoices().get(13).getInvoiceId());
   }
 }

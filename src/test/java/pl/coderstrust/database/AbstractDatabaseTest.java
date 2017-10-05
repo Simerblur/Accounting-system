@@ -4,7 +4,7 @@ import org.junit.Test;
 
 public abstract class AbstractDatabaseTest {
 
-  protected abstract Database getFileDatabase();
+  protected abstract Database getDatabase();
 
   /**
    * Abstract test for all types of database.

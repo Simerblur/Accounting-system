@@ -2,7 +2,7 @@ package pl.coderstrust.database.memory;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
+import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.Currency;
@@ -55,7 +55,7 @@ public class InMemoryDatabaseTest extends AbstractDatabaseTest {
   }
 
   @Override
-  protected Database getFileDatabase() {
+  protected Database getDatabase() {
     return memoryDatabase;
   }
 
@@ -72,10 +72,13 @@ public class InMemoryDatabaseTest extends AbstractDatabaseTest {
     System.out.println(converter.convertToJsonString(invoice1));
     System.out.println(converter.convertToJsonString(invoice2));
     System.out.println(invoice1.getIssueDate());
+    System.out.println(invoice2.getBuyer().getVatId());
     Assert.assertEquals(0, memoryDatabase.getInvoices().get(0).getInvoiceId());
-    Assert.assertEquals("Second Inv", memoryDatabase.getInvoices().get(1).getDescription());
-    Assert.assertEquals("PL12345678",
+    Assert
+        .assertEquals("default description", memoryDatabase.getInvoices().get(1).getDescription());
+    Assert.assertEquals("PL9988555333",
         memoryDatabase.getInvoices().get(1).getBuyer().getVatId());
+    Assert.assertEquals("PL9988555333", memoryDatabase.getInvoices().get(0).getSeller().getVatId());
   }
 
   @Override
@@ -87,7 +90,7 @@ public class InMemoryDatabaseTest extends AbstractDatabaseTest {
     List<Invoice> givenList;
     List<Invoice> expectedList = new ArrayList<>(Arrays.asList(invoice1, invoice2));
     //when
-    givenList = getFileDatabase().getInvoices();
+    givenList = getDatabase().getInvoices();
     //then
     Assert.assertNotNull(givenList);
     Assert.assertEquals(expectedList.size(), givenList.size());

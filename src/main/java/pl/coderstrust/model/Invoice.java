@@ -3,7 +3,6 @@ package pl.coderstrust.model;
 import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.Seller;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -102,7 +101,6 @@ public class Invoice {
 
   public int getInvoiceId() {
     return invoiceId;
-
   }
 
   public void setInvoiceId(int invoiceId) {
@@ -139,65 +137,5 @@ public class Invoice {
 
   public Seller getSeller() {
     return seller;
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (!(obj instanceof Invoice)) {
-      return false;
-    }
-
-    Invoice invoice = (Invoice) obj;
-
-    if (invoiceId != invoice.invoiceId) {
-      return false;
-    }
-    if (name != null ? !name.equals(invoice.name) : invoice.name != null) {
-      return false;
-    }
-    if (description != null ? !description.equals(invoice.description)
-        : invoice.description != null) {
-      return false;
-    }
-    if (counterparts != null ? !counterparts.equals(invoice.counterparts)
-        : invoice.counterparts != null) {
-      return false;
-    }
-    if (entries != null ? !entries.equals(invoice.entries) : invoice.entries != null) {
-      return false;
-    }
-    if (netTotalAmount != null ? !netTotalAmount.equals(invoice.netTotalAmount)
-        : invoice.netTotalAmount != null) {
-      return false;
-    }
-    if (grossTotalAmount != null ? !grossTotalAmount.equals(invoice.grossTotalAmount)
-        : invoice.grossTotalAmount != null) {
-      return false;
-    }
-    return issueDate != null ? issueDate.equals(invoice.issueDate) : invoice.issueDate == null;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = invoiceId;
-    result = 31 * result + (name != null ? name.hashCode() : 0);
-    result = 31 * result + (description != null ? description.hashCode() : 0);
-    result = 31 * result + (counterparts != null ? counterparts.hashCode() : 0);
-    result = 31 * result + (entries != null ? entries.hashCode() : 0);
-    result = 31 * result + (netTotalAmount != null ? netTotalAmount.hashCode() : 0);
-    result = 31 * result + (grossTotalAmount != null ? grossTotalAmount.hashCode() : 0);
-    result = 31 * result + (issueDate != null ? issueDate.hashCode() : 0);
-    return result;
-  }
-
-  @Override
-  public String toString() {
-    return "Invoice{" + "invoiceId=" + invoiceId + ", name='" + name + '\''
-        + ", description='" + description + '\'' + ", counterparts=" + counterparts
-        + ", entries=" + entries + ", netTotalAmount=" + netTotalAmount
-        + ", grossTotalAmount=" + grossTotalAmount + ", issueDate=" + issueDate + '}';
   }
 }

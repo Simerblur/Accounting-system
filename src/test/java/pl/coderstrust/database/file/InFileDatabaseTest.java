@@ -2,11 +2,7 @@ package pl.coderstrust.database.file;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
@@ -19,21 +15,14 @@ import pl.coderstrust.model.counterparts.Seller;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class InFileDatabaseTest {
+public class InFileDatabaseTest extends AbstractDatabaseTest{
 
   private Database fileDatabase;
-  @Autowired
-  private Database database;
   private Invoice givenInvoice;
-  private Invoice givenInvoice2;
   private Invoice givenInvoice3;
   private Invoice givenInvoice2;
-  private List<InvoiceEntry> entries = new ArrayList<>();
 
   /**
    * Test sample Javadoc.
@@ -67,11 +56,8 @@ public class InFileDatabaseTest {
   }
 
   @Override
-  protected Database getFileDatabase() {
-    return fileDatabase;
-
   protected Database getDatabase() {
-    return database;
+    return fileDatabase;
   }
 
   /**
@@ -81,13 +67,13 @@ public class InFileDatabaseTest {
   @Override
   public void shouldSaveInvoice() {
     //given
-    File beforeTest = new File("src/test/resources/pl.coderstrust/testFileOutputIB.txt");
-    fileDatabase = new InFileDatabase("src/test/resources/pl.coderstrust/testFileOutputIB.txt");
+    File beforeTest = new File("src/test/resources/testFileOutput.txt");
+    fileDatabase = new InFileDatabase("src/test/resources/testFileOutput.txt");
     Long lengthBeforeTest = beforeTest.length();
     //when
     fileDatabase.saveInvoice(givenInvoice);
     fileDatabase.saveInvoice(givenInvoice2);
-    File afetrTest = new File("src/test/resources/pl.coderstrust/testFileOutputIB.txt");
+    File afetrTest = new File("src/test/resources/testFileOutput.txt");
     Long lengthAfterTest = afetrTest.length();
     //then
     Assert.assertNotNull(fileDatabase);
@@ -102,12 +88,12 @@ public class InFileDatabaseTest {
   @Override
   public void shouldGetInvoices() {
     //given
-    fileDatabase = new InFileDatabase("src/test/resources/pl.coderstrust/InvoiceBook.txt");
+    fileDatabase = new InFileDatabase("src/test/resources/testFileOutput.txt");
     List<Invoice> givenList = fileDatabase.getInvoices();
     //then
     Assert.assertNotNull(givenList);
-    Assert.assertEquals("First Inv", fileDatabase.getInvoices().get(0).getDescription());
-    Assert.assertEquals("2017-08-22T23:59:01",
+    Assert.assertEquals("default description", fileDatabase.getInvoices().get(0).getDescription());
+    Assert.assertEquals("2017-10-05T15:17:15",
         fileDatabase.getInvoices().get(0).getIssueDate().toString());
   }
 }
