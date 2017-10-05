@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class InvoiceEntry {
 
   private String name;
+  private int entryId;
   private int quantity;
   private Money netPrice;
   private Money netValue;
@@ -21,6 +22,7 @@ public class InvoiceEntry {
 
   public InvoiceEntry(String name, int quantity, Money netPrice, int vatRate) {
     this.name = name;
+    this.entryId = 0;
     this.quantity = quantity;
     this.netPrice = netPrice;
     this.vatRate = vatRate;
@@ -59,5 +61,13 @@ public class InvoiceEntry {
 
   public Money getGrossValue() {
     return grossValue;
+  }
+
+  public int getEntryId() {
+    return entryId;
+  }
+
+  public void setEntryId(int entryId) {
+    this.entryId = entryId;
   }
 }

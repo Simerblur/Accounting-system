@@ -5,17 +5,20 @@ import pl.coderstrust.fileprocessor.FileProcessor;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.Invoice;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InFileDatabase implements Database {
 
   private final String filePath;
+  private final String tempFilePath;
   private final InvoiceConverter invConverter = new InvoiceConverter();
   private final FileProcessor fileProcessor = new FileProcessor();
 
   public InFileDatabase(String filePath) {
     this.filePath = filePath;
+    this.tempFilePath = filePath.concat(".temp");
   }
 
   @Override
@@ -32,5 +35,39 @@ public class InFileDatabase implements Database {
       invoices.add(invConverter.convertJsonToInvoice(stringFromFile));
     }
     return invoices;
+  }
+
+  @Override
+  public void removeInvoice(int invoiceId) {
+    List<Invoice> allInvoices = getInvoices();
+    int index = -1;
+    try {
+      for (Invoice invoice : allInvoices) {
+        if (invoice.getInvoiceId() == invoiceId) {
+          index = allInvoices.indexOf(invoice);
+          break;
+        }
+      }
+      allInvoices.remove(index);
+      writeListToTheFile(allInvoices);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      System.out.println("Invoice not found!");
+    }
+  }
+
+  private void writeListToTheFile(List<Invoice> inputList) {
+
+    File beforeDeletion = new File(filePath);
+    File newTempFile = new File(tempFilePath);
+    for (Invoice invoice : inputList) {
+      fileProcessor.appendInvoiceToFile(invConverter.convertToJsonString(invoice), tempFilePath);
+    }
+    if (beforeDeletion.delete()) {
+      if (newTempFile.renameTo(beforeDeletion)) {
+        System.out.println("Invoice removed");
+      } else {
+        System.out.println("Invoice not found");
+      }
+    }
   }
 }

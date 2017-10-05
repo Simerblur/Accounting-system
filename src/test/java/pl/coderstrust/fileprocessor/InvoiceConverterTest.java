@@ -7,20 +7,18 @@ import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceEntry;
 import pl.coderstrust.model.Money;
-import pl.coderstrust.model.counterparts.Counterparts;
+import pl.coderstrust.model.counterparts.Buyer;
+import pl.coderstrust.model.counterparts.Seller;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class InvoiceConverterTest {
 
   private InvoiceConverter invConverter = new InvoiceConverter();
   private Invoice givenInvoice;
-  private List<InvoiceEntry> entries = new ArrayList<>();
 
   private InvoiceEntry jsonTester() {
-    return entries.get(0);
+    return givenInvoice.getEntries().get(0);
   }
 
   /**
@@ -35,10 +33,10 @@ public class InvoiceConverterTest {
         new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
         new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
-    entries.add(invoiceEntry1);
-    entries.add(invoiceEntry2);
-    entries.add(invoiceEntry3);
-    givenInvoice = new Invoice(new Counterparts(), "First Inv", entries);
+    givenInvoice = new Invoice(new Seller(), new Buyer());
+    givenInvoice.addEntry(invoiceEntry1);
+    givenInvoice.addEntry(invoiceEntry2);
+    givenInvoice.addEntry(invoiceEntry3);
   }
 
   /**
@@ -48,20 +46,21 @@ public class InvoiceConverterTest {
   @Test
   public void shouldConvertToJsonStringProvidedInvoice() {
     //given
-    String expectedString = "{\"invoiceId\":0,\"name\":\"Default Name\",\"description\":\""
-        + "First Inv\",\"counterparts\":{\"buyer\":null,\"seller\":null},\"entries\":[{\"name\""
-        + ":\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\""
-        + "netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\""
-        + "amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\""
-        + ":\"PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,\""
-        + "currency\":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\""
-        + "vatRate\":23,\"vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\""
-        + ":{\"amount\":98.40,\"currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\""
-        + "netPrice\":{\"amount\":5.30,\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\""
-        + "currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":24.38,\"currency\":\""
-        + "PLN\"},\"grossValue\":{\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\""
-        + ":{\"amount\":248.80,\"currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\""
-        + "currency\":\"PLN\"},\"issueDate\":\"2017-08-22 23:59:01\"}";
+    String expectedString = "{\"invoiceId\":0,\"name\":\"Default Name\",\"description\":"
+        + "\"First Inv\",\"counterparts\":{\"buyer\":null,\"seller\":null},\"entries\":[{\"name"
+        + "\":\"Opona\",\"entryId\":1,\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\""
+        + ":\"PLN\"},\"netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,"
+        + "\"vatValue\":{\"amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount"
+        + "\":77.24,\"currency\":\"PLN\"}},{\"name\":\"Felga\",\"entryId\":2,\"quantity"
+        + "\":4,\"netPrice\":{\"amount\":20.00,\"currency\":\"PLN\"},\"netValue\":{\"amount"
+        + "\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":18.40,"
+        + "\"currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,\"currency\":\"PLN\"}},{"
+        + "\"name\":\"Sruba\",\"entryId\":3,\"quantity\":20,\"netPrice\":{\"amount\":5.30,"
+        + "\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},\"vatRate"
+        + "\":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{"
+        + "\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,"
+        + "\"currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN"
+        + "\"},\"issueDate\":\"2017-08-22 23:59:01\"}";
 
     //when
     givenInvoice.setIssueDate(2017, 8, 22, 23, 59, 1);
