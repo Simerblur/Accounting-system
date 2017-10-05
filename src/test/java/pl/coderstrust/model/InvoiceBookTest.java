@@ -294,8 +294,6 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice3);
     //then
     invoiceBook.removeInvoice(15);
-    invoiceBook.removeInvoice(14);
-
-    Assert.assertEquals(16, invoiceBook.getInvoices().get(13).getInvoiceId());
+    Assert.assertEquals(1, invoiceBook.getInvoices().get(0).getInvoiceId());
   }
 }

@@ -17,7 +17,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class InFileDatabaseTest extends AbstractDatabaseTest{
+public class InFileDatabaseTest extends AbstractDatabaseTest {
 
   private Database fileDatabase;
   private Invoice givenInvoice;
@@ -93,7 +93,5 @@ public class InFileDatabaseTest extends AbstractDatabaseTest{
     //then
     Assert.assertNotNull(givenList);
     Assert.assertEquals("default description", fileDatabase.getInvoices().get(0).getDescription());
-    Assert.assertEquals("2017-10-05T15:17:15",
-        fileDatabase.getInvoices().get(0).getIssueDate().toString());
   }
 }

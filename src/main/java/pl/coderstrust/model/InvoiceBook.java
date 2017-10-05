@@ -78,10 +78,6 @@ public class InvoiceBook {
   }
 
   /**
-   * Returns invoices by the range of dates.
-   */
-
-  /**
    * Returns ArrayList of invoices from the given time range inclusively.
    */
   public List<Invoice> getInvoicesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
