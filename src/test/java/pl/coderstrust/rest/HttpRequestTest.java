@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceBook;
@@ -24,12 +25,20 @@ public class HttpRequestTest {
   @LocalServerPort
   private int port;
 
+
   @Autowired
   private TestRestTemplate restTemplate;
 
-/*  @Test
+  /**
+   * Test HTTP request.
+   */
+
+  @Test
   public void greetingShouldReturnDefaultMessage() throws Exception {
-    assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/invoices",
-        new ParameterizedTypeReference<List<Invoice>>(){}). isEqualTo(new ArrayList<Invoice>());
-  }*/
+    ResponseEntity<Invoice[]> responseEntity = restTemplate
+        .getForEntity("http://localhost:" + port + "/invoices",
+            Invoice[].class);
+    Invoice[] testInvoice = responseEntity.getBody();
+    System.out.println(testInvoice.length);
+  }
 }

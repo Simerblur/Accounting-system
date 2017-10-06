@@ -13,5 +13,4 @@ public class ApplicationTest {
   public void contextLoads() {
 
   }
-
 }
