@@ -22,12 +22,11 @@ import java.util.List;
 @RestController
 public class InvoiceBookController {
 
-  private Database database;
   private InvoiceBook invoiceBook;
 
   @Autowired
-  InvoiceBookController(Database database) {
-    this.invoiceBook = new InvoiceBook(database);
+  InvoiceBookController(InvoiceBook invoiceBook) {
+    this.invoiceBook = invoiceBook;
   }
 
   /**
