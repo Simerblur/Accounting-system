@@ -73,8 +73,7 @@ public class InvoiceBookController {
     Iterator<Invoice> iterator = invoiceBook.getInvoices().iterator();
     while (iterator.hasNext()) {
       if (iterator.next().getInvoiceId() == id) {
-        iterator.remove();
-        //write list to put to the Db
+        invoiceBook.removeInvoice(id);
         return ResponseEntity.ok("Removed succes!");
       }
     }
