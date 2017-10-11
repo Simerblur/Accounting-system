@@ -2,8 +2,6 @@ package pl.coderstrust.database.file;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.FileProcessor;
@@ -18,72 +16,85 @@ import java.util.List;
 @ConditionalOnProperty(name = "pl.coderstrust.database", havingValue = "inFileDatabase")
 public class InFileDatabase implements Database {
 
-   private final FileProcessor fileProcessor = new FileProcessor();
-  @Value("${file.path}")
-  private String filePath;
-  @Value("${file.path.temp}")
-  private String tempFilePath;
-  private List<Invoice> invoices = new ArrayList<>();
-  private InvoiceConverter invoiceConverter = new InvoiceConverter();
+    private final FileProcessor fileProcessor = new FileProcessor();
+    @Value("${file.path}")
+    private String filePath;
+    @Value("${file.path.temp}")
+    private String tempFilePath;
+    private List<Invoice> invoices = new ArrayList<>();
+    private InvoiceConverter invoiceConverter = new InvoiceConverter();
 
 //  public InFileDatabase(String filePath) {
 //    this.filePath = filePath;
 //    this.tempFilePath = filePath.concat(".temp");
 //  }
 
-  @Override
-  public void saveInvoice(Invoice invoice) {
-    fileProcessor.appendInvoiceToFile(invoiceConverter.convertToJsonString(invoice), filePath);
-  }
-
-  @Override
-  public void saveInvoice(String jsonString) {
-    fileProcessor.appendInvoiceToFile(jsonString, filePath);
-  }
-
-  @Override
-  public List<Invoice> getInvoices() {
-    List<String> stringsFromFile;
-    final List<Invoice> invoices = new ArrayList<>();
-    stringsFromFile = fileProcessor.readInvoicesFromFile(filePath);
-    for (String stringFromFile : stringsFromFile) {
-      invoices.add(invoiceConverter.convertJsonToInvoice(stringFromFile));
+    @Override
+    public void saveInvoice(Invoice invoice) {
+        fileProcessor.appendInvoiceToFile(invoiceConverter.convertToJsonString(invoice), filePath);
     }
-    return invoices;
-  }
 
-  @Override
-  public void removeInvoice(int invoiceId) {
-    List<Invoice> allInvoices = getInvoices();
-    int index = -1;
-    try {
-      for (Invoice invoice : allInvoices) {
-        if (invoice.getInvoiceId() == invoiceId) {
-          index = allInvoices.indexOf(invoice);
-          break;
+    @Override
+    public void saveInvoice(String jsonString) {
+        fileProcessor.appendInvoiceToFile(jsonString, filePath);
+    }
+
+    @Override
+    public List<Invoice> getInvoices() {
+        List<String> stringsFromFile;
+        final List<Invoice> invoices = new ArrayList<>();
+        stringsFromFile = fileProcessor.readInvoicesFromFile(filePath);
+        for (String stringFromFile : stringsFromFile) {
+            invoices.add(invoiceConverter.convertJsonToInvoice(stringFromFile));
         }
-      }
-      allInvoices.remove(index);
-      writeListToTheFile(allInvoices);
-    } catch (ArrayIndexOutOfBoundsException e) {
-      System.out.println("Invoice not found!");
+        return invoices;
     }
-  }
 
-  private void writeListToTheFile(List<Invoice> inputList) {
-
-    File beforeDeletion = new File(filePath);
-    File newTempFile = new File(tempFilePath);
-    for (Invoice invoice : inputList) {
-      fileProcessor.appendInvoiceToFile(invoiceConverter.convertToJsonString(invoice), tempFilePath);
+    @Override
+    public void removeInvoice(int invoiceId) {
+        List<Invoice> allInvoices = getInvoices();
+        int index = -1;
+        try {
+            for (Invoice invoice : allInvoices) {
+                if (invoice.getInvoiceId() == invoiceId) {
+                    index = allInvoices.indexOf(invoice);
+                    break;
+                }
+            }
+            allInvoices.remove(index);
+            writeListToTheFile(allInvoices);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Invoice not found!");
+        }
     }
-    if (beforeDeletion.delete()) {
 
-      if (newTempFile.renameTo(beforeDeletion)) {
-        System.out.println("Invoice removed");
-      } else {
-        System.out.println("Invoice not found");
-      }
+    @Override
+    public void replaceInvoice(int id, Invoice updatedInvoice) {
+        List<Invoice> allInvoices = getInvoices();
+        for (Invoice invoice : allInvoices) {
+            if (invoice.getInvoiceId() == id) {
+                //     updatedInvoice = allInvoices.indexOf(invoice);
+                break;
+            }
+        }
     }
-  }
+
+    private void writeListToTheFile(List<Invoice> inputList) {
+
+        File beforeDeletion = new File(filePath);
+        File newTempFile = new File(tempFilePath);
+        for (Invoice invoice : inputList) {
+            fileProcessor.appendInvoiceToFile(invoiceConverter.convertToJsonString(invoice), tempFilePath);
+        }
+        if (beforeDeletion.delete()) {
+
+            if (newTempFile.renameTo(beforeDeletion)) {
+                System.out.println("Invoice removed");
+            } else {
+                System.out.println("Invoice not found");
+            }
+        }
+    }
+
+
 }

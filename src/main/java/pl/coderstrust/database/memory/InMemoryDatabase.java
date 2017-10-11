@@ -14,36 +14,48 @@ import java.util.List;
 @ConditionalOnProperty(name = "pl.coderstrust.database", havingValue = "inMemoryDatabase")
 public class InMemoryDatabase implements Database {
 
-  private List<Invoice> invoices = new ArrayList<>();
-  private InvoiceConverter invoiceConverter;
+    private List<Invoice> invoices = new ArrayList<>();
+    private InvoiceConverter invoiceConverter;
 
-  @Override
-  public void saveInvoice(Invoice invoice) {
-    invoices.add(invoice);
-  }
-
-  @Override
-  public void saveInvoice(String jsonString) {
-    invoices.add(invoiceConverter.convertJsonToInvoice(jsonString));
-  }
-
-  @Override
-  public List<Invoice> getInvoices() {
-    return Collections.unmodifiableList(invoices);
-  }
-
-  @Override
-  public void removeInvoice(int invoiceId) {
-    int index = -1;
-    try {
-      for (Invoice invoice : invoices) {
-        if (invoice.getInvoiceId() == invoiceId) {
-          index = invoices.indexOf(invoice);
-        }
-      }
-      invoices.remove(index);
-    } catch (ArrayIndexOutOfBoundsException e) {
-      System.out.println("Invoice not found!");
+    @Override
+    public void saveInvoice(Invoice invoice) {
+        invoices.add(invoice);
     }
-  }
+
+    @Override
+    public void saveInvoice(String jsonString) {
+        invoices.add(invoiceConverter.convertJsonToInvoice(jsonString));
+    }
+
+    @Override
+    public List<Invoice> getInvoices() {
+        return Collections.unmodifiableList(invoices);
+    }
+
+    @Override
+    public void removeInvoice(int invoiceId) {
+        int index = -1;
+        try {
+            for (Invoice invoice : invoices) {
+                if (invoice.getInvoiceId() == invoiceId) {
+                    index = invoices.indexOf(invoice);
+                }
+            }
+            invoices.remove(index);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Invoice not found!");
+        }
+    }
+
+    @Override
+    public void replaceInvoice(int id, Invoice updatedInvoice) {
+        List<Invoice> allInvoices = getInvoices();
+        for (Invoice invoice : allInvoices) {
+            if (invoice.getInvoiceId() == id) {
+                // updatedInvoice = allInvoices.indexOf(invoice);
+                break;
+            }
+        }
+    }
 }
+

@@ -98,6 +98,7 @@ InvoiceBook {
   }
 
     public void replaceInvoice(int id, Invoice updatedInvoice) {
+      database.replaceInvoice(id, updatedInvoice);
 
     }
 }
