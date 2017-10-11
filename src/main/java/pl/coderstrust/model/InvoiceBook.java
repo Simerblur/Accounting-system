@@ -5,13 +5,13 @@ import pl.coderstrust.database.Database;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class InvoiceBook {
+public class
+InvoiceBook {
 
   private final Database database;
 
@@ -96,6 +96,10 @@ public class InvoiceBook {
   public void removeInvoice(int invoiceId) {
     database.removeInvoice(invoiceId);
   }
+
+    public void replaceInvoice(int id, Invoice updatedInvoice) {
+
+    }
 }
 
 
