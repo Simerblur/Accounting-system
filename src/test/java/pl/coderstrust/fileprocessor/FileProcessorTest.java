@@ -2,6 +2,7 @@ package pl.coderstrust.fileprocessor;
 
 import org.junit.Assert;
 import org.junit.Test;
+import pl.coderstrust.logic.FileProcessor;
 
 import java.io.File;
 import java.io.IOException;

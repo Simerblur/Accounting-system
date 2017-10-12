@@ -1,4 +1,4 @@
-package pl.coderstrust.fileprocessor;
+package pl.coderstrust.logic;
 
 import java.io.File;
 import java.io.FileWriter;
