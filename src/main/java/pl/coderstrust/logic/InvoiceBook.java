@@ -48,9 +48,9 @@ public class InvoiceBook {
   }
 
   public void replaceInvoice(int invoiceId, Invoice invoice) {
+    invoice.setInvoiceId(invoiceId);
     database.replaceInvoice(invoiceId, invoice);
   }
-
 }
 
 

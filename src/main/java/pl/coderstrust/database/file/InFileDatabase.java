@@ -70,7 +70,20 @@ public class InFileDatabase implements Database {
 
   @Override
   public void replaceInvoice(int invoiceId, Invoice invoice) {
-
+    List<Invoice> allInvoices = getInvoices();
+    int index = -1;
+    try {
+      for (Invoice loopedInvoice : allInvoices) {
+        if (loopedInvoice.getInvoiceId() == invoiceId) {
+          index = allInvoices.indexOf(loopedInvoice);
+          break;
+        }
+      }
+      allInvoices.set(index, invoice);
+      writeListToTheFile(allInvoices);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      System.out.println("Invoice not found!");
+    }
   }
 
   private void writeListToTheFile(List<Invoice> inputList) {

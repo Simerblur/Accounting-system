@@ -287,6 +287,44 @@ public class InvoiceBookTest {
   }
 
   /**
+   * Should replace new invoice.
+   */
+  @Test
+  public void shouldReplaceInvoice() {
+    //given
+    Database database = new InMemoryDatabase();
+    InvoiceBook invoiceBook = new InvoiceBook(database);
+    //when
+    invoiceBook.addInvoice(givenInvoice);
+    invoiceBook.addInvoice(givenInvoice2);
+    invoiceBook.addInvoice(givenInvoice3);
+    invoiceBook.removeInvoice(2);
+    invoiceBook.addInvoice(new Invoice(new MyCompanySell(), new Buyer("Franek", "PL32222255")));
+    invoiceBook.addInvoice(new Invoice(new Seller("Franek", "PL333444555"), new MyCompanyBuy()));
+    invoiceBook.getInvoices().get(3).setName("333/232323");
+    invoiceBook.addInvoice(new Invoice(new Seller("Franek", "PL333444555"), new MyCompanyBuy()));
+    invoiceBook.addInvoice(new Invoice(new MyCompanySell(), new Buyer("Franek", "PL32222255")));
+    //then
+    List<Invoice> testedRange = invoiceBook.getInvoices();
+
+    for (Invoice invoice : testedRange) {
+      System.out.println(
+          invoice.getInvoiceId() + " " + invoice.getName() + " " + invoice.getSeller().getVatId());
+    }
+    System.out.println("=====================");
+    testedRange = invoiceBook.getInvoices();
+    invoiceBook.replaceInvoice(6, givenInvoice3);
+    for (Invoice invoice : testedRange) {
+      System.out.println(
+          invoice.getInvoiceId() + " " + invoice.getName() + " " + invoice.getSeller().getVatId());
+    }
+    Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
+    Assert.assertEquals("Default Name", testedRange.get(1).getName());
+    Assert.assertEquals("2/10/2017", testedRange.get(2).getName());
+  }
+
+
+  /**
    * Should remove  invoice from file.
    */
   @Test
