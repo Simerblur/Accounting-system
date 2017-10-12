@@ -13,7 +13,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.database.file.InFileDatabase;
 import pl.coderstrust.database.memory.InMemoryDatabase;
-import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.logic.InvoiceConverter;
+import pl.coderstrust.logic.InvoiceBook;
 import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.MyCompanyBuy;
 import pl.coderstrust.model.counterparts.MyCompanySell;
@@ -49,12 +50,12 @@ public class InvoiceBookTest {
         new Money(new BigDecimal(20).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
     final InvoiceEntry invoiceEntry3 = new InvoiceEntry("Sruba", 20,
         new Money(new BigDecimal(5.3).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN), 23);
-    givenInvoice = new Invoice(new Seller("Kasia", "PL12345678"), new Buyer("Zosia", "PL9999999"));
+    givenInvoice = new Invoice(new MyCompanySell(), new Buyer("Zosia", "PL9999999"));
     givenInvoice.addEntry(invoiceEntry1);
     givenInvoice.addEntry(invoiceEntry2);
     givenInvoice.addEntry(invoiceEntry3);
     //   givenInvoice.setCounterparts()
-    givenInvoice2 = new Invoice(new Seller("Gosia", "PL222333444"),
+    givenInvoice2 = new Invoice(new MyCompanySell(),
         new Buyer("Jacek", "PL33333333"));
     givenInvoice2.addEntry(invoiceEntry1);
     givenInvoice2.addEntry(invoiceEntry2);
@@ -212,7 +213,7 @@ public class InvoiceBookTest {
     //then
     Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
     Assert.assertEquals("2/10/2017", testedRange.get(1).getName());
-    Assert.assertEquals("3/10/2017", testedRange.get(2).getName());
+    Assert.assertEquals("Default Name", testedRange.get(2).getName());
     Assert.assertEquals(4, testedRange.get(1).getEntries().get(3).getEntryId());
     givenInvoice2.removeEntry(2);
     Assert.assertEquals(3, testedRange.get(1).getEntries().get(2).getEntryId());
@@ -249,7 +250,7 @@ public class InvoiceBookTest {
     //then
     Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
     Assert.assertEquals("2/10/2017", testedRange.get(1).getName());
-    Assert.assertEquals("3/10/2017", testedRange.get(2).getName());
+    Assert.assertEquals("Default Name", testedRange.get(2).getName());
     Assert.assertEquals(3, testedRange.get(1).getEntries().get(2).getEntryId());
   }
 
@@ -259,24 +260,29 @@ public class InvoiceBookTest {
   @Test
   public void shouldRemoveInvoice() {
     //given
-    db = new InMemoryDatabase();
-    InvoiceBook invoiceBook = new InvoiceBook(db);
+    Database database = new InMemoryDatabase();
+    InvoiceBook invoiceBook = new InvoiceBook(database);
     //when
     invoiceBook.addInvoice(givenInvoice);
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
     invoiceBook.removeInvoice(2);
-    invoiceBook.addInvoice(new Invoice(new MyCompanySell(), new Buyer()));
-    invoiceBook.addInvoice(new Invoice(new Seller(), new MyCompanyBuy()));
+    invoiceBook.addInvoice(new Invoice(new MyCompanySell(), new Buyer("Franek", "PL32222255")));
+    invoiceBook.addInvoice(new Invoice(new Seller("Franek", "PL333444555"), new MyCompanyBuy()));
+    invoiceBook.getInvoices().get(3).setName("333/232323");
+    invoiceBook.addInvoice(new Invoice(new Seller("Franek", "PL333444555"), new MyCompanyBuy()));
+    invoiceBook.addInvoice(new Invoice(new MyCompanySell(), new Buyer("Franek", "PL32222255")));
     //then
     List<Invoice> testedRange = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
             LocalDateTime.of(2017, 12, 30, 23, 59, 59));
+
     for (Invoice invoice : testedRange) {
-      System.out.println(invoice.getInvoiceId() + " " + invoice.getName());
+      System.out.println(
+          invoice.getInvoiceId() + " " + invoice.getName() + " " + invoice.getSeller().getVatId());
       Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
-      Assert.assertEquals("3/10/2017", testedRange.get(1).getName());
-      Assert.assertEquals("5/10/2017", testedRange.get(3).getName());
+      Assert.assertEquals("Default Name", testedRange.get(1).getName());
+      Assert.assertEquals("2/10/2017", testedRange.get(2).getName());
     }
   }
 

@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
-import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.logic.InvoiceConverter;
 import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceEntry;

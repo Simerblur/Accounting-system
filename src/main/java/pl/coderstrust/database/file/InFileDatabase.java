@@ -2,12 +2,10 @@ package pl.coderstrust.database.file;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
-import pl.coderstrust.fileprocessor.FileProcessor;
-import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.logic.FileProcessor;
+import pl.coderstrust.logic.InvoiceConverter;
 import pl.coderstrust.model.Invoice;
 
 import java.io.File;
@@ -68,6 +66,11 @@ public class InFileDatabase implements Database {
     } catch (ArrayIndexOutOfBoundsException e) {
       System.out.println("Invoice not found!");
     }
+  }
+
+  @Override
+  public void replaceInvoice(int invoiceId, Invoice invoice) {
+
   }
 
   private void writeListToTheFile(List<Invoice> inputList) {

@@ -1,4 +1,4 @@
-package pl.coderstrust.fileprocessor;
+package pl.coderstrust.logic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

@@ -3,7 +3,7 @@ package pl.coderstrust.database.memory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
-import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.logic.InvoiceConverter;
 import pl.coderstrust.model.Invoice;
 
 import java.util.ArrayList;
@@ -42,6 +42,21 @@ public class InMemoryDatabase implements Database {
         }
       }
       invoices.remove(index);
+    } catch (ArrayIndexOutOfBoundsException e) {
+      System.out.println("Invoice not found!");
+    }
+  }
+
+  @Override
+  public void replaceInvoice(int invoiceId, Invoice invoice) {
+    int index = -1;
+    try {
+      for (Invoice loopedInvoice : invoices) {
+        if (loopedInvoice.getInvoiceId() == invoiceId) {
+          index = invoices.indexOf(loopedInvoice);
+        }
+      }
+      invoices.set(index, invoice);
     } catch (ArrayIndexOutOfBoundsException e) {
       System.out.println("Invoice not found!");
     }

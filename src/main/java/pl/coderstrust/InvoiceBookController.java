@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Invoice;
-import pl.coderstrust.model.InvoiceBook;
+import pl.coderstrust.logic.InvoiceBook;
 
 import java.util.Iterator;
 import java.util.List;

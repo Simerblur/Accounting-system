@@ -3,6 +3,7 @@ package pl.coderstrust.fileprocessor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pl.coderstrust.logic.InvoiceConverter;
 import pl.coderstrust.model.Currency;
 import pl.coderstrust.model.Invoice;
 import pl.coderstrust.model.InvoiceEntry;
