@@ -1,5 +1,6 @@
 package pl.coderstrust.database.file;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -16,28 +17,25 @@ import java.util.List;
 @ConditionalOnProperty(name = "pl.coderstrust.database", havingValue = "inFileDatabase")
 public class InFileDatabase implements Database {
 
-   private final FileProcessor fileProcessor = new FileProcessor();
-  @Value("${file.path}")
+  @Value("${pl.coderstrust.file.path}")
   private String filePath;
-  @Value("${file.path.temp}")
-  private String tempFilePath;
-  private List<Invoice> invoices = new ArrayList<>();
-  private InvoiceConverter invoiceConverter = new InvoiceConverter();
 
-//  public InFileDatabase(String filePath) {
-//    this.filePath = filePath;
-//    this.tempFilePath = filePath.concat(".temp");
-//  }
+  @Value("${pl.coderstrust.file.path.temp}")
+  private String tempFilePath;
+
+  private final FileProcessor fileProcessor;
+  private final InvoiceConverter invoiceConverter;
+
+  public InFileDatabase() {
+    this.invoiceConverter = new InvoiceConverter();
+    this.fileProcessor = new FileProcessor();
+  }
 
   @Override
   public void saveInvoice(Invoice invoice) {
     fileProcessor.appendInvoiceToFile(invoiceConverter.convertToJsonString(invoice), filePath);
   }
 
-  @Override
-  public void saveInvoice(String jsonString) {
-    fileProcessor.appendInvoiceToFile(jsonString, filePath);
-  }
 
   @Override
   public List<Invoice> getInvoices() {
@@ -51,7 +49,7 @@ public class InFileDatabase implements Database {
   }
 
   @Override
-  public void removeInvoice(int invoiceId) {
+  public boolean removeInvoice(int invoiceId) {
     List<Invoice> allInvoices = getInvoices();
     int index = -1;
     try {
@@ -63,13 +61,15 @@ public class InFileDatabase implements Database {
       }
       allInvoices.remove(index);
       writeListToTheFile(allInvoices);
+      return true;
     } catch (ArrayIndexOutOfBoundsException e) {
       System.out.println("Invoice not found!");
+      return false;
     }
   }
 
   @Override
-  public void replaceInvoice(int invoiceId, Invoice invoice) {
+  public boolean replaceInvoice(int invoiceId, Invoice invoice) {
     List<Invoice> allInvoices = getInvoices();
     int index = -1;
     try {
@@ -81,8 +81,10 @@ public class InFileDatabase implements Database {
       }
       allInvoices.set(index, invoice);
       writeListToTheFile(allInvoices);
+      return true;
     } catch (ArrayIndexOutOfBoundsException e) {
       System.out.println("Invoice not found!");
+      return false;
     }
   }
 
@@ -91,7 +93,8 @@ public class InFileDatabase implements Database {
     File beforeDeletion = new File(filePath);
     File newTempFile = new File(tempFilePath);
     for (Invoice invoice : inputList) {
-      fileProcessor.appendInvoiceToFile(invoiceConverter.convertToJsonString(invoice), tempFilePath);
+      fileProcessor
+          .appendInvoiceToFile(invoiceConverter.convertToJsonString(invoice), tempFilePath);
     }
     if (beforeDeletion.delete()) {
 
@@ -101,5 +104,10 @@ public class InFileDatabase implements Database {
         System.out.println("Invoice not found");
       }
     }
+  }
+
+  public void setFilePath(String filePath) {
+    this.filePath = filePath;
+    this.tempFilePath = filePath.concat(".tmp");
   }
 }

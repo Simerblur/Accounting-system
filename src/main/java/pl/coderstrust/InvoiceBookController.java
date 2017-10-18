@@ -54,7 +54,8 @@ public class InvoiceBookController {
         .getInvoices()
         .stream()
         .filter(invoice -> invoice.getInvoiceId() == id)
-        .findFirst().get();
+        .findFirst()
+        .orElse(new Invoice());
   }
 
   /**
@@ -65,9 +66,12 @@ public class InvoiceBookController {
           + " the correct following name will be generated",
       response = String.class)
   @RequestMapping(value = "/invoices", method = RequestMethod.POST)
-  public String postInvoice(@RequestBody Invoice jsonString) {
+  public ResponseEntity<?> postInvoice(@RequestBody Invoice jsonString) {
     invoiceBook.addInvoice(jsonString);
-    return "Invoice added succesfully";
+    return ResponseEntity.ok(invoiceBook
+        .getInvoices()
+        .get(invoiceBook.getInvoices().size() - 1)
+        .getInvoiceId());
   }
 
   /**
@@ -81,7 +85,7 @@ public class InvoiceBookController {
     while (iterator.hasNext()) {
       if (iterator.next().getInvoiceId() == id) {
         invoiceBook.removeInvoice(id);
-        return ResponseEntity.ok("Removed succes!");
+        return ResponseEntity.ok("Removed success!");
       }
     }
     return ResponseEntity.status(404).body("Invoice ID not found!");
@@ -100,7 +104,7 @@ public class InvoiceBookController {
     while (iterator.hasNext()) {
       if (iterator.next().getInvoiceId() == id) {
         invoiceBook.replaceInvoice(id, jsonString);
-        return ResponseEntity.ok("Replacement with succes!");
+        return ResponseEntity.ok("Success!");
       }
     }
     return ResponseEntity.status(404).body("Invoice ID not found!");

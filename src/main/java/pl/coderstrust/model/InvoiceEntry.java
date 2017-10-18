@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 
 public class InvoiceEntry {
 
-  private String name;
+  private String entryName;
   private int entryId;
-  private int quantity;
-  private Money netPrice;
-  private Money netValue;
-  private int vatRate;
-  private Money vatValue;
-  private Money grossValue;
+  private int entryQuantity;
+  private Money entryNetPrice;
+  private Money entryNetValue;
+  private int entryVatRate;
+  private Money entryVatValue;
+  private Money entryGrossValue;
 
   public InvoiceEntry() {
   } //used by JACKSON
@@ -20,47 +20,47 @@ public class InvoiceEntry {
    * Test sample Javadoc.
    */
 
-  public InvoiceEntry(String name, int quantity, Money netPrice, int vatRate) {
-    this.name = name;
+  public InvoiceEntry(String entryName, int entryQuantity, Money entryNetPrice, int entryVatRate) {
+    this.entryName = entryName;
     this.entryId = 0;
-    this.quantity = quantity;
-    this.netPrice = netPrice;
-    this.vatRate = vatRate;
-    this.netValue = new Money(this.netPrice.getAmount().multiply(new BigDecimal(this.quantity))
-        .setScale(2, BigDecimal.ROUND_HALF_UP), this.netPrice.getCurrency());
-    this.vatValue = new Money(netValue.getAmount().multiply(new BigDecimal(vatRate)
+    this.entryQuantity = entryQuantity;
+    this.entryNetPrice = entryNetPrice;
+    this.entryVatRate = entryVatRate;
+    this.entryNetValue = new Money(this.entryNetPrice.getAmount().multiply(new BigDecimal(this.entryQuantity))
+        .setScale(2, BigDecimal.ROUND_HALF_UP), this.entryNetPrice.getCurrency());
+    this.entryVatValue = new Money(entryNetValue.getAmount().multiply(new BigDecimal(entryVatRate)
         .divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP))
-        .setScale(2, BigDecimal.ROUND_HALF_UP), netValue.getCurrency());
-    this.grossValue = new Money(netValue.getAmount().add(this.vatValue.getAmount())
-        .setScale(2, BigDecimal.ROUND_HALF_UP), netValue.getCurrency());
+        .setScale(2, BigDecimal.ROUND_HALF_UP), entryNetValue.getCurrency());
+    this.entryGrossValue = new Money(entryNetValue.getAmount().add(this.entryVatValue.getAmount())
+        .setScale(2, BigDecimal.ROUND_HALF_UP), entryNetValue.getCurrency());
   }
 
-  public String getName() {
-    return name;
+  public String getEntryName() {
+    return entryName;
   }
 
-  public int getQuantity() {
-    return quantity;
+  public int getEntryQuantity() {
+    return entryQuantity;
   }
 
-  public Money getNetPrice() {
-    return netPrice;
+  public Money getEntryNetPrice() {
+    return entryNetPrice;
   }
 
-  public Money getNetValue() {
-    return netValue;
+  public Money getEntryNetValue() {
+    return entryNetValue;
   }
 
-  public int getVatRate() {
-    return vatRate;
+  public int getEntryVatRate() {
+    return entryVatRate;
   }
 
-  public Money getVatValue() {
-    return vatValue;
+  public Money getEntryVatValue() {
+    return entryVatValue;
   }
 
-  public Money getGrossValue() {
-    return grossValue;
+  public Money getEntryGrossValue() {
+    return entryGrossValue;
   }
 
   public int getEntryId() {

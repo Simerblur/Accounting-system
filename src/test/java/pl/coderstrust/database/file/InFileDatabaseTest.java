@@ -2,6 +2,8 @@ package pl.coderstrust.database.file;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import pl.coderstrust.database.AbstractDatabaseTest;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Currency;
@@ -17,9 +19,10 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
+@RunWith(MockitoJUnitRunner.class)
 public class InFileDatabaseTest extends AbstractDatabaseTest {
 
-  private Database fileDatabase;
+  InFileDatabase fileDatabase;
   private Invoice givenInvoice;
   private Invoice givenInvoice3;
   private Invoice givenInvoice2;
@@ -53,6 +56,9 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     givenInvoice2.addEntry(invoiceEntry4);
     givenInvoice2.addEntry(invoiceEntry5);
     givenInvoice2.addEntry(invoiceEntry6);
+
+    fileDatabase = new InFileDatabase();
+    fileDatabase.setFilePath("src/test/resources/testFileOutputIB.txt");
   }
 
   @Override
@@ -67,14 +73,14 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   @Override
   public void shouldSaveInvoice() {
     //given
-    File beforeTest = new File("src/test/resources/testFileOutput.txt");
-    fileDatabase = new InFileDatabase(); //"src/test/resources/testFileOutput.txt"
-    Long lengthBeforeTest = beforeTest.length();
+    File beforeTest = new File("src/test/resources/testFileOutputIB.txt");
+    final Long lengthBeforeTest = beforeTest.length();
     //when
     fileDatabase.saveInvoice(givenInvoice);
     fileDatabase.saveInvoice(givenInvoice2);
-    File afetrTest = new File("src/test/resources/testFileOutput.txt");
-    Long lengthAfterTest = afetrTest.length();
+    fileDatabase.saveInvoice(givenInvoice3);
+    File afetrTest = new File("src/test/resources/testFileOutputIB.txt");
+    final Long lengthAfterTest = afetrTest.length();
     //then
     Assert.assertNotNull(fileDatabase);
     Assert.assertNotEquals(lengthBeforeTest, lengthAfterTest);
@@ -88,8 +94,10 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   @Override
   public void shouldGetInvoices() {
     //given
-    fileDatabase = new InFileDatabase(); //"src/test/resources/testFileOutput.txt"
     List<Invoice> givenList = fileDatabase.getInvoices();
+    for (Invoice invoice : givenList) {
+      System.out.println(invoice.getDescription() + " " + invoice.getInvoiceId());
+    }
     //then
     Assert.assertNotNull(givenList);
     Assert.assertEquals("default description", fileDatabase.getInvoices().get(0).getDescription());

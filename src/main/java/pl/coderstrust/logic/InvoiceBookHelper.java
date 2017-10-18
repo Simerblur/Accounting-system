@@ -11,10 +11,11 @@ import java.util.regex.Pattern;
 
 public class InvoiceBookHelper {
 
+  static final String myVatId = new MyCompanySell().getVatId();
+
   /**
    * Generates unique invoice ID.
    */
-
   public static void generateInvoiceId(Invoice updatedInvoice, List<Invoice> allInvoices) {
     int newId;
     if (allInvoices.size() == 0) {
@@ -28,32 +29,16 @@ public class InvoiceBookHelper {
   /**
    * generates correct invoice name.
    */
-
   public static void generateInvoiceName(Invoice invoiceToRename, List<Invoice> allInvoices) {
     String newName;
-    final String myVatId = new MyCompanySell().getVatId();
     int current = 1;
     int currentIssueMonth = invoiceToRename.getIssueDate().getMonthValue();
-    int currentIssueYear = invoiceToRename.getIssueDate().getYear();
     if (invoiceToRename.getSeller().getVatId().equals(myVatId)) {
       if (allInvoices.size() > 0) {
-        int lastDayOfMonth = invoiceToRename.getIssueDate().getMonth().maxLength();
-        List<Invoice> currentMonthInvoices = getInvoicesByDateRange(
-            LocalDateTime.of(currentIssueYear, currentIssueMonth, 1, 0, 0, 0),
-            LocalDateTime.of(currentIssueYear, currentIssueMonth, lastDayOfMonth, 23, 59, 59),
+        List<Invoice> currentMonthInvoices = currentMonthInvoices(invoiceToRename,
             allInvoices);
         if (currentMonthInvoices.size() > 0) {
-          Pattern pattern = Pattern.compile("[^0-9]*([0-9]+).*");
-          for (Invoice invoice : currentMonthInvoices) {
-            if (invoice.getSeller().getVatId().equals(myVatId)) {
-              Matcher newMatcher = pattern.matcher(invoice.getName());
-              if (newMatcher.matches()) {
-                if (current <= Integer.valueOf(newMatcher.group(1))) {
-                  current = Integer.valueOf(newMatcher.group(1));
-                }
-              }
-            }
-          }
+          current = currentNameCreatorHelper(currentMonthInvoices);
           newName =
               current + 1 + "/" + currentIssueMonth + "/" + invoiceToRename.getIssueDate()
                   .getYear();
@@ -67,6 +52,32 @@ public class InvoiceBookHelper {
       }
       invoiceToRename.setName(newName);
     }
+  }
+
+  private static List<Invoice> currentMonthInvoices(Invoice invoice, List<Invoice> allInvoices) {
+    int currentIssueMonth = invoice.getIssueDate().getMonthValue();
+    int currentIssueYear = invoice.getIssueDate().getYear();
+    int lastDayOfMonth = invoice.getIssueDate().getMonth().maxLength();
+    return getInvoicesByDateRange(
+        LocalDateTime.of(currentIssueYear, currentIssueMonth, 1, 0, 0, 0),
+        LocalDateTime.of(currentIssueYear, currentIssueMonth, lastDayOfMonth, 23, 59, 59),
+        allInvoices);
+  }
+
+  private static int currentNameCreatorHelper(List<Invoice> currentMonthInvoices) {
+    int current = 0;
+    Pattern pattern = Pattern.compile("[^0-9]*([0-9]+).*");
+    for (Invoice invoice : currentMonthInvoices) {
+      if (invoice.getSeller().getVatId().equals(myVatId)) {
+        Matcher newMatcher = pattern.matcher(invoice.getName());
+        if (newMatcher.matches()) {
+          if (current <= Integer.valueOf(newMatcher.group(1))) {
+            current = Integer.valueOf(newMatcher.group(1));
+          }
+        }
+      }
+    }
+    return current;
   }
 
   /**
@@ -85,5 +96,4 @@ public class InvoiceBookHelper {
     }
     return resultList;
   }
-
 }

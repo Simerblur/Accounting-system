@@ -1,7 +1,5 @@
 package pl.coderstrust.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
 import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.Seller;
@@ -10,10 +8,10 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class Invoice {
 
-  //@ApiModelProperty(hidden = true) I
   private int invoiceId;
   private String name;
   @ApiModelProperty(value = "Text annotation on the invoice in the separate field")
@@ -31,7 +29,6 @@ public class Invoice {
   /**
    * Test sample Javadoc.
    */
-
   public Invoice(Seller seller, Buyer buyer) {
     this.issueDate = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     this.name = "Default Name";
@@ -41,30 +38,14 @@ public class Invoice {
     this.seller = seller;
   }
 
-  private Money calculateNetTotal(List<InvoiceEntry> entries) {
-    Money netTotal = new Money();
-    if (entries != null) {
-      for (InvoiceEntry invoiceEntry : entries) {
-        if (invoiceEntry.getNetPrice() != null) {
-          netTotal = new Money((netTotal.getAmount().add(invoiceEntry.getNetValue()
-              .getAmount())), invoiceEntry.getNetValue().getCurrency());
-        } else {
-          return netTotal;
-        }
-      }
-      return netTotal;
-    } else {
-      return netTotal;
-    }
-  }
-
-  private Money calculateGrossTotal(List<InvoiceEntry> entries) {
+  private Money calculateTotal(List<InvoiceEntry> entries, Function<InvoiceEntry, Money> method) {
     Money grossTotal = new Money();
     if (entries != null) {
       for (InvoiceEntry invoiceEntry : entries) {
-        if (invoiceEntry.getNetPrice() != null) {
-          grossTotal = new Money((grossTotal.getAmount().add(invoiceEntry.getGrossValue()
-              .getAmount())), invoiceEntry.getGrossValue().getCurrency());
+        if (invoiceEntry.getEntryNetPrice() != null) {
+          grossTotal = new Money(
+              (grossTotal.getAmount().add(method.apply(invoiceEntry).getAmount())),
+              method.apply(invoiceEntry).getCurrency());
         } else {
           return grossTotal;
         }
@@ -73,6 +54,14 @@ public class Invoice {
     } else {
       return grossTotal;
     }
+  }
+
+  public Money getNetTotalAmount() {
+    return calculateTotal(entries, InvoiceEntry::getEntryNetValue);
+  }
+
+  public Money getGrossTotalAmount() {
+    return calculateTotal(entries, InvoiceEntry::getEntryGrossValue);
   }
 
   public LocalDateTime getIssueDate() {
@@ -85,8 +74,7 @@ public class Invoice {
   }
 
   /**
-   * Adds new invoice entry at the end of the list and recalculates Invoice net total amount, and
-   * gross total amount.
+   * Adds new invoice entry at the end of the list.
    */
   public void addEntry(InvoiceEntry invoiceEntry) {
     invoiceEntry.setEntryId(entries.size() + 1);
@@ -94,8 +82,7 @@ public class Invoice {
   }
 
   /**
-   * Removes an existing invoice entry by entryId and recalculates Invoice net total amount, and
-   * gross total amount.
+   * Removes an existing invoice entry by entryId.
    */
   public void removeEntry(int entryId) {
     this.entries.remove(entryId - 1);
@@ -122,14 +109,6 @@ public class Invoice {
 
   public String getDescription() {
     return description;
-  }
-
-  public Money getNetTotalAmount() {
-    return calculateNetTotal(entries);
-  }
-
-  public Money getGrossTotalAmount() {
-    return calculateGrossTotal(entries);
   }
 
   public List<InvoiceEntry> getEntries() {

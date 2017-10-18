@@ -11,7 +11,7 @@ import pl.coderstrust.InvoiceBookController;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SmokeTest {
+public class InvoiceControllerSmokeTest {
 
   @Autowired
   private InvoiceBookController controller;

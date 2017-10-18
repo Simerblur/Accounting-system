@@ -23,17 +23,12 @@ public class InMemoryDatabase implements Database {
   }
 
   @Override
-  public void saveInvoice(String jsonString) {
-    invoices.add(invoiceConverter.convertJsonToInvoice(jsonString));
-  }
-
-  @Override
   public List<Invoice> getInvoices() {
     return Collections.unmodifiableList(invoices);
   }
 
   @Override
-  public void removeInvoice(int invoiceId) {
+  public boolean removeInvoice(int invoiceId) {
     int index = -1;
     try {
       for (Invoice invoice : invoices) {
@@ -42,13 +37,14 @@ public class InMemoryDatabase implements Database {
         }
       }
       invoices.remove(index);
+      return true;
     } catch (ArrayIndexOutOfBoundsException e) {
-      System.out.println("Invoice not found!");
+      return false;
     }
   }
 
   @Override
-  public void replaceInvoice(int invoiceId, Invoice invoice) {
+  public boolean replaceInvoice(int invoiceId, Invoice invoice) {
     int index = -1;
     try {
       for (Invoice loopedInvoice : invoices) {
@@ -57,8 +53,9 @@ public class InMemoryDatabase implements Database {
         }
       }
       invoices.set(index, invoice);
+      return true;
     } catch (ArrayIndexOutOfBoundsException e) {
-      System.out.println("Invoice not found!");
+      return false;
     }
   }
 }

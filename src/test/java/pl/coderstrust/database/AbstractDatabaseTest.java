@@ -9,10 +9,8 @@ public abstract class AbstractDatabaseTest {
   /**
    * Abstract test for all types of database.
    */
-
   @Test
   public void shouldSaveInvoice() {
-
   }
 
   @Test

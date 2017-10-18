@@ -3,14 +3,11 @@ package pl.coderstrust.logic;
 import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Invoice;
-import pl.coderstrust.model.counterparts.MyCompanySell;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 @Service
 public class InvoiceBook {
@@ -28,7 +25,6 @@ public class InvoiceBook {
   /**
    * Adds new invoice to the invoice book.
    */
-
   public void addInvoice(Invoice invoice) {
     InvoiceBookHelper.generateInvoiceId(invoice, getInvoices());
     InvoiceBookHelper.generateInvoiceName(invoice, getInvoices());
@@ -39,8 +35,7 @@ public class InvoiceBook {
    * Returns ArrayList of invoices from the given time range inclusively.
    */
   public List<Invoice> getInvoicesByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
-    List<Invoice> resultList = new ArrayList<>();
-    return resultList = InvoiceBookHelper.getInvoicesByDateRange(startDate, endDate, getInvoices());
+    return InvoiceBookHelper.getInvoicesByDateRange(startDate, endDate, getInvoices());
   }
 
   public void removeInvoice(int invoiceId) {
