@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.coderstrust.exceptions.InvoiceNotFoundException;
 import pl.coderstrust.logic.InvoiceBook;
 import pl.coderstrust.model.Invoice;
 
@@ -55,7 +56,7 @@ public class InvoiceBookController {
         .stream()
         .filter(invoice -> invoice.getInvoiceId() == id)
         .findFirst()
-        .orElse(new Invoice());
+        .orElseThrow(() -> new InvoiceNotFoundException(id));
   }
 
   /**
