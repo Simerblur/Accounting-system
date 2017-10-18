@@ -2,6 +2,7 @@ package pl.coderstrust.fileprocessor;
 
 import org.junit.Assert;
 import org.junit.Test;
+import pl.coderstrust.logic.FileProcessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,67 +16,57 @@ public class FileProcessorTest {
   /**
    * Test sample Javadoc.
    */
-
   @Test
   public void shouldReadUnformattedLinesFromTestInputFileToList() throws IOException {
     //given
     List<String> listFromFile;
     List<String> expectedList = new ArrayList<>();
     //when
-    expectedList.add("{\"id\":\"1\",\"description\":\"First Inv\",\"entries\":[{\"name\":"
-        + "\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},"
-        + "\"netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{"
-        + "\"amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency"
-        + "\":\"PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,"
-        + "\"currency\":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},"
-        + "\"vatRate\":23,\"vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{"
-        + "\"amount\":98.40,\"currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice"
-        + "\":{\"amount\":5.30,\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":"
-        + "\"PLN\"},\"vatRate\":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},"
-        + "\"grossValue\":{\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{"
-        + "\"amount\":248.80,\"currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,"
-        + "\"currency\":\"PLN\"},\"issueDate\":\"2017-09-19 14:25:01\"}");
-    expectedList.add("{\"id\":\"1\",\"description\":\"First Inv\",\"entries\":[{\"name\":"
-        + "\"Opona\",\"quantity\":4,\"netPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},"
-        + "\"netValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"vatRate\":23,\"vatValue\":{"
-        + "\"amount\":14.44,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":77.24,\"currency\":"
-        + "\"PLN\"}},{\"name\":\"Felga\",\"quantity\":4,\"netPrice\":{\"amount\":20.00,\"currency"
-        + "\":\"PLN\"},\"netValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"vatRate\":23,"
-        + "\"vatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"grossValue\":{\"amount\":98.40,"
-        + "\"currency\":\"PLN\"}},{\"name\":\"Sruba\",\"quantity\":20,\"netPrice\":{\"amount"
-        + "\":5.30,\"currency\":\"PLN\"},\"netValue\":{\"amount\":106.00,\"currency\":\"PLN\"},"
-        + "\"vatRate\":23,\"vatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"grossValue\":{"
+    expectedList.add("{\"invoiceId\":0,\"name\":\"Default Name\",\"description\":"
+        + "\"default description\",\"buyer\":{\"name\":null,\"address1\":null,\"address2"
+        + "\":null,\"zip\":null,\"vatId\":null,\"accountNumber\":null},\"seller\":{\"name"
+        + "\":null,\"address1\":null,\"address2\":null,\"zip\":null,\"vatId\":null,"
+        + "\"accountNumber\":null},\"entries\":[{\"entryName\":\"Opona\",\"entryId\":1,"
+        + "\"entryQuantity\":4,\"entryNetPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},"
+        + "\"entryNetValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"entryVatRate\":23,"
+        + "\"entryVatValue\":{\"amount\":14.44,\"currency\":\"PLN\"},\"entryGrossValue\":{"
+        + "\"amount\":77.24,\"currency\":\"PLN\"}},{\"entryName\":\"Felga\",\"entryId\":2,"
+        + "\"entryQuantity\":4,\"entryNetPrice\":{\"amount\":20.00,\"currency\":\"PLN\"},"
+        + "\"entryNetValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"entryVatRate\":23,"
+        + "\"entryVatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"entryGrossValue\":{"
+        + "\"amount\":98.40,\"currency\":\"PLN\"}},{\"entryName\":\"Sruba\",\"entryId\":3,"
+        + "\"entryQuantity\":20,\"entryNetPrice\":{\"amount\":5.30,\"currency\":\"PLN\"},"
+        + "\"entryNetValue\":{\"amount\":106.00,\"currency\":\"PLN\"},\"entryVatRate\":23,"
+        + "\"entryVatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"entryGrossValue\":{"
         + "\"amount\":130.38,\"currency\":\"PLN\"}}],\"netTotalAmount\":{\"amount\":248.80,"
         + "\"currency\":\"PLN\"},\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},"
-        + "\"issueDate\":\"2017-09-19 14:25:01\"}");
+        + "\"issueDate\":\"2017-08-22 23:59:01\"}");
     listFromFile = processor
-        .readInvoicesFromFile("src/test/resources/pl.coderstrust/testFileInput.txt");
+        .readInvoicesFromFile("src/test/resources/testFileInput");
     //then
     Assert.assertNotNull(listFromFile);
     Assert.assertEquals(expectedList.get(0), listFromFile.get(0));
-    Assert.assertEquals(expectedList.get(1), listFromFile.get(1));
   }
 
   /**
    * Test sample Javadoc.
    */
-
   @Test
   public void shouldWriteTheProvidedListToTestFileOutput() throws IOException {
     //given
     final List<String> gotFromFile;
     List<String> listToBeWritten = new ArrayList<>();
-    File outFileBefore = new File("src/test/resources/pl.coderstrust/testFileOutput.txt");
+    File outFileBefore = new File("src/test/resources/testFileOutput.txt");
     final Long lengthBefore = outFileBefore.length();
     //when
     listToBeWritten.add("283 + 293 + 307 + 311 + 313 + 317 + 331 + 337 + 347 + 349 = 3188");
     listToBeWritten.add("This is the test message to be written by FileProcessor");
     processor.appendInvoiceToFile(listToBeWritten.get(0),
-        "src/test/resources/pl.coderstrust/testFileOutput.txt");
+        "src/test/resources/testFileOutput.txt");
     processor.appendInvoiceToFile(listToBeWritten.get(0),
-        "src/test/resources/pl.coderstrust/testFileOutput.txt");
+        "src/test/resources/testFileOutput.txt");
     gotFromFile = processor
-        .readInvoicesFromFile("src/test/resources/pl.coderstrust/testFileOutput.txt");
+        .readInvoicesFromFile("src/test/resources/testFileOutput.txt");
     final Long lengthAfter = outFileBefore.length();
     //then
     Assert.assertNotNull(outFileBefore);

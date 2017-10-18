@@ -68,4 +68,5 @@ public class Buyer {
   public void setAccountNumber(String accountNumber) {
     this.accountNumber = accountNumber;
   }
+
 }

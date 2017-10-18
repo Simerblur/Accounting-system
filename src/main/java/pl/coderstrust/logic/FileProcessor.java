@@ -1,4 +1,6 @@
-package pl.coderstrust.fileprocessor;
+package pl.coderstrust.logic;
+
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Service
 public class FileProcessor {
 
   private List<String> readLinesFromFile(String pathNameInput) {
@@ -17,6 +20,7 @@ public class FileProcessor {
       while (inLineScan.hasNextLine()) {
         readLinesFromFile.add(inLineScan.nextLine());
       }
+      inLineScan.close();
       return readLinesFromFile;
     } catch (IOException e) {
       System.out.println(e.toString());
@@ -47,6 +51,7 @@ public class FileProcessor {
     try (FileWriter myFileWriter = new FileWriter(pathNameOutput, true)) {
       myFileWriter.write(inputString);
       myFileWriter.write(System.lineSeparator());
+      myFileWriter.close();
     } catch (IOException e) {
       System.out.println(e.toString());
     }

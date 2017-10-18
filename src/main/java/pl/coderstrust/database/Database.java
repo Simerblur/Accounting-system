@@ -10,4 +10,7 @@ public interface Database {
 
   List<Invoice> getInvoices();
 
+  boolean removeInvoice(int invoiceId);
+
+  boolean replaceInvoice(int invoiceId, Invoice invoice);
 }

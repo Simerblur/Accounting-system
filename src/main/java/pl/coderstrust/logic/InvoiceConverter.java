@@ -1,6 +1,7 @@
-package pl.coderstrust.fileprocessor;
+package pl.coderstrust.logic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -8,15 +9,17 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 import pl.coderstrust.model.Invoice;
-import pl.coderstrust.model.counterparts.Counterparts;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
+@Service
 public class InvoiceConverter {
 
   private final ObjectMapper mapper = objectMapper();
@@ -24,7 +27,8 @@ public class InvoiceConverter {
   /**
    * Provides correctly configured ObjectMapper.
    */
-
+  @Primary
+  @Bean
   private ObjectMapper objectMapper() {
     final ObjectMapper mapper = new ObjectMapper();
     JavaTimeModule javaTimeModule = new JavaTimeModule();
@@ -39,6 +43,7 @@ public class InvoiceConverter {
     javaTimeModule.addSerializer(LocalDateTime.class,
         new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
     mapper.registerModule(javaTimeModule);
+    mapper.configure(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS, true);
     mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     return mapper;
   }
