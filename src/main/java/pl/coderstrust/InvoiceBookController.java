@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.coderstrust.model.Invoice;
 import pl.coderstrust.logic.InvoiceBook;
+import pl.coderstrust.model.Invoice;
 
 import java.util.Iterator;
 import java.util.List;
@@ -67,11 +67,7 @@ public class InvoiceBookController {
       response = String.class)
   @RequestMapping(value = "/invoices", method = RequestMethod.POST)
   public ResponseEntity<?> postInvoice(@RequestBody Invoice jsonString) {
-    invoiceBook.addInvoice(jsonString);
-    return ResponseEntity.ok(invoiceBook
-        .getInvoices()
-        .get(invoiceBook.getInvoices().size() - 1)
-        .getInvoiceId());
+    return ResponseEntity.ok(invoiceBook.addInvoice(jsonString));
   }
 
   /**

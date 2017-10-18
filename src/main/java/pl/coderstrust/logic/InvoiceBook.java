@@ -25,10 +25,11 @@ public class InvoiceBook {
   /**
    * Adds new invoice to the invoice book.
    */
-  public void addInvoice(Invoice invoice) {
+  public int addInvoice(Invoice invoice) {
     InvoiceBookHelper.generateInvoiceId(invoice, getInvoices());
     InvoiceBookHelper.generateInvoiceName(invoice, getInvoices());
     database.saveInvoice(invoice);
+    return invoice.getInvoiceId();
   }
 
   /**
