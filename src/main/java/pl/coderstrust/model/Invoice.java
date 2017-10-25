@@ -39,20 +39,20 @@ public class Invoice {
   }
 
   private Money calculateTotal(List<InvoiceEntry> entries, Function<InvoiceEntry, Money> method) {
-    Money grossTotal = new Money();
+    Money total = new Money();
     if (entries != null) {
       for (InvoiceEntry invoiceEntry : entries) {
         if (invoiceEntry.getEntryNetPrice() != null) {
-          grossTotal = new Money(
-              (grossTotal.getAmount().add(method.apply(invoiceEntry).getAmount())),
+          total = new Money(
+              (total.getAmount().add(method.apply(invoiceEntry).getAmount())),
               method.apply(invoiceEntry).getCurrency());
         } else {
-          return grossTotal;
+          return total;
         }
       }
-      return grossTotal;
+      return total;
     } else {
-      return grossTotal;
+      return total;
     }
   }
 

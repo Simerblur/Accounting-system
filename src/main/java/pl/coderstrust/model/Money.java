@@ -39,4 +39,12 @@ public class Money {
     }
     return currency == money.currency;
   }
+
+  @Override
+  public String toString() {
+    return "Money{"
+        + "amount=" + amount
+        + ", currency=" + currency
+        + '}';
+  }
 }
