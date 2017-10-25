@@ -3,6 +3,7 @@ package pl.coderstrust.logic;
 import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.model.Invoice;
+import pl.coderstrust.model.Money;
 
 import java.time.LocalDateTime;
 
@@ -46,6 +47,13 @@ public class InvoiceBook {
   public void replaceInvoice(int invoiceId, Invoice invoice) {
     invoice.setInvoiceId(invoiceId);
     database.replaceInvoice(invoiceId, invoice);
+  }
+
+  public Money calculateTotalVat(int month) {
+    return TaxHelper.calculateVat(month, getInvoices());
+  }
+  public Money calculateTotalIncomeTax(int month) {
+    return TaxHelper.calculateIncomeTax(month, getInvoices());
   }
 }
 
