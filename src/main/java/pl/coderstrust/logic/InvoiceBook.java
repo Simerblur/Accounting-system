@@ -49,11 +49,11 @@ public class InvoiceBook {
     database.replaceInvoice(invoiceId, invoice);
   }
 
-  public Money calculateTotalVat(int month) {
+  public Money calculateVatAmountForGivenMonth(int month) {
     return TaxHelper.calculateVat(month, getInvoices());
   }
 
-  public Money calculateTotalIncomeTax(int month) {
+  public Money calculateIncomeTaxForGivenMonth(int month) {
     return TaxHelper.calculateIncomeTax(month, getInvoices());
   }
 }

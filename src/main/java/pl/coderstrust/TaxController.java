@@ -28,7 +28,7 @@ public class TaxController {
       response = Money.class)
   @RequestMapping(value = "/taxes/VAT/{month}", method = RequestMethod.GET)
   public Money calculateVatCurrentMonth(@PathVariable int month) {
-    return invoiceBook.calculateTotalVat(month);
+    return invoiceBook.calculateVatAmountForGivenMonth(month);
   }
 
   @ApiOperation(value = "Returns Income Tax value to be paid by month",
@@ -37,6 +37,6 @@ public class TaxController {
       response = Money.class)
   @RequestMapping(value = "/taxes/income/{month}", method = RequestMethod.GET)
   public Money calculateIncomeTaxCurrentMonth(@PathVariable int month) {
-    return invoiceBook.calculateTotalIncomeTax(month);
+    return invoiceBook.calculateIncomeTaxForGivenMonth(month);
   }
 }

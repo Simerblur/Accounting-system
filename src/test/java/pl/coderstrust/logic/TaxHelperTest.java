@@ -72,7 +72,8 @@ public class TaxHelperTest {
         " Net total 3 " + givenInvoice3.getNetTotalAmount().getAmount() + " Gross total "
             + givenInvoice3.getGrossTotalAmount().getAmount());
     System.out.println("=============================");
-    System.out.println("VAT to pay = " + invoiceBook.calculateTotalVat(10).toString());
+    System.out
+        .println("VAT to pay = " + invoiceBook.calculateVatAmountForGivenMonth(10).toString());
     //when
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice);
@@ -81,7 +82,7 @@ public class TaxHelperTest {
     Assert.assertEquals("1/10/2017", invoiceBook.getInvoices().get(0).getName());
     Assert.assertEquals(
         new Money(new BigDecimal(70.38).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN),
-        invoiceBook.calculateTotalVat(10));
+        invoiceBook.calculateVatAmountForGivenMonth(10));
   }
 
   /**
@@ -106,11 +107,12 @@ public class TaxHelperTest {
               + invoiceBook.getInvoices().get(i).getGrossTotalAmount().getAmount());
     }
     System.out.println("=============================");
-    System.out.println("Income tax to pay = " + invoiceBook.calculateTotalIncomeTax(10).toString());
+    System.out.println(
+        "Income tax to pay = " + invoiceBook.calculateIncomeTaxForGivenMonth(10).toString());
     //then
     Assert.assertEquals("1/10/2017", invoiceBook.getInvoices().get(0).getName());
     Assert.assertEquals(
         new Money(new BigDecimal(58.14).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN),
-        invoiceBook.calculateTotalIncomeTax(10));
+        invoiceBook.calculateIncomeTaxForGivenMonth(10));
   }
 }
