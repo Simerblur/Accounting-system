@@ -88,7 +88,8 @@ public class InvoiceBookHelper {
     List<Invoice> resultList = new ArrayList<>();
     if (allInvoices.size() > 0) {
       for (Invoice invoice : allInvoices) {
-        if (invoice.getIssueDate().isAfter(startDate.minusSeconds(1))
+        if (invoice.getIssueDate() != null && invoice.getIssueDate()
+            .isAfter(startDate.minusSeconds(1))
             && invoice.getIssueDate().isBefore(endDate.plusSeconds(1))) {
           resultList.add(invoice);
         }

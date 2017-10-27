@@ -2,6 +2,7 @@ package pl.coderstrust.database.file;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 import pl.coderstrust.database.AbstractDatabaseTest;
@@ -19,7 +20,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
-@RunWith(MockitoJUnitRunner.class)
+
 public class InFileDatabaseTest extends AbstractDatabaseTest {
 
   InFileDatabase fileDatabase;
@@ -66,10 +67,6 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     return fileDatabase;
   }
 
-  /**
-   * Test sample Javadoc.
-   */
-
   @Override
   public void shouldSaveInvoice() {
     //given
@@ -87,10 +84,6 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
   }
 
 
-  /**
-   * Test sample Javadoc.
-   */
-
   @Override
   public void shouldGetInvoices() {
     //given
@@ -102,4 +95,28 @@ public class InFileDatabaseTest extends AbstractDatabaseTest {
     Assert.assertNotNull(givenList);
     Assert.assertEquals("default description", fileDatabase.getInvoices().get(0).getDescription());
   }
+
+  @Test
+  public void shouldDeleteInvoice() {
+    //given
+    int idToRemove = 0;
+    //when
+    fileDatabase.saveInvoice(new Invoice());
+    boolean result = fileDatabase.removeInvoice(idToRemove);
+    //then
+    Assert.assertEquals(true, result);
+  }
+
+  @Test
+  public void shouldReplaceInvoice() {
+    //given
+    int idToReplace = 0;
+    //when
+    fileDatabase.saveInvoice(new Invoice());
+    boolean result = fileDatabase
+        .replaceInvoice(idToReplace, new Invoice(new MyCompanySell(), new Buyer()));
+    //then
+    Assert.assertEquals(true, result);
+  }
+
 }

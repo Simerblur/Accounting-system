@@ -16,7 +16,7 @@ import pl.coderstrust.model.Invoice;
 import java.util.Iterator;
 import java.util.List;
 
-@Api(value = "/invoices", description = "API to controll invoices: read, add, delete, replace"
+@Api(value = "/invoices", description = "API to control invoices: read, add, delete, replace"
     + " modify invoice in the InvoiceBook", consumes = "application/json")
 @RestController
 public class InvoiceBookController {
@@ -45,17 +45,16 @@ public class InvoiceBookController {
    */
 
   @ApiOperation(value = "Return single invoice by ID, optionally filtered"
-      + " by its fields", notes = "Only Integer value of InvoiceId can be provided",
-      response = Invoice.class)
+      + " by its fields", notes = "Only Integer value of InvoiceId can be provided")
   @RequestMapping(value = "/invoices/{id}", method = RequestMethod.GET)
-  public Invoice getSingleInvoice(@PathVariable int id) {
-
+  public ResponseEntity<Invoice> getSingleInvoice(@PathVariable int id) {
     return invoiceBook
         .getInvoices()
         .stream()
         .filter(invoice -> invoice.getInvoiceId() == id)
+        .map(invoice -> ResponseEntity.ok().body(invoice))
         .findFirst()
-        .orElse(new Invoice());
+        .orElseGet( () -> ResponseEntity.notFound().build());
   }
 
   /**
