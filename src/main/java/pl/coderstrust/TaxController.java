@@ -22,11 +22,8 @@ public class TaxController {
     this.invoiceBook = invoiceBook;
   }
 
-  /**
-   * Calculate VAT tax due for current month.
-   */
   @ApiOperation(value = "Returns VAT to be paid by month",
-      notes = "Positive value means what comapny will PAY, negative value means"
+      notes = "Positive value means what company will PAY, negative value means"
           + "what company SHOULD request back form tax office",
       response = Money.class)
   @RequestMapping(value = "/taxes/VAT/{month}", method = RequestMethod.GET)
@@ -34,11 +31,8 @@ public class TaxController {
     return invoiceBook.calculateTotalVat(month);
   }
 
-  /**
-   * Calculate Income tax due for current month.
-   */
   @ApiOperation(value = "Returns Income Tax value to be paid by month",
-      notes = "Positive value means what comapny will PAY, negative value means"
+      notes = "Positive value means what company will PAY, negative value means"
           + "what company SHOULD request back form tax office",
       response = Money.class)
   @RequestMapping(value = "/taxes/income/{month}", method = RequestMethod.GET)

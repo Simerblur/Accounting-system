@@ -24,9 +24,6 @@ public class TaxControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
-  /**
-   * Test of GET method for the /taxes/VAT.
-   */
   @Test
   public void shouldReturnDefaultMessageForInMemoryDatabase() throws Exception {
     this.mockMvc.perform(get("/taxes/VAT/1"))
@@ -35,9 +32,6 @@ public class TaxControllerTest {
         .andExpect(content().string(containsString("amount")));
   }
 
-  /**
-   * Test of GET method for the /taxes/income.
-   */
   @Test
   public void shouldReturnDefaultMessageAfterPostingInvoiceToTheDatabase() throws Exception {
     this.mockMvc.perform(get("/taxes/income/1").contentType(MediaType.APPLICATION_JSON).content(

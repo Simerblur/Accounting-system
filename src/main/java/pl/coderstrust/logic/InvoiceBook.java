@@ -52,6 +52,7 @@ public class InvoiceBook {
   public Money calculateTotalVat(int month) {
     return TaxHelper.calculateVat(month, getInvoices());
   }
+
   public Money calculateTotalIncomeTax(int month) {
     return TaxHelper.calculateIncomeTax(month, getInvoices());
   }

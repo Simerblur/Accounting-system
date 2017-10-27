@@ -19,15 +19,15 @@ public class InvoiceEntry {
   /**
    * Test sample Javadoc.
    */
-
   public InvoiceEntry(String entryName, int entryQuantity, Money entryNetPrice, int entryVatRate) {
     this.entryName = entryName;
     this.entryId = 0;
     this.entryQuantity = entryQuantity;
     this.entryNetPrice = entryNetPrice;
     this.entryVatRate = entryVatRate;
-    this.entryNetValue = new Money(this.entryNetPrice.getAmount().multiply(new BigDecimal(this.entryQuantity))
-        .setScale(2, BigDecimal.ROUND_HALF_UP), this.entryNetPrice.getCurrency());
+    this.entryNetValue = new Money(
+        this.entryNetPrice.getAmount().multiply(new BigDecimal(this.entryQuantity))
+            .setScale(2, BigDecimal.ROUND_HALF_UP), this.entryNetPrice.getCurrency());
     this.entryVatValue = new Money(entryNetValue.getAmount().multiply(new BigDecimal(entryVatRate)
         .divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP))
         .setScale(2, BigDecimal.ROUND_HALF_UP), entryNetValue.getCurrency());

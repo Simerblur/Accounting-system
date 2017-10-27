@@ -34,12 +34,11 @@ public class InvoiceBookTest {
   private Invoice givenInvoice2;
   private Invoice givenInvoice3;
 
-
   @Mock
   private Database db;
 
   /**
-   * Test sample Javadoc.
+   * Before test fill in invoices.
    */
   @Before
   public void fillDb() {
@@ -66,9 +65,6 @@ public class InvoiceBookTest {
     givenInvoice3.addEntry(invoiceEntry3);
   }
 
-  /**
-   * Test sample Javadoc.
-   */
   @Test
   public void shouldReturnEmptyListOfInvoicesIfNothingAdded() {
     // given
@@ -82,9 +78,6 @@ public class InvoiceBookTest {
     assertEquals(0, invoices.size());
   }
 
-  /**
-   * Test sample Javadoc.
-   */
   @Test
   public void shouldReturnSingleInvoiceWhenItWasAddedToBook() {
     // given
@@ -102,9 +95,6 @@ public class InvoiceBookTest {
     assertEquals(givenInvoice, invoices.get(0));
   }
 
-  /**
-   * Test sample Javadoc.
-   */
   @Test
   public void shouldTestEmptyInvoiceConstructor() {
     //given
@@ -113,9 +103,6 @@ public class InvoiceBookTest {
     Assert.assertNotNull(testJson);
   }
 
-  /**
-   * Test sample Javadoc.
-   */
   @Test
   public void shouldTestEmptyInvoiceEntryConstructor() {
     //given
@@ -124,16 +111,33 @@ public class InvoiceBookTest {
     Assert.assertNotNull(testJson);
   }
 
-  /**
-   * Test getters and setters. Tests DI and Invoice name generation.
-   */
   @Test
   public void shouldTestGettersAndSetters() {
     Database memDb = new InMemoryDatabase();
     InvoiceBook ib = new InvoiceBook(memDb);
     InvoiceConverter converter = new InvoiceConverter();
     final Invoice testInvoice = converter.convertJsonToInvoice(
-        "{\"invoiceId\":2,\"name\":\"1/10/2017\",\"description\":\"default description\",\"buyer\":{\"name\":\"Jacek\",\"address1\":null,\"address2\":null,\"zip\":null,\"vatId\":\"PL33333333\",\"accountNumber\":null},\"seller\":{\"name\":\"My Compnay name\",\"address1\":\"Building, street\",\"address2\":\"Street, City\",\"zip\":\"00-333\",\"vatId\":\"PL9988555333\",\"accountNumber\":\"12 0000 0000 0000 1111 1111\"},\"entries\":[{\"entryName\":\"Opona\",\"entryId\":1,\"entryQuantity\":4,\"entryNetPrice\":{\"amount\":15.70,\"currency\":\"PLN\"},\"entryNetValue\":{\"amount\":62.80,\"currency\":\"PLN\"},\"entryVatRate\":23,\"entryVatValue\":{\"amount\":14.44,\"currency\":\"PLN\"},\"entryGrossValue\":{\"amount\":77.24,\"currency\":\"PLN\"}},{\"entryName\":\"Felga\",\"entryId\":2,\"entryQuantity\":4,\"entryNetPrice\":{\"amount\":20.00,\"currency\":\"PLN\"},\"entryNetValue\":{\"amount\":80.00,\"currency\":\"PLN\"},\"entryVatRate\":23,\"entryVatValue\":{\"amount\":18.40,\"currency\":\"PLN\"},\"entryGrossValue\":{\"amount\":98.40,\"currency\":\"PLN\"}},{\"entryName\":\"Sruba\",\"entryId\":3,\"entryQuantity\":20,\"entryNetPrice\":{\"amount\":5.30,\"currency\":\"PLN\"},\"entryNetValue\":{\"amount\":106.00,\"currency\":\"PLN\"},\"entryVatRate\":23,\"entryVatValue\":{\"amount\":24.38,\"currency\":\"PLN\"},\"entryGrossValue\":{\"amount\":130.38,\"currency\":\"PLN\"}}],\"issueDate\":\"2017-10-17 21:49:35\",\"grossTotalAmount\":{\"amount\":306.02,\"currency\":\"PLN\"},\"netTotalAmount\":{\"amount\":248.80,\"currency\":\"PLN\"}}");
+        "{\"invoiceId\":2,\"name\":\"1/10/2017\",\"description\":\"default description"
+            + "\",\"buyer\":{\"name\":\"Jacek\",\"address1\":null,\"address2\":null,\"zip\":null,"
+            + "\"vatId\":\"PL33333333\",\"accountNumber\":null},\"seller\":{\"name\":"
+            + "\"My Compnay name\",\"address1\":\"Building, street\",\"address2\":"
+            + "\"Street, City\",\"zip\":\"00-333\",\"vatId\":\"PL9988555333\",\"accountNumber"
+            + "\":\"12 0000 0000 0000 1111 1111\"},\"entries\":[{\"entryName\":\"Opona\","
+            + "\"entryId\":1,\"entryQuantity\":4,\"entryNetPrice\":{\"amount\":15.70,\"currency"
+            + "\":\"PLN\"},\"entryNetValue\":{\"amount\":62.80,\"currency\":\"PLN\"},"
+            + "\"entryVatRate\":23,\"entryVatValue\":{\"amount\":14.44,\"currency\":\"PLN"
+            + "\"},\"entryGrossValue\":{\"amount\":77.24,\"currency\":\"PLN\"}},{\"entryName"
+            + "\":\"Felga\",\"entryId\":2,\"entryQuantity\":4,\"entryNetPrice\":{\"amount"
+            + "\":20.00,\"currency\":\"PLN\"},\"entryNetValue\":{\"amount\":80.00,\"currency"
+            + "\":\"PLN\"},\"entryVatRate\":23,\"entryVatValue\":{\"amount\":18.40,\"currency"
+            + "\":\"PLN\"},\"entryGrossValue\":{\"amount\":98.40,\"currency\":\"PLN\"}},{"
+            + "\"entryName\":\"Sruba\",\"entryId\":3,\"entryQuantity\":20,\"entryNetPrice\":{"
+            + "\"amount\":5.30,\"currency\":\"PLN\"},\"entryNetValue\":{\"amount\":106.00,"
+            + "\"currency\":\"PLN\"},\"entryVatRate\":23,\"entryVatValue\":{\"amount\":24.38,"
+            + "\"currency\":\"PLN\"},\"entryGrossValue\":{\"amount\":130.38,\"currency\":\"PLN"
+            + "\"}}],\"issueDate\":\"2017-10-17 21:49:35\",\"grossTotalAmount\":{\"amount"
+            + "\":306.02,\"currency\":\"PLN\"},\"netTotalAmount\":{\"amount\":248.80,"
+            + "\"currency\":\"PLN\"}}");
     ib.addInvoice(givenInvoice3);
     ib.addInvoice(givenInvoice2);
     System.out.println(converter.convertToJsonString(ib.getInvoices().get(1)));
@@ -147,9 +151,6 @@ public class InvoiceBookTest {
     Assert.assertEquals(givenInvoice2.getName(), testInvoice.getName());
   }
 
-  /**
-   * Test sample Javadoc.
-   */
   @Test
   public void shouldReturnInvoicesFromRange() {
     InFileDatabase database = new InFileDatabase();
@@ -162,11 +163,9 @@ public class InvoiceBookTest {
     for (Invoice iterator : test) {
       System.out.println(iterator.getInvoiceId() + " " + iterator.getIssueDate());
     }
+    Assert.assertTrue(test.size() > 0);
   }
 
-  /**
-   * Should add new invoice.
-   */
   @Test
   public void shouldAddInvoice() {
     //given
@@ -207,10 +206,6 @@ public class InvoiceBookTest {
                 + " Gross total " + givenInvoice2.getGrossTotalAmount().getAmount());
   }
 
-
-  /**
-   * Should add new invoice.
-   */
   @Test
   public void shouldAddInvoiceToFile() {
     //given
@@ -239,9 +234,6 @@ public class InvoiceBookTest {
     Assert.assertEquals(3, testedRange.get(1).getEntries().get(2).getEntryId());
   }
 
-  /**
-   * Should add new invoice.
-   */
   @Test
   public void shouldRemoveInvoice() {
     //given
@@ -271,9 +263,6 @@ public class InvoiceBookTest {
     }
   }
 
-  /**
-   * Should replace new invoice.
-   */
   @Test
   public void shouldReplaceInvoice() {
     //given
@@ -309,9 +298,6 @@ public class InvoiceBookTest {
   }
 
 
-  /**
-   * Should remove  invoice from file.
-   */
   @Test
   public void shouldRemoveInvoiceFromFile() {
     //given
