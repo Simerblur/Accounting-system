@@ -1,3 +1,5 @@
+package pl.coderstrust.mail;
+
 import javax.mail.Message;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -27,9 +29,10 @@ public class MailMail {
                 mimeMessage.setText(msg);
 
                 FileSystemResource file = new FileSystemResource(new File("Invoice"));
-                helper.addAttachment("Invoice", file);
+                // MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+                // helper.addAttachment("Invoice", file);
             }
         };
         mailSender.send(messagePreparator);
     }
-}  
+}
