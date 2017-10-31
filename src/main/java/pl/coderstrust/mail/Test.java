@@ -13,7 +13,7 @@ public class Test {
         MailMail m = (MailMail) b.getBean("mailMail");
         String sender = "pl.coderstrust@gmail.com";
         String receiver = "juliuszdokrzewski@gmail.com";
-        m.sendMail(sender, receiver, "hi", "welcome");
+        m.sendMail(sender, receiver, "New invoice", "New invoice just came out, check attachment");
 
         System.out.println("success");
     }

@@ -23,14 +23,16 @@ public class MailMail {
         MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
 
             public void prepare(MimeMessage mimeMessage) throws Exception {
-                mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                mimeMessage.setFrom(new InternetAddress(from));
-                mimeMessage.setSubject(subject);
-                mimeMessage.setText(msg);
+                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-                FileSystemResource file = new FileSystemResource(new File("Invoice"));
-                // MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-                // helper.addAttachment("Invoice", file);
+                helper.addTo(new InternetAddress(to));
+                helper.setFrom(new InternetAddress(from));
+                helper.setSubject(subject);
+                helper.setText(msg);
+
+                FileSystemResource file = new FileSystemResource(new File("d:\\invoice.txt"));
+                helper.addAttachment("invoice.txt", file);
+
             }
         };
         mailSender.send(messagePreparator);
