@@ -1,11 +1,17 @@
 package pl.coderstrust.model.counterparts;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Seller {
 
   private String name;
   private String address1;
   private String address2;
   private String zip;
+
+  @Id
   private String vatId;
   private String accountNumber;
 

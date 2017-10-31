@@ -1,6 +1,12 @@
 package pl.coderstrust.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import pl.coderstrust.model.counterparts.Buyer;
 import pl.coderstrust.model.counterparts.Seller;
 
@@ -10,17 +16,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+@Entity
 public class Invoice {
 
+  @Id
   private int invoiceId;
+
+  @NotNull
   private String name;
+
   @ApiModelProperty(value = "Text annotation on the invoice in the separate field")
   private String description;
+
+  @NotNull
+  @ManyToOne(cascade = {CascadeType.PERSIST})
   private Buyer buyer;
+
+  @NotNull
+  @ManyToOne(cascade = {CascadeType.PERSIST})
   private Seller seller;
+
+  @ElementCollection(targetClass = InvoiceEntry.class)
   private List<InvoiceEntry> entries = new ArrayList<>();
+
+
+  @ManyToOne(cascade = {CascadeType.ALL})
   private Money netTotalAmount;
+
+  @ManyToOne(cascade = {CascadeType.ALL})
   private Money grossTotalAmount;
+
   private LocalDateTime issueDate;
 
   public Invoice() {
@@ -36,6 +61,8 @@ public class Invoice {
     this.description = "default description";
     this.buyer = buyer;
     this.seller = seller;
+ //   this.netTotalAmount = getNetTotalAmount();
+  //  this.grossTotalAmount = getGrossTotalAmount();
   }
 
   private Money calculateTotal(List<InvoiceEntry> entries, Function<InvoiceEntry, Money> method) {

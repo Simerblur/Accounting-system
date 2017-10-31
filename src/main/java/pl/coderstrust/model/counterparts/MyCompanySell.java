@@ -1,5 +1,8 @@
 package pl.coderstrust.model.counterparts;
 
+import javax.persistence.Entity;
+
+@Entity
 public class MyCompanySell extends Seller {
 
   /**

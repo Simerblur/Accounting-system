@@ -1,16 +1,34 @@
 package pl.coderstrust.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 import java.math.BigDecimal;
 
+@Entity
 public class InvoiceEntry {
 
   private String entryName;
   private int entryId;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  private int invoiceId;
   private int entryQuantity;
+  @ManyToOne
   private Money entryNetPrice;
+
+  @ManyToOne
   private Money entryNetValue;
   private int entryVatRate;
+
+  @ManyToOne
   private Money entryVatValue;
+  @ManyToOne
   private Money entryGrossValue;
 
   public InvoiceEntry() {
