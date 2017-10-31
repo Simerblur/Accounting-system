@@ -29,8 +29,10 @@ public class MailMail {
                 mimeMessage.setText(msg);
 
                 FileSystemResource file = new FileSystemResource(new File("Invoice"));
-                // MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
                 // helper.addAttachment("Invoice", file);
+                FileSystemResource filee = new FileSystemResource(new File("c:/FRST/invoice.txt"));
+                helper.addAttachment("invoice", filee);
             }
         };
         mailSender.send(messagePreparator);
