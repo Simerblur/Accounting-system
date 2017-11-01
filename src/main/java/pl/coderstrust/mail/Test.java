@@ -12,8 +12,8 @@ public class Test {
         BeanFactory b = new XmlBeanFactory(r);
         MailMail m = (MailMail) b.getBean("mailMail");
         String sender = "pl.coderstrust@gmail.com";
-        String receiver = "juliuszdokrzewski@gmail.com";
-        m.sendMail(sender, receiver, "New invoice", "New invoice just came out, check attachment");
+        String[] receiver = new String[]{"juliuszdokrzewski@gmail.com", "julekdorzewski@gmail.com"};
+        m.sendMail(sender, receiver, "New invoice", "New invoice just came out, check the attachment");
 
         System.out.println("success");
     }

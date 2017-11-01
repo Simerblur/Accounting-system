@@ -18,14 +18,14 @@ public class MailMail {
         this.mailSender = mailSender;
     }
 
-    public void sendMail(final String from, final String to, final String subject, final String msg) {
+    public void sendMail(String from, String[] to, String subject, String msg) {
 
         MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
 
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-                helper.addTo(new InternetAddress(to));
+                helper.setTo(to);
                 helper.setFrom(new InternetAddress(from));
                 helper.setSubject(subject);
                 helper.setText(msg);
