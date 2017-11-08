@@ -2,10 +2,10 @@ package pl.coderstrust.model;
 
 import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
+import pl.coderstrust.mail.MailSender;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,9 +14,11 @@ import java.util.regex.Pattern;
 public class InvoiceBook {
 
   private final Database database;
+  private final MailSender mailSender;
 
-  public InvoiceBook(Database database) {
+  public InvoiceBook(Database database, MailSender mailSender) {
     this.database = database;
+    this.mailSender = mailSender;
   }
 
   public List<Invoice> getInvoices() {
@@ -31,6 +33,7 @@ public class InvoiceBook {
     generateInvoiceId(invoice);
     generateInvoiceName(invoice);
     database.saveInvoice(invoice);
+    mailSender.sendEmail(invoice);
   }
 
   private void generateInvoiceId(Invoice updatedInvoice) {
