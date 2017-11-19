@@ -1,5 +1,6 @@
 package pl.coderstrust.database.file;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.FileProcessor;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.mail.MailSender;
 import pl.coderstrust.model.Invoice;
 
 import java.io.File;
@@ -17,6 +19,9 @@ import java.util.List;
 @Service
 @ConditionalOnProperty(name = "pl.coderstrust.database", havingValue = "inFileDatabase")
 public class InFileDatabase implements Database {
+
+  @Autowired
+  private MailSender mailSender;
 
    private final FileProcessor fileProcessor = new FileProcessor();
   @Value("${file.path}")
@@ -68,6 +73,11 @@ public class InFileDatabase implements Database {
     } catch (ArrayIndexOutOfBoundsException e) {
       System.out.println("Invoice not found!");
     }
+  }
+
+  @Override
+  public void sendEmail() {
+
   }
 
   private void writeListToTheFile(List<Invoice> inputList) {

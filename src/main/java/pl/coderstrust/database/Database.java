@@ -13,4 +13,6 @@ public interface Database {
   List<Invoice> getInvoices();
 
   void removeInvoice(int invoiceId);
+
+    void sendEmail();
 }

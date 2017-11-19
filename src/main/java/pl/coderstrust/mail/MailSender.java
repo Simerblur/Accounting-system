@@ -3,6 +3,7 @@ package pl.coderstrust.mail;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -13,10 +14,11 @@ import pl.coderstrust.model.Invoice;
 public class MailSender {
 
 
-    private final JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
-    public MailSender(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
+
+    public MailSender(JavaMailSender sender) {
+        this.javaMailSender = sender;
     }
 
 

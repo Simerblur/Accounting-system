@@ -14,11 +14,9 @@ import java.util.regex.Pattern;
 public class InvoiceBook {
 
   private final Database database;
-  private final MailSender mailSender;
 
-  public InvoiceBook(Database database, MailSender mailSender) {
+  public InvoiceBook(Database database) {
     this.database = database;
-    this.mailSender = mailSender;
   }
 
   public List<Invoice> getInvoices() {
@@ -33,7 +31,7 @@ public class InvoiceBook {
     generateInvoiceId(invoice);
     generateInvoiceName(invoice);
     database.saveInvoice(invoice);
-    mailSender.sendEmail(invoice);
+    database.sendEmail();
   }
 
   private void generateInvoiceId(Invoice updatedInvoice) {

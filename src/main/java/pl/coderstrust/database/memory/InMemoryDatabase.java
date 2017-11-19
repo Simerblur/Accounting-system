@@ -1,9 +1,11 @@
 package pl.coderstrust.database.memory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import pl.coderstrust.database.Database;
 import pl.coderstrust.fileprocessor.InvoiceConverter;
+import pl.coderstrust.mail.MailSender;
 import pl.coderstrust.model.Invoice;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.List;
 @ConditionalOnProperty(name = "pl.coderstrust.database", havingValue = "inMemoryDatabase")
 public class InMemoryDatabase implements Database {
 
+  @Autowired
+  private MailSender mailSender;
   private List<Invoice> invoices = new ArrayList<>();
   private InvoiceConverter invoiceConverter;
 
@@ -30,6 +34,11 @@ public class InMemoryDatabase implements Database {
   @Override
   public List<Invoice> getInvoices() {
     return Collections.unmodifiableList(invoices);
+  }
+
+  @Override
+  public void sendEmail() {
+    mailSender.sendMail("pl.coderstrust@gmail.com", new String[]{"juliuszdokrzewski@gmail.com"}, "Invoice", "New msg");
   }
 
   @Override
