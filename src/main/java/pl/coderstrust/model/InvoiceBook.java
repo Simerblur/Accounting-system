@@ -31,7 +31,7 @@ public class InvoiceBook {
     generateInvoiceId(invoice);
     generateInvoiceName(invoice);
     database.saveInvoice(invoice);
-    database.sendEmail();
+    database.sendEmail(invoice);
   }
 
   private void generateInvoiceId(Invoice updatedInvoice) {

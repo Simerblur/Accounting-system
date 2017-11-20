@@ -37,8 +37,9 @@ public class InMemoryDatabase implements Database {
   }
 
   @Override
-  public void sendEmail() {
-    mailSender.sendMail("pl.coderstrust@gmail.com", new String[]{"juliuszdokrzewski@gmail.com"}, "Invoice", "New msg");
+  public void sendEmail(Invoice invoice) {
+    invoiceConverter.convertToJsonString(invoice);
+    mailSender.sendMail("pl.coderstrust@gmail.com", new String[]{"juliuszdokrzewski@gmail.com"}, "Invoice", "");
   }
 
   @Override

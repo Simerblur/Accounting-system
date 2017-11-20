@@ -76,7 +76,7 @@ public class InFileDatabase implements Database {
   }
 
   @Override
-  public void sendEmail() {
+  public void sendEmail(Invoice invoice) {
 
   }
 
