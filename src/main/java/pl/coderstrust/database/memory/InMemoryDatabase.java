@@ -19,7 +19,8 @@ public class InMemoryDatabase implements Database {
   @Autowired
   private MailSender mailSender;
   private List<Invoice> invoices = new ArrayList<>();
-  private InvoiceConverter invoiceConverter;
+    @Autowired
+    private InvoiceConverter invoiceConverter;
 
   @Override
   public void saveInvoice(Invoice invoice) {
@@ -39,7 +40,8 @@ public class InMemoryDatabase implements Database {
   @Override
   public void sendEmail(Invoice invoice) {
     invoiceConverter.convertToJsonString(invoice);
-    mailSender.sendMail("pl.coderstrust@gmail.com", new String[]{"juliuszdokrzewski@gmail.com"}, "Invoice", "");
+      String invoiceContent = invoiceConverter.convertToJsonString(invoice);
+      mailSender.sendMail("pl.coderstrust@gmail.com", new String[]{"juliuszdokrzewski@gmail.com"}, "Invoice", invoiceContent);
   }
 
   @Override
