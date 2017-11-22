@@ -7,11 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.model.Invoice;
 
+import java.util.Date;
+
+@Component
 @Service
 public class MailSender {
+
+    @Autowired
+    private InvoiceConverter invoiceConverter;
 
 
     private JavaMailSender javaMailSender;
@@ -19,11 +28,6 @@ public class MailSender {
 
     public MailSender(JavaMailSender sender) {
         this.javaMailSender = sender;
-    }
-
-
-    public void sendEmail(Invoice invoice) {
-        //  invoiceConverter.convertToJsonString(invoice)
     }
 
 
@@ -47,12 +51,6 @@ public class MailSender {
         };
         javaMailSender.send(messagePreparator);
     }
-    //        javaMailSender.send(messagePreparator);
-    //        MimeMessage messagePreparator;
-    //        List<Invoice> listOfAllInvoices = getInvoices();
-    //  //     invoiceList.get(invoice);
-    //  //      List<Invoice> invoiceList = new ArrayList<>();
-//    public void sendInvoice(Invoice invoice){
 
-//    }
 }
+

@@ -15,4 +15,6 @@ public interface Database {
   void removeInvoice(int invoiceId);
 
   void sendEmail(Invoice invoice);
+
+//  void sendMailEveryMidnight(Invoice invoice);
 }

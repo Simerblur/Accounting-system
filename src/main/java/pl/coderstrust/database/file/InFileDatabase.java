@@ -80,6 +80,9 @@ public class InFileDatabase implements Database {
 
   }
 
+//  @Override
+//  public void sendMailEveryMidnight(Invoice invoice) {}
+
   private void writeListToTheFile(List<Invoice> inputList) {
 
     File beforeDeletion = new File(filePath);
