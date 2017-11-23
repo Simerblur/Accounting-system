@@ -10,9 +10,13 @@ import pl.coderstrust.fileprocessor.InvoiceConverter;
 import pl.coderstrust.mail.MailSender;
 import pl.coderstrust.model.Invoice;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Component
 @Service
@@ -40,20 +44,17 @@ public class InMemoryDatabase implements Database {
         return Collections.unmodifiableList(invoices);
     }
 
-    @Scheduled(cron = "0 0 24 * * *", zone = "CET")
+    @Override
+    public List<Invoice> getInvoicesFromCurrentDay() {
+        return invoices.stream().filter(invoice -> invoice.getIssueDate().toLocalDate().isEqual(LocalDate.now())).collect(Collectors.toList());
+    }
+
     @Override
     public void sendEmail(Invoice invoice) {
         invoiceConverter.convertToJsonString(invoice);
         String invoiceContent = invoiceConverter.convertToJsonString(invoice);
         mailSender.sendMail("pl.coderstrust@gmail.com", new String[]{"juliuszdokrzewski@gmail.com"}, "Invoice", invoiceContent);
     }
-
-//    @Scheduled(cron = "0 0 21 * * *", zone = "Warsaw, Poland")
-//
-//    public void sendMailEveryMidnight(Invoice invoice) {
-//        System.out.println("Scheduled task running");
-//
-//    }
 
 
     @Override

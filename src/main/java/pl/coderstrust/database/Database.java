@@ -16,5 +16,5 @@ public interface Database {
 
   void sendEmail(Invoice invoice);
 
-//  void sendMailEveryMidnight(Invoice invoice);
+  List<Invoice> getInvoicesFromCurrentDay();
 }

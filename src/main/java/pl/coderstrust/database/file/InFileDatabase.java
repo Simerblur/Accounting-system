@@ -80,8 +80,10 @@ public class InFileDatabase implements Database {
 
   }
 
-//  @Override
-//  public void sendMailEveryMidnight(Invoice invoice) {}
+    @Override
+    public List<Invoice> getInvoicesFromCurrentDay() {
+        return null;
+    }
 
   private void writeListToTheFile(List<Invoice> inputList) {
 
