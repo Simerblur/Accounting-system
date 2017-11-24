@@ -19,17 +19,11 @@ import java.util.Date;
 @Service
 public class MailSender {
 
-    @Autowired
-    private InvoiceConverter invoiceConverter;
-
-
     private JavaMailSender javaMailSender;
-
 
     public MailSender(JavaMailSender sender) {
         this.javaMailSender = sender;
     }
-
 
     public void sendMail(String from, String[] to, String subject, String msg) {
 
