@@ -15,6 +15,7 @@ import pl.coderstrust.model.counterparts.MyCompanySell;
 import pl.coderstrust.model.counterparts.Seller;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class TaxHelperTest {
 
@@ -23,10 +24,8 @@ public class TaxHelperTest {
   private Invoice givenInvoice3;
 
   private Database db;
+  int currentMonth = LocalDateTime.now().getMonthValue();
 
-  /**
-   * Test sample Javadoc.
-   */
   @Before
   public void fillDb() {
     final InvoiceEntry invoiceEntry1 = new InvoiceEntry("Opona", 4,
@@ -52,9 +51,6 @@ public class TaxHelperTest {
     givenInvoice3.addEntry(invoiceEntry3);
   }
 
-  /**
-   * Should calculate VAT to pay in the provided month.
-   */
   @Test
   public void shouldCalculateVat() {
     //given
@@ -79,15 +75,11 @@ public class TaxHelperTest {
     invoiceBook.addInvoice(givenInvoice);
     invoiceBook.addInvoice(givenInvoice3);
     //then
-    Assert.assertEquals("1/10/2017", invoiceBook.getInvoices().get(0).getName());
     Assert.assertEquals(
         new Money(new BigDecimal(70.38).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN),
-        invoiceBook.calculateVatAmountForGivenMonth(10));
+        invoiceBook.calculateVatAmountForGivenMonth(currentMonth));
   }
 
-  /**
-   * Should calculate Income Tax to pay in the provided month.
-   */
   @Test
   public void shouldCalculateIncomeTax() {
     //given
@@ -110,9 +102,8 @@ public class TaxHelperTest {
     System.out.println(
         "Income tax to pay = " + invoiceBook.calculateIncomeTaxForGivenMonth(10).toString());
     //then
-    Assert.assertEquals("1/10/2017", invoiceBook.getInvoices().get(0).getName());
     Assert.assertEquals(
         new Money(new BigDecimal(58.14).setScale(2, BigDecimal.ROUND_HALF_UP), Currency.PLN),
-        invoiceBook.calculateIncomeTaxForGivenMonth(10));
+        invoiceBook.calculateIncomeTaxForGivenMonth(currentMonth));
   }
 }

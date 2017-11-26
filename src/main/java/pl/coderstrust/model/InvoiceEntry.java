@@ -1,12 +1,14 @@
 package pl.coderstrust.model;
 
+import java.math.BigDecimal;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import java.math.BigDecimal;
 
 @Entity
 public class InvoiceEntry {
@@ -17,26 +19,24 @@ public class InvoiceEntry {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  private int invoiceId;
+  //private int invoiceId;
   private int entryQuantity;
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.ALL})
   private Money entryNetPrice;
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.ALL})
   private Money entryNetValue;
   private int entryVatRate;
 
-  @ManyToOne
+  @ManyToOne(cascade = {CascadeType.ALL})
   private Money entryVatValue;
-  @ManyToOne
+
+  @ManyToOne(cascade = {CascadeType.ALL})
   private Money entryGrossValue;
 
   public InvoiceEntry() {
   } //used by JACKSON
 
-  /**
-   * Test sample Javadoc.
-   */
   public InvoiceEntry(String entryName, int entryQuantity, Money entryNetPrice, int entryVatRate) {
     this.entryName = entryName;
     this.entryId = 0;

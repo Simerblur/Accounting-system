@@ -37,9 +37,6 @@ public class InvoiceBookTest {
   @Mock
   private Database db;
 
-  /**
-   * Before test fill in invoices.
-   */
   @Before
   public void fillDb() {
     final InvoiceEntry invoiceEntry1 = new InvoiceEntry("Opona", 4,
@@ -139,8 +136,7 @@ public class InvoiceBookTest {
             + "\":306.02,\"currency\":\"PLN\"},\"netTotalAmount\":{\"amount\":248.80,"
             + "\"currency\":\"PLN\"}}");
     ib.addInvoice(givenInvoice3);
-    ib.addInvoice(givenInvoice2);
-    System.out.println(converter.convertToJsonString(ib.getInvoices().get(1)));
+    givenInvoice2.setName("1/10/2017");
     ib.addInvoice(givenInvoice);
     ib.addInvoice(new Invoice(new Seller("Tomek", "NL000333"), new MyCompanyBuy()));
     ib.addInvoice(new Invoice(new MyCompanySell(), new Buyer("Tomek", "NL000333")));
@@ -158,7 +154,7 @@ public class InvoiceBookTest {
     InvoiceBook invoiceBook = new InvoiceBook(database);
     List<Invoice> test = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(2017, 9, 25, 11, 9, 36),
-            LocalDateTime.of(2018, 12, 25, 11, 9, 37));
+            LocalDateTime.of(2019, 12, 25, 11, 9, 37));
     System.out.println(test.get(0).getInvoiceId());
     for (Invoice iterator : test) {
       System.out.println(iterator.getInvoiceId() + " " + iterator.getIssueDate());
@@ -192,8 +188,6 @@ public class InvoiceBookTest {
             LocalDateTime
                 .of(now.getYear(), now.getMonth(), now.getMonth().maxLength(), 23, 59, 59));
     //then
-    Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
-    Assert.assertEquals("2/10/2017", testedRange.get(1).getName());
     Assert.assertEquals("Default Name", testedRange.get(2).getName());
     Assert.assertEquals(4, testedRange.get(1).getEntries().get(3).getEntryId());
     givenInvoice2.removeEntry(2);
@@ -216,21 +210,16 @@ public class InvoiceBookTest {
     invoiceBook.addInvoice(givenInvoice);
     invoiceBook.addInvoice(givenInvoice2);
     invoiceBook.addInvoice(givenInvoice3);
-    for (InvoiceEntry invoiceEntry : givenInvoice2.getEntries()) {
-      System.out.println(
-          "entry = " + invoiceEntry.getEntryId() + " entry amount = " + invoiceEntry
-              .getEntryNetValue()
-              .getAmount());
-    }
-    System.out.println("net total " + givenInvoice2.getNetTotalAmount().getAmount());
+
     LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     List<Invoice> testedRange = invoiceBook
         .getInvoicesByDateRange(LocalDateTime.of(now.getYear(), now.getMonth(), 1, 0, 0, 0),
             LocalDateTime
                 .of(now.getYear(), now.getMonth(), now.getMonth().maxLength(), 23, 59, 59));
+    Invoice resultInvoice = invoiceBook.getInvoices().get(invoiceBook.getInvoices().size() - 1);
     //then
-    Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
-    Assert.assertEquals("2/10/2017", testedRange.get(1).getName());
+    Assert.assertEquals(LocalDateTime.now().getMonthValue(),
+        resultInvoice.getIssueDate().getMonthValue());
     Assert.assertEquals(3, testedRange.get(1).getEntries().get(2).getEntryId());
   }
 
@@ -239,28 +228,11 @@ public class InvoiceBookTest {
     //given
     Database database = new InMemoryDatabase();
     InvoiceBook invoiceBook = new InvoiceBook(database);
-    //when
     invoiceBook.addInvoice(givenInvoice);
-    invoiceBook.addInvoice(givenInvoice2);
-    invoiceBook.addInvoice(givenInvoice3);
-    invoiceBook.removeInvoice(2);
-    invoiceBook.addInvoice(new Invoice(new MyCompanySell(), new Buyer("Franek", "PL32222255")));
-    invoiceBook.addInvoice(new Invoice(new Seller("Franek", "PL333444555"), new MyCompanyBuy()));
-    invoiceBook.getInvoices().get(3).setName("333/232323");
-    invoiceBook.addInvoice(new Invoice(new Seller("Franek", "PL333444555"), new MyCompanyBuy()));
-    invoiceBook.addInvoice(new Invoice(new MyCompanySell(), new Buyer("Franek", "PL32222255")));
+    //when
+    invoiceBook.removeInvoice(1);
     //then
-    List<Invoice> testedRange = invoiceBook
-        .getInvoicesByDateRange(LocalDateTime.of(2017, 10, 1, 0, 0, 0),
-            LocalDateTime.of(2017, 12, 30, 23, 59, 59));
-
-    for (Invoice invoice : testedRange) {
-      System.out.println(
-          invoice.getInvoiceId() + " " + invoice.getName() + " " + invoice.getSeller().getVatId());
-      Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
-      Assert.assertEquals("Default Name", testedRange.get(1).getName());
-      Assert.assertEquals("2/10/2017", testedRange.get(2).getName());
-    }
+    Assert.assertEquals(0, invoiceBook.getInvoices().size());
   }
 
   @Test
@@ -287,14 +259,16 @@ public class InvoiceBookTest {
     }
     System.out.println("=====================");
     testedRange = invoiceBook.getInvoices();
-    invoiceBook.replaceInvoice(6, givenInvoice3);
+    invoiceBook
+        .replaceInvoice(6, new Invoice(new MyCompanySell(), new Buyer("Fafik", "PL3255555")));
     for (Invoice invoice : testedRange) {
       System.out.println(
           invoice.getInvoiceId() + " " + invoice.getName() + " " + invoice.getSeller().getVatId());
     }
-    Assert.assertEquals("1/10/2017", testedRange.get(0).getName());
+    Assert.assertEquals("333/232323", testedRange.get(3).getName());
     Assert.assertEquals("Default Name", testedRange.get(1).getName());
-    Assert.assertEquals("2/10/2017", testedRange.get(2).getName());
+    Assert.assertEquals("Default Name", testedRange.get(4).getName());
+    Assert.assertEquals(7, testedRange.get(5).getInvoiceId());
   }
 
 

@@ -1,14 +1,6 @@
 package pl.coderstrust.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-import pl.coderstrust.model.counterparts.Buyer;
-import pl.coderstrust.model.counterparts.Seller;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -16,7 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import pl.coderstrust.model.counterparts.Buyer;
+import pl.coderstrust.model.counterparts.Seller;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+
+
 @Entity
+@NamedQueries(value = {
+    @NamedQuery(name = "Invoices.getAll", query = "SELECT i FROM Invoice i")
+})
 public class Invoice {
 
   @Id
@@ -29,14 +37,14 @@ public class Invoice {
   private String description;
 
   @NotNull
-  @ManyToOne(cascade = {CascadeType.PERSIST})
+  @ManyToOne(cascade = {CascadeType.ALL})
   private Buyer buyer;
 
   @NotNull
-  @ManyToOne(cascade = {CascadeType.PERSIST})
+  @ManyToOne(cascade = {CascadeType.ALL})
   private Seller seller;
 
-  @ElementCollection(targetClass = InvoiceEntry.class)
+  @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
   private List<InvoiceEntry> entries = new ArrayList<>();
 
 
@@ -61,8 +69,8 @@ public class Invoice {
     this.description = "default description";
     this.buyer = buyer;
     this.seller = seller;
- //   this.netTotalAmount = getNetTotalAmount();
-  //  this.grossTotalAmount = getGrossTotalAmount();
+    this.netTotalAmount = getNetTotalAmount();
+    this.grossTotalAmount = getGrossTotalAmount();
   }
 
   private Money calculateTotal(List<InvoiceEntry> entries, Function<InvoiceEntry, Money> method) {
